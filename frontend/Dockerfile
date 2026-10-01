@@ -23,6 +23,9 @@ CMD ["pnpm", "dev"]
 # --- builder ---
 FROM base AS builder
 ENV NEXT_TELEMETRY_DISABLED=1
+# The Compose runtime uses Next.js standalone output; local builds default to
+# static export for the S3 + CloudFront deployment.
+ENV NEXT_OUTPUT=standalone
 # NEXT_PUBLIC_* is inlined at build time, so it has to be present here too.
 ARG NEXT_PUBLIC_API_URL=http://localhost:8000
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL

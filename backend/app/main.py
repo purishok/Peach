@@ -24,6 +24,7 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
+    @app.get("/api/health", tags=["health"], summary="Liveness probe")
     @app.get("/health", tags=["health"], summary="Liveness probe")
     async def health() -> dict[str, str]:
         """Liveness only - deliberately touches no dependencies."""

@@ -35,7 +35,28 @@ EXPOSE 8000
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
 
 
-# --- runtime ---
+# --- lambda: what scripts/deploy-backend.sh ships to AWS Lambda ---
+# AWS's base image carries the runtime interface client. The virtualenv from
+# the builder cannot be reused here - it points at /usr/local/bin/python - so
+# the locked dependencies are installed straight into the task root instead.
+FROM public.ecr.aws/lambda/python:3.14 AS lambda
+
+RUN --mount=from=ghcr.io/astral-sh/uv:latest,source=/uv,target=/bin/uv \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    uv export --frozen --no-dev --no-hashes --no-emit-project -o /tmp/requirements.txt \
+    && uv pip install --no-cache --compile-bytecode \
+        --target "${LAMBDA_TASK_ROOT}" -r /tmp/requirements.txt \
+    && rm /tmp/requirements.txt
+
+COPY app ${LAMBDA_TASK_ROOT}/app
+COPY migrations ${LAMBDA_TASK_ROOT}/migrations
+COPY alembic.ini ${LAMBDA_TASK_ROOT}/
+
+CMD ["app.lambda_handler.handler"]
+
+
+# --- runtime: default image for local Docker runs and ECS/Fargate ---
 FROM python:3.14-slim AS runtime
 
 ENV PYTHONUNBUFFERED=1 \
@@ -56,24 +77,3 @@ USER app
 EXPOSE 8000
 
 CMD ["./scripts/entrypoint.sh"]
-
-
-# --- lambda: what scripts/deploy-backend.sh ships to AWS Lambda ---
-# AWS's base image carries the runtime interface client. The virtualenv from
-# the builder cannot be reused here - it points at /usr/local/bin/python - so
-# the locked dependencies are installed straight into the task root instead.
-FROM public.ecr.aws/lambda/python:3.14 AS lambda
-
-RUN --mount=from=ghcr.io/astral-sh/uv:latest,source=/uv,target=/bin/uv \
-    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    --mount=type=bind,source=uv.lock,target=uv.lock \
-    uv export --frozen --no-dev --no-hashes --no-emit-project -o /tmp/requirements.txt \
-    && uv pip install --no-cache --compile-bytecode \
-        --target "${LAMBDA_TASK_ROOT}" -r /tmp/requirements.txt \
-    && rm /tmp/requirements.txt
-
-COPY app ${LAMBDA_TASK_ROOT}/app
-COPY migrations ${LAMBDA_TASK_ROOT}/migrations
-COPY alembic.ini ${LAMBDA_TASK_ROOT}/
-
-CMD ["app.lambda_handler.handler"]
