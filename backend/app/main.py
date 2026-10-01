@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.router import api_router
+from app.api.routes import local_auth
 from app.config import get_settings
 
 
@@ -29,6 +30,8 @@ def create_app() -> FastAPI:
         return {"status": "ok"}
 
     app.include_router(api_router)
+    if settings.app_env == "development" and settings.dev_auth_enabled:
+        app.include_router(local_auth.router)
     return app
 
 

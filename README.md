@@ -161,7 +161,7 @@ variable with a working local default; `.env` is git-ignored and is what Compose
 POSTGRES_USER=peach
 POSTGRES_PASSWORD=peach
 POSTGRES_DB=peach
-POSTGRES_PORT=5432
+POSTGRES_PORT=5433
 
 # --- backend ---
 DATABASE_URL=postgresql+asyncpg://peach:peach@db:5432/peach
@@ -317,7 +317,7 @@ docker compose up --build
 | http://localhost:3000 | Frontend |
 | http://localhost:8000/docs | API docs |
 | http://localhost:8000/health | Liveness probe |
-| `postgresql://peach:peach@localhost:5432/peach` | Database |
+| `postgresql://peach:peach@localhost:5433/peach` | Database |
 
 If any of those host ports are already taken, change `POSTGRES_PORT`, `BACKEND_PORT` or
 `FRONTEND_PORT` in `.env` — only the published side moves, the Compose network is unaffected.
