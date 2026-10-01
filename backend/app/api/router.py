@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends
 from app.api.routes import health, items, me
 from app.auth import current_user
-import os
 
 # Everything under /api/v1 needs a signed-in user. Declared once here, so a new
 # route cannot be added unprotected by forgetting a parameter. Routes that need
