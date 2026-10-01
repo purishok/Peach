@@ -1,12 +1,15 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
 Description: >-
-  A role GitHub Actions can assume to deploy this project, through OIDC rather
-  than a stored access key. GitHub presents a short-lived token describing the
-  repository and branch; AWS trusts it only for the subject below. Nothing
-  long-lived is ever copied into the repository.
+  A role GitHub Actions assumes through OIDC to publish backend images and roll
+  the ECS service, limited to the configured repository and branch without
+  storing long-lived AWS credentials in GitHub.
 
   Created by scripts/github-role.sh (make github-role).
+
+Metadata:
+  AWSToolsMetrics:
+    AWSAgentToolkit: aws-cloudformation@3
 
 Parameters:
   ProjectName:
@@ -55,6 +58,19 @@ Resources:
           Value: !Ref ProjectName
 
   DeployRole:
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: >-
+          GitHub Actions assumes this role to publish commit-tagged backend images
+          and update the project's ECS service, with permissions limited to that path.
+        must:
+          - Trust only the configured GitHub repository and branch subject.
+          - Keep ECR access scoped to this project's backend repository.
+        mutable: change-with-constraints
+        trust: GitHub OIDC, restricted by repository and branch subject.
+        deps:
+          - GitHub OIDC provider
+          - Project ECR repository and ECS cluster, task definition, and service
     Type: AWS::IAM::Role
     Properties:
       RoleName: !Sub "${ProjectName}-github-deploy"
@@ -81,133 +97,54 @@ Resources:
                 # And without this, any repository on GitHub would do.
                 token.actions.githubusercontent.com:sub: !Sub "repo:${GitHubRepo}:${SubjectClaim}"
       Policies:
-        # Deliberately not AdministratorAccess. Scoped to the services the
-        # deploy actually drives, and to this project's names where the API
-        # supports resource-level permissions - several of these do not.
-        - PolicyName: deploy-backend
+        - PolicyName: deploy-backend-ecs
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
-              - Sid: CloudFormation
-                Effect: Allow
-                Action: cloudformation:*
-                Resource:
-                  - !Sub "arn:aws:cloudformation:*:${AWS::AccountId}:stack/${ProjectName}-*/*"
-                  - !Sub "arn:aws:cloudformation:*:${AWS::AccountId}:changeSet/*"
-
-              - Sid: CloudFormationReadOnly
-                Effect: Allow
-                Action:
-                  - cloudformation:ValidateTemplate
-                  - cloudformation:ListStacks
-                Resource: "*"
-
               - Sid: EcrLogin
                 Effect: Allow
                 Action: ecr:GetAuthorizationToken
                 Resource: "*"
 
-              - Sid: EcrPush
+              - Sid: PushProjectBackendImage
                 Effect: Allow
                 Action:
                   - ecr:BatchCheckLayerAvailability
-                  - ecr:BatchGetImage
                   - ecr:CompleteLayerUpload
-                  - ecr:CreateRepository
-                  - ecr:DescribeImages
-                  - ecr:DescribeRepositories
-                  - ecr:GetDownloadUrlForLayer
-                  # Lambda grants itself pull access through the repository
-                  # policy when the function is created from an image.
-                  - ecr:GetRepositoryPolicy
-                  - ecr:SetRepositoryPolicy
                   - ecr:InitiateLayerUpload
                   - ecr:PutImage
-                  - ecr:PutLifecyclePolicy
-                  - ecr:TagResource
                   - ecr:UploadLayerPart
-                Resource: !Sub "arn:aws:ecr:*:${AWS::AccountId}:repository/${ProjectName}-*"
+                Resource: !Sub "arn:aws:ecr:*:${AWS::AccountId}:repository/${ProjectName}-backend"
 
-              # CloudFormation creates the function's execution role, and
-              # Lambda needs it passed to it. Both stay inside this project's names.
-              - Sid: ProjectRoles
+              - Sid: RegisterTaskDefinition
+                Effect: Allow
+                Action: ecs:RegisterTaskDefinition
+                Resource: "*"
+
+              - Sid: DescribeProjectCluster
+                Effect: Allow
+                Action: ecs:DescribeClusters
+                Resource: !Sub "arn:aws:ecs:*:${AWS::AccountId}:cluster/${ProjectName}-*"
+
+              - Sid: DeployProjectService
                 Effect: Allow
                 Action:
-                  - iam:AttachRolePolicy
-                  - iam:CreateRole
-                  - iam:DeleteRole
-                  - iam:DeleteRolePolicy
-                  - iam:DetachRolePolicy
-                  - iam:GetRole
-                  - iam:GetRolePolicy
-                  - iam:ListAttachedRolePolicies
-                  - iam:ListRolePolicies
-                  - iam:PassRole
-                  - iam:PutRolePolicy
-                  - iam:TagRole
-                  - iam:UntagRole
-                  - iam:UpdateAssumeRolePolicy
+                  - ecs:DescribeServices
+                  - ecs:UpdateService
+                Resource: !Sub "arn:aws:ecs:*:${AWS::AccountId}:service/${ProjectName}-*/*"
+
+              - Sid: ReadProjectTaskDefinitions
+                Effect: Allow
+                Action: ecs:DescribeTaskDefinition
+                Resource: !Sub "arn:aws:ecs:*:${AWS::AccountId}:task-definition/${ProjectName}-*:*"
+
+              - Sid: PassProjectTaskRolesToEcs
+                Effect: Allow
+                Action: iam:PassRole
                 Resource: !Sub "arn:aws:iam::${AWS::AccountId}:role/${ProjectName}-*"
-
-              - Sid: Networking
-                Effect: Allow
-                Action:
-                  - ec2:AuthorizeSecurityGroupEgress
-                  - ec2:AuthorizeSecurityGroupIngress
-                  - ec2:CreateSecurityGroup
-                  - ec2:CreateTags
-                  - ec2:DeleteSecurityGroup
-                  - ec2:Describe*
-                  - ec2:RevokeSecurityGroupEgress
-                  - ec2:RevokeSecurityGroupIngress
-                Resource: "*"
-
-              # Includes lambda:InvokeFunction, which the deploy uses to run
-              # migrations once the new image is live.
-              - Sid: Function
-                Effect: Allow
-                Action: lambda:*
-                Resource: !Sub "arn:aws:lambda:*:${AWS::AccountId}:function:${ProjectName}-*"
-
-              - Sid: Database
-                Effect: Allow
-                Action: rds:*
-                Resource:
-                  - !Sub "arn:aws:rds:*:${AWS::AccountId}:cluster:${ProjectName}-*"
-                  - !Sub "arn:aws:rds:*:${AWS::AccountId}:db:${ProjectName}-*"
-                  - !Sub "arn:aws:rds:*:${AWS::AccountId}:subgrp:*"
-                  - !Sub "arn:aws:rds:*:${AWS::AccountId}:cluster-pg:*"
-                  - !Sub "arn:aws:rds:*:${AWS::AccountId}:pg:*"
-
-              - Sid: DatabaseDescribe
-                Effect: Allow
-                Action:
-                  - rds:Describe*
-                  - rds:ListTagsForResource
-                Resource: "*"
-
-              - Sid: Secrets
-                Effect: Allow
-                Action:
-                  - secretsmanager:CreateSecret
-                  - secretsmanager:DeleteSecret
-                  - secretsmanager:DescribeSecret
-                  - secretsmanager:GetSecretValue
-                  - secretsmanager:PutSecretValue
-                  - secretsmanager:TagResource
-                  - secretsmanager:UpdateSecret
-                Resource: !Sub "arn:aws:secretsmanager:*:${AWS::AccountId}:secret:${ProjectName}/*"
-
-              - Sid: Logs
-                Effect: Allow
-                Action:
-                  - logs:CreateLogGroup
-                  - logs:DeleteLogGroup
-                  - logs:DescribeLogGroups
-                  - logs:ListTagsForResource
-                  - logs:PutRetentionPolicy
-                  - logs:TagResource
-                Resource: "*"
+                Condition:
+                  StringEquals:
+                    iam:PassedToService: ecs-tasks.amazonaws.com
 
 Outputs:
   RoleArn:

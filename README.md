@@ -69,7 +69,7 @@ Peach/
 │
 ├── .github/workflows/
 │   ├── lint.yml                  # ruff + eslint on every push
-│   └── deploy-backend.yml        # ships when a commit message says "deploy"
+│   └── deploy.yml                # backend tests, then SHA-tagged ECR -> ECS on main
 │
 ├── infra/
 │   ├── backend.yaml              # CloudFormation: Lambda + function URL + Aurora Serverless v2
@@ -525,52 +525,38 @@ distribution in the console; there is no API for it yet.
 make github-role      # once: create the role Actions assumes
 ```
 
-Then write the word **deploy** in a commit message on `main`:
+The backend workflow runs Ruff and pytest for pull requests and pushes to `main`. A successful
+push to `main` then builds `backend/`, pushes the image tagged with the full commit SHA, registers
+a task-definition revision with that image, updates the ECS service, and waits for it to become
+stable. It never deploys `latest`.
 
-```bash
-git commit -m "tighten the items query, deploy"
-git push
-```
-
-`.github/workflows/deploy-backend.yml` picks that up and runs `make deploy-backend` on a runner.
-Ordinary commits to `main` do nothing, so the expensive path stays opt-in. The workflow also has a
-`workflow_dispatch` trigger, so it can be run by hand from the Actions tab without any magic word.
-Matching is case-insensitive — GitHub compares strings that way — so `Deploy` and `redeployed`
-count too.
+Before enabling the workflow, create the ECR repository and ECS cluster, service, and task
+definition. Set these repository variables under *Settings → Secrets and variables → Actions*:
+`ECS_CLUSTER`, `ECS_SERVICE`, `ECS_TASK_DEFINITION`, and `ECS_CONTAINER_NAME`. The role helper sets
+`AWS_DEPLOY_ROLE_ARN` and `AWS_REGION` when `gh` is installed and authenticated; `ECR_REPOSITORY`
+defaults to `peach-backend` and may also be set as a variable.
 
 **No access key is involved.** `make github-role` creates a stack holding an IAM role and, if the
 account does not already have one, the GitHub OIDC provider. The workflow asks GitHub for a
 short-lived token describing the run, and AWS trades it for temporary credentials. The trust policy
-accepts that token only for this repository and only for the subject below:
+checks the `sts.amazonaws.com` audience and limits the token to the configured repository and
+branch. For the current Git remote, the subject is:
 
 ```
-repo:<owner>/<repo>:ref:refs/heads/main
+repo:purishok/Peach:ref:refs/heads/main
 ```
 
-That restriction matters. Widening it to `repo:<owner>/<repo>:*` — via `GITHUB_SUBJECT_CLAIM` in
-`.env` — would let any branch, and any pull request from anyone who can open one, assume a role
-that can deploy. The default keeps it to `main`.
+Widening this to `repo:purishok/Peach:*` would let any branch and pull-request workflow in this
+repository assume the role. The default remains limited to `main`.
 
-The role's policy is deliberately not `AdministratorAccess`. It is scoped to the services the
-deploy actually drives, and to this project's resource names wherever the API supports it —
-a few, such as `ec2:CreateSecurityGroup`, accept no resource-level permissions at all. If a CI deploy ever stops with `AccessDenied`, the missing
-action belongs in `infra/github-oidc.yaml`.
+The role can push to the project's backend ECR repository, register task definitions, update
+project ECS services, and pass only project-prefixed task roles to `ecs-tasks.amazonaws.com`.
+`ecs:RegisterTaskDefinition` requires `Resource: "*"`; the other service permissions are scoped
+to project resource names.
 
-**Two repository variables** carry the rest: `AWS_DEPLOY_ROLE_ARN` and `AWS_REGION`. If the `gh`
-CLI is installed and logged in, `make github-role` sets both for you; otherwise it prints them to
-paste into *Settings → Secrets and variables → Actions*. Neither is secret — the ARN is useless
-without a token minted by this repository's workflows.
-
-**CI has no `.env`, and that is fine.** Any parameter the deploy script resolves to an empty value
-is left out of the CloudFormation call, and CloudFormation then keeps whatever the stack already
-has. So a deploy from CI will not widen `API_CORS_ORIGINS` back to `*` — the settings you made
-locally survive. CI also writes `BACKEND_URL` into a throwaway `.env` on the runner; locally, run
-`make deploy-backend` yourself before `make deploy-frontend`.
-
-**The image builds under emulation.** The function runs on arm64 and the runner is x86, so
-the workflow sets up QEMU and buildx pushes the cross-architecture image straight to ECR rather
-than loading it into the local daemon. Switching the job to a `ubuntu-24.04-arm` runner makes the
-build native and those two steps unnecessary.
+The OIDC role and ECS service still need to be created in AWS. The current AWS organization policy
+has denied `ecr:CreateRepository`; until an administrator removes that restriction or grants the
+needed access, `make github-role` and the deploy job cannot finish provisioning/deployment.
 
 The frontend is not wired to CI — `make deploy-frontend` stays a local command for now.
 
