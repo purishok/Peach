@@ -32,6 +32,10 @@ class Settings(BaseSettings):
     # The pool's public keys as JSON. Set on Lambda, which has no route to fetch
     # them; left empty elsewhere, and they are downloaded from the issuer.
     cognito_jwks: str = ""
+    # A fixed demo identity is permitted only in explicitly enabled local dev.
+    # Production must leave this off and provide Cognito settings.
+    dev_auth_enabled: bool = False
+    dev_auth_secret: str = "peach-local-development-only-change-me"
 
     @field_validator("cors_origins", mode="before")
     @classmethod
