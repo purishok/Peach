@@ -13,10 +13,13 @@ export default defineConfig({
     include: ["tests/**/*.test.{ts,tsx}"],
     // A pretend pool, so lib/auth is configured; Cognito itself is mocked per test.
     env: {
-      NEXT_PUBLIC_COGNITO_REGION: "us-east-1",
+      NEXT_PUBLIC_COGNITO_AUTHORITY:
+        "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_test",
       NEXT_PUBLIC_COGNITO_CLIENT_ID: "test-client",
-      NEXT_PUBLIC_COGNITO_DOMAIN: "peach-test.auth.us-east-1.amazoncognito.com",
-      NEXT_PUBLIC_COGNITO_GOOGLE_ENABLED: "true",
+      NEXT_PUBLIC_COGNITO_DOMAIN:
+        "https://peach-test.auth.us-east-1.amazoncognito.com",
+      NEXT_PUBLIC_COGNITO_REDIRECT_URI: "https://example.test/auth/callback",
+      NEXT_PUBLIC_COGNITO_LOGOUT_URI: "https://example.test/",
     },
   },
 });

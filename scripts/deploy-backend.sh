@@ -203,7 +203,7 @@ if [[ -n "${COGNITO_USER_POOL_ID:-}" ]]; then
   log "fetching signing keys for ${COGNITO_USER_POOL_ID}"
   COGNITO_JWKS="$(curl -fsS --max-time 20 "${JWKS_URL}" \
     | python3 -c 'import json,sys; print(json.dumps(json.load(sys.stdin), separators=(",", ":")))')" \
-    || die "could not fetch ${JWKS_URL} - is COGNITO_USER_POOL_ID right? (make deploy-cognito)"
+    || die "could not fetch ${JWKS_URL} - is COGNITO_USER_POOL_ID right? (make auth-deploy)"
 else
   warn "COGNITO_USER_POOL_ID unset - keeping the stack's current Cognito settings"
 fi
