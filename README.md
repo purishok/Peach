@@ -244,15 +244,15 @@ Interactive docs at `/docs` (Swagger) and `/redoc`; the raw schema at `/openapi.
 
 ## 6. Frontend behaviour
 
-- `/` — log in (email + password, or Google once it is enabled); `/signup` — create an account,
-  then enter the code Cognito emails; `/auth/callback` — where Google sign-in lands. Sign-in talks
-  to Cognito straight from the browser (`lib/auth.ts`): the public `InitiateAuth` / `SignUp` API
-  for passwords, the hosted domain with the OAuth code flow + PKCE for Google. Tokens live in
-  `localStorage`; the ID token is renewed from the refresh token a minute before it expires.
+- `/` — public landing page; `/login` — starts Cognito Managed Login; `/signup` — redirects to
+  Managed Login, where Cognito owns password sign-up and email confirmation; `/auth/callback` —
+  completes Authorization Code + PKCE for both password and Google identities. OIDC protocol state
+  is managed by `oidc-client-ts`, not application code.
 - `/home` — progress dashboard: the share of tasks done (headline figure + meter), a stacked
   bar of tasks by status with legend and hover tooltips, a tile per status linking to the board,
   this week's added/completed counts, and short "In progress" / "Recently completed" lists.
-- `/home` and `/items` sit behind `AuthGate`, which sends signed-out visitors to `/`. That is a
+- `/home` and `/items` sit behind the auth-aware app layout, which sends signed-out visitors to
+  `/login`. That is a
   convenience: the static export has no server to refuse a page, so the real boundary is the API,
   which answers nothing without a valid token. A `401` from it signs the browser out.
 - `/items` — a Trello-style board in Notion styling: one column per status (To do, In progress,
@@ -377,18 +377,79 @@ The generated project was checked end to end:
 
 ## 11. Deploying the backend to AWS
 
-Sign-in comes first: `make deploy-cognito` creates the user pool, app client and hosted domain
-(`infra/cognito.yaml`) and writes `COGNITO_REGION`, `COGNITO_USER_POOL_ID`, `COGNITO_CLIENT_ID`,
-`COGNITO_DOMAIN` and `COGNITO_GOOGLE_ENABLED` to `.env`, printing them as well. Compose passes
-them to both services, `make deploy-backend` fetches the pool's signing keys and hands them to the
-Lambda (it has no internet route to fetch them), and `make deploy-frontend` compiles the ids in.
-Re-run it after the first `make deploy-frontend` so the site's URL is allowed as an OAuth
-redirect. For Google, create an OAuth client in Google Cloud with the redirect URI the deploy
-prints, set `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` in `.env`, re-run `make deploy-cognito`,
-then rebuild the frontend so the button appears. `make destroy-cognito` deletes the pool and
-every account in it.
+### Lab 4: Cognito Managed Login
 
-Everything lives in **us-east-1**, and every resource carries a `PROJECT_NAME` tag.
+The live Lab 2 site remains on CloudFront/S3 with `/api/*` proxied to the existing ECS/Fargate
+service and ALB in `eu-north-1`. Lab 4 adds only an auth stack in `us-east-1`; it does not replace
+or redeploy the backend. `infra/cognito.yaml` creates the user pool, Google provider, public app
+client, v2 Cognito domain, and managed-login branding. `react-oidc-context` and `oidc-client-ts`
+perform Authorization Code + PKCE in the static frontend.
+
+Copy the placeholders and fill the three required values:
+
+```bash
+cp .env.example .env
+# GOOGLE_CLIENT_ID=...
+# GOOGLE_CLIENT_SECRET=...
+# COGNITO_DOMAIN_PREFIX=globally-unique-lowercase-prefix
+```
+
+Prefer `AWS_PROFILE` in `.env` or an authenticated AWS CLI session. Do not put AWS access keys in
+frontend variables. `.env` is gitignored and the Google secret is passed only to CloudFormation as
+a `NoEcho` parameter; it is never compiled into the browser bundle.
+
+In Google Cloud:
+
+1. Open **Google Auth Platform → Audience**, choose **External**, and publish the app so its status
+   is **In production**. A published external app works for accounts that are not test users.
+2. Request only `openid`, `email`, and `profile` scopes.
+3. Create **OAuth Client ID → Web application**.
+4. Set the authorized JavaScript origin to
+   `https://<COGNITO_DOMAIN_PREFIX>.auth.us-east-1.amazoncognito.com`.
+5. Set the authorized redirect URI to
+   `https://<COGNITO_DOMAIN_PREFIX>.auth.us-east-1.amazoncognito.com/oauth2/idpresponse`.
+6. Put the resulting ID and secret in the local `.env` file.
+
+Deploy auth, attach its outputs to the already Cognito-aware ECS task, and deploy the static
+frontend together:
+
+```bash
+make deploy-lab4
+```
+
+`make auth-deploy` can deploy Cognito alone, and `make auth-outputs` displays its non-secret
+CloudFormation outputs. The auth deploy reads the exact frontend origin and writes the public
+pool ID, client ID, authority, domain, callback, and logout URI into `.env`; no manual copying is
+required. `make configure-ecs-auth` registers a new revision of the active task definition with
+those Cognito IDs and public signing keys; it preserves the image, service, ALB, RDS, secrets, and
+all other task settings. This wires the authentication support already present in the backend and
+does not add or change protected API routes. The frontend deployment also narrows the legacy
+CloudFront `/auth/*` ALB behavior to
+`/auth/local/*`, allowing the static `/auth/callback` page to use the existing S3 origin and HTML
+rewrite while leaving the Lab 2 API routes unchanged.
+
+Production URLs for this repository are:
+
+- Login/submission URL: `https://dqvalqr0apze.cloudfront.net/login/`
+- Cognito callback: `https://dqvalqr0apze.cloudfront.net/auth/callback`
+- Cognito logout: `https://dqvalqr0apze.cloudfront.net/`
+- Local callback: `http://localhost:3000/auth/callback`
+- Local logout: `http://localhost:3000/`
+
+After deployment, open `/login/`. Cognito Managed Login must show its email/password controls and
+**Continue with Google**. For password verification, create a new account, enter the email code,
+and confirm the header shows that email. Sign out, open a private window, repeat with Google, and
+confirm the Google email appears. The Google OAuth consent screen must remain published **In
+production** for non-test accounts.
+
+Security properties: the browser app client has no secret; only the `code` OAuth flow and
+`openid email profile` scopes are enabled; self-sign-up and email auto-verification are enabled;
+production callback/logout URLs are explicit HTTPS allow-list entries; localhost entries exist
+only for development. PKCE state and verifier storage are owned by `oidc-client-ts`.
+
+The existing backend currently expects the Cognito ID token, so `lib/auth.ts` preserves that
+behavior. For a later access-token API migration, the token is available inside React components
+as `auth.user?.access_token` from `useAuth()`; this Lab 4 change does not alter API authorization.
 
 ```bash
 make deploy-backend      # build -> ECR -> CloudFormation -> Lambda -> migrate -> BACKEND_URL in .env

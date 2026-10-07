@@ -1,0 +1,174 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Peach authentication with Amazon Cognito Managed Login and Google federation.
+
+Metadata:
+  AWSToolsMetrics:
+    AWSAgentToolkit: aws-cloudformation@3
+
+Parameters:
+  ProjectName:
+    Type: String
+    Default: peach
+    AllowedPattern: "[a-zA-Z0-9-]+"
+
+  CognitoDomainPrefix:
+    Type: String
+    Description: Globally unique prefix for the Cognito managed-login domain.
+    AllowedPattern: "[a-z0-9-]+"
+    MinLength: 1
+    MaxLength: 63
+
+  GoogleClientId:
+    Type: String
+    Description: Google OAuth 2.0 web application client ID.
+    MinLength: 1
+
+  GoogleClientSecret:
+    Type: String
+    Description: Google OAuth 2.0 web application client secret.
+    NoEcho: true
+    MinLength: 1
+
+  ApplicationCallbackUrl:
+    Type: String
+    Description: Exact HTTPS callback URL for the deployed frontend.
+    AllowedPattern: "https://.+"
+
+  ApplicationLogoutUrl:
+    Type: String
+    Description: Exact HTTPS URL Cognito may return to after logout.
+    AllowedPattern: "https://.+"
+
+  LocalCallbackUrl:
+    Type: String
+    Default: http://localhost:3000/auth/callback
+
+  LocalLogoutUrl:
+    Type: String
+    Default: http://localhost:3000/
+
+Resources:
+  UserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: !Sub "${ProjectName}-users"
+      UserPoolTier: ESSENTIALS
+      UsernameAttributes:
+        - email
+      UsernameConfiguration:
+        CaseSensitive: false
+      AutoVerifiedAttributes:
+        - email
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: false
+      AccountRecoverySetting:
+        RecoveryMechanisms:
+          - Name: verified_email
+            Priority: 1
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+          RequireLowercase: true
+          RequireNumbers: true
+          RequireSymbols: false
+          RequireUppercase: true
+          TemporaryPasswordValidityDays: 7
+      Schema:
+        - Name: email
+          AttributeDataType: String
+          Mutable: true
+          Required: true
+      UserPoolTags:
+        PROJECT_NAME: !Ref ProjectName
+
+  GoogleIdentityProvider:
+    Type: AWS::Cognito::UserPoolIdentityProvider
+    Properties:
+      UserPoolId: !Ref UserPool
+      ProviderName: Google
+      ProviderType: Google
+      ProviderDetails:
+        client_id: !Ref GoogleClientId
+        client_secret: !Ref GoogleClientSecret
+        authorize_scopes: openid email profile
+      AttributeMapping:
+        email: email
+        email_verified: email_verified
+
+  UserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    DependsOn: GoogleIdentityProvider
+    Properties:
+      UserPoolId: !Ref UserPool
+      ClientName: !Sub "${ProjectName}-browser"
+      GenerateSecret: false
+      AllowedOAuthFlows:
+        - code
+      AllowedOAuthFlowsUserPoolClient: true
+      AllowedOAuthScopes:
+        - openid
+        - email
+        - profile
+      SupportedIdentityProviders:
+        - COGNITO
+        - Google
+      CallbackURLs:
+        - !Ref ApplicationCallbackUrl
+        - !Ref LocalCallbackUrl
+      LogoutURLs:
+        - !Ref ApplicationLogoutUrl
+        - !Ref LocalLogoutUrl
+      PreventUserExistenceErrors: ENABLED
+      EnableTokenRevocation: true
+      RefreshTokenValidity: 30
+      TokenValidityUnits:
+        RefreshToken: days
+      ReadAttributes:
+        - email
+        - email_verified
+        - name
+
+  UserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: !Ref CognitoDomainPrefix
+      UserPoolId: !Ref UserPool
+      ManagedLoginVersion: 2
+
+  ManagedLoginBranding:
+    Type: AWS::Cognito::ManagedLoginBranding
+    DependsOn: UserPoolDomain
+    Properties:
+      UserPoolId: !Ref UserPool
+      ClientId: !Ref UserPoolClient
+      UseCognitoProvidedValues: true
+
+Outputs:
+  UserPoolId:
+    Description: Cognito user pool identifier.
+    Value: !Ref UserPool
+
+  UserPoolClientId:
+    Description: Public browser app-client identifier (no client secret).
+    Value: !Ref UserPoolClient
+
+  CognitoDomain:
+    Description: Cognito Managed Login base URL.
+    Value: !Sub "https://${CognitoDomainPrefix}.auth.${AWS::Region}.amazoncognito.com"
+
+  CognitoAuthority:
+    Description: OIDC issuer used by oidc-client-ts.
+    Value: !Sub "https://cognito-idp.${AWS::Region}.amazonaws.com/${UserPool}"
+
+  ApplicationCallbackUrl:
+    Value: !Ref ApplicationCallbackUrl
+
+  ApplicationLogoutUrl:
+    Value: !Ref ApplicationLogoutUrl
+
+  GoogleAuthorizedJavaScriptOrigin:
+    Value: !Sub "https://${CognitoDomainPrefix}.auth.${AWS::Region}.amazoncognito.com"
+
+  GoogleAuthorizedRedirectUri:
+    Value: !Sub "https://${CognitoDomainPrefix}.auth.${AWS::Region}.amazoncognito.com/oauth2/idpresponse"

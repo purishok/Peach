@@ -2,7 +2,7 @@
 
 import { LogOut } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { signOut, useSession } from "@/lib/auth";
@@ -15,7 +15,6 @@ const links = [
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const router = useRouter();
   const session = useSession();
 
   return (
@@ -54,7 +53,7 @@ export function SiteHeader() {
           })}
         </nav>
 
-        {session && (
+        {session ? (
           <div className="ml-auto flex items-center gap-2">
             <span
               aria-hidden
@@ -69,14 +68,21 @@ export function SiteHeader() {
               variant="ghost"
               size="sm"
               onClick={() => {
-                signOut();
-                router.replace("/");
+                void signOut();
               }}
             >
               <LogOut data-icon="inline-start" className="size-4" />
-              Log out
+              Sign out
             </Button>
           </div>
+        ) : session === null ? (
+          <Button asChild variant="ghost" size="sm" className="ml-auto">
+            <Link href="/login">Sign in</Link>
+          </Button>
+        ) : (
+          <span className="ml-auto text-sm text-muted-foreground">
+            Loading…
+          </span>
         )}
       </div>
     </header>

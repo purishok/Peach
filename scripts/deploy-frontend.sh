@@ -57,51 +57,91 @@ fi
 
 # NEXT_PUBLIC_API_URL in .env points at localhost for Compose; it is not what a
 # deployed bundle should be compiled against. BACKEND_URL is.
-API_URL="${BACKEND_URL:-}"
+API_URL="${BACKEND_URL:-${FRONTEND_URL:-}}"
 API_URL="${API_URL%/}"
-[[ -n "${API_URL}" ]] || die "BACKEND_URL is not set in .env - run make deploy-backend first"
+[[ -n "${API_URL}" ]] || die "set BACKEND_URL or FRONTEND_URL for the deployed API"
 
 log "building against ${API_URL}"
 
-# The Cognito ids are compiled in too; without them nobody could sign in.
-[[ -n "${COGNITO_CLIENT_ID:-}" && -n "${COGNITO_DOMAIN:-}" ]] \
-  || die "COGNITO_CLIENT_ID / COGNITO_DOMAIN are not set in .env - run make deploy-cognito first"
+# These public values are written from CloudFormation outputs by auth-deploy.
+for var in COGNITO_AUTHORITY COGNITO_CLIENT_ID COGNITO_DOMAIN COGNITO_REDIRECT_URI COGNITO_LOGOUT_URI; do
+  [[ -n "${!var:-}" ]] || die "${var} is not set in .env - run make auth-deploy first"
+done
 
 # The function URL is always HTTPS; plain HTTP here means a hand-edited .env.
 [[ "${API_URL}" == https://* ]] \
   || die "BACKEND_URL must be https:// - browsers block an HTTPS page calling HTTP"
-
-# --- infrastructure ---------------------------------------------------------
-
-if ! aws cloudformation describe-stacks --stack-name "${STACK_NAME}" >/dev/null 2>&1; then
-  log "first deploy - creating ${STACK_NAME} (CloudFront takes a few minutes)"
-else
-  log "updating ${STACK_NAME}"
-fi
-
-if ! aws cloudformation deploy \
-  --stack-name "${STACK_NAME}" \
-  --template-file "${TEMPLATE}" \
-  --parameter-overrides \
-    "ProjectName=${PROJECT_NAME}" \
-  --no-fail-on-empty-changeset \
-  --tags "PROJECT_NAME=${PROJECT_NAME}"; then
-  warn "deploy failed - most recent failure reasons:"
-  aws cloudformation describe-stack-events --stack-name "${STACK_NAME}" \
-    --max-items 40 \
-    --query 'StackEvents[?ResourceStatus==`CREATE_FAILED`||ResourceStatus==`UPDATE_FAILED`].[LogicalResourceId,ResourceStatusReason]' \
-    --output table >&2 || true
-  exit 1
-fi
 
 outputs() {
   aws cloudformation describe-stacks --stack-name "${STACK_NAME}" \
     --query "Stacks[0].Outputs[?OutputKey=='$1'].OutputValue" --output text
 }
 
-BUCKET="$(outputs BucketName)"
-DISTRIBUTION_ID="$(outputs DistributionId)"
-SITE_URL="$(outputs SiteUrl)"
+# The current Lab 2 site predates this template and is named explicitly in the
+# Makefile. Keep updating that deployment when its bucket/distribution are set.
+if [[ -n "${FRONTEND_BUCKET:-}" && -n "${CLOUDFRONT_DISTRIBUTION_ID:-}" ]]; then
+  BUCKET="${FRONTEND_BUCKET}"
+  DISTRIBUTION_ID="${CLOUDFRONT_DISTRIBUTION_ID}"
+  SITE_URL="${FRONTEND_URL:-}"
+  if [[ -z "${SITE_URL}" ]]; then
+    distribution_domain="$(aws cloudfront get-distribution \
+      --id "${DISTRIBUTION_ID}" --query Distribution.DomainName --output text)"
+    SITE_URL="https://${distribution_domain}"
+  fi
+  log "using existing frontend distribution ${DISTRIBUTION_ID}"
+
+  # The Lab 2 distribution routes /auth/* to its ECS backend for the old local
+  # password form. Narrow that behavior so /auth/callback reaches the static
+  # frontend, while the old /auth/local/* API remains available.
+  command -v jq >/dev/null 2>&1 || die "jq is required to update CloudFront routing"
+  distribution_response="$(mktemp)"
+  distribution_config="$(mktemp)"
+  trap 'rm -f "${distribution_response}" "${distribution_config}"' EXIT
+  aws cloudfront get-distribution-config \
+    --id "${DISTRIBUTION_ID}" > "${distribution_response}"
+  if jq -e '.DistributionConfig.CacheBehaviors.Items[]? | select(.PathPattern == "/auth/*")' \
+    "${distribution_response}" >/dev/null; then
+    etag="$(jq -r '.ETag' "${distribution_response}")"
+    jq '.DistributionConfig
+      | (.CacheBehaviors.Items[] | select(.PathPattern == "/auth/*").PathPattern) = "/auth/local/*"' \
+      "${distribution_response}" > "${distribution_config}"
+    log "routing /auth/callback to the static frontend"
+    aws cloudfront update-distribution \
+      --id "${DISTRIBUTION_ID}" \
+      --if-match "${etag}" \
+      --distribution-config "file://${distribution_config}" >/dev/null
+    aws cloudfront wait distribution-deployed --id "${DISTRIBUTION_ID}"
+  fi
+else
+  if ! aws cloudformation describe-stacks --stack-name "${STACK_NAME}" >/dev/null 2>&1; then
+    log "first deploy - creating ${STACK_NAME} (CloudFront takes a few minutes)"
+  else
+    log "updating ${STACK_NAME}"
+  fi
+
+  if ! aws cloudformation deploy \
+    --stack-name "${STACK_NAME}" \
+    --template-file "${TEMPLATE}" \
+    --parameter-overrides "ProjectName=${PROJECT_NAME}" \
+    --no-fail-on-empty-changeset \
+    --tags "PROJECT_NAME=${PROJECT_NAME}"; then
+    warn "deploy failed - most recent failure reasons:"
+    aws cloudformation describe-stack-events --stack-name "${STACK_NAME}" \
+      --max-items 40 \
+      --query 'StackEvents[?ResourceStatus==`CREATE_FAILED`||ResourceStatus==`UPDATE_FAILED`].[LogicalResourceId,ResourceStatusReason]' \
+      --output table >&2 || true
+    exit 1
+  fi
+  BUCKET="$(outputs BucketName)"
+  DISTRIBUTION_ID="$(outputs DistributionId)"
+  SITE_URL="$(outputs SiteUrl)"
+fi
+
+SITE_URL="${SITE_URL%/}"
+[[ "${COGNITO_REDIRECT_URI}" == "${SITE_URL}/auth/callback" ]] \
+  || die "COGNITO_REDIRECT_URI does not match this deployment; run make auth-deploy"
+[[ "${COGNITO_LOGOUT_URI}" == "${SITE_URL}/" ]] \
+  || die "COGNITO_LOGOUT_URI does not match this deployment; run make auth-deploy"
 
 # --- build ------------------------------------------------------------------
 
@@ -112,10 +152,11 @@ log "building the static export"
 rm -rf "${APP}/out"
 (cd "${APP}" && NEXT_OUTPUT=export \
   NEXT_PUBLIC_API_URL="${API_URL}" \
-  NEXT_PUBLIC_COGNITO_REGION="${COGNITO_REGION:-${AWS_REGION}}" \
+  NEXT_PUBLIC_COGNITO_AUTHORITY="${COGNITO_AUTHORITY}" \
   NEXT_PUBLIC_COGNITO_CLIENT_ID="${COGNITO_CLIENT_ID}" \
   NEXT_PUBLIC_COGNITO_DOMAIN="${COGNITO_DOMAIN}" \
-  NEXT_PUBLIC_COGNITO_GOOGLE_ENABLED="${COGNITO_GOOGLE_ENABLED:-false}" \
+  NEXT_PUBLIC_COGNITO_REDIRECT_URI="${COGNITO_REDIRECT_URI}" \
+  NEXT_PUBLIC_COGNITO_LOGOUT_URI="${COGNITO_LOGOUT_URI}" \
   "${PM[@]}" build)
 [[ -f "${APP}/out/index.html" ]] || die "the export produced no out/index.html"
 
@@ -150,14 +191,13 @@ aws cloudfront wait invalidation-completed \
 
 echo
 echo "  site       ${SITE_URL}"
+echo "  login      ${SITE_URL}/login/"
+echo "  callback   ${COGNITO_REDIRECT_URI}"
 echo "  items      ${SITE_URL}/items"
 echo "  api        ${API_URL}"
 echo "  bucket     s3://${BUCKET}"
 echo
 
-echo "If this was the first frontend deploy, run make deploy-cognito again so"
-echo "Google sign-in may redirect back to ${SITE_URL}."
-echo
 echo "Now allow the site's origin through CORS:"
 echo
 echo "  API_CORS_ORIGINS=${SITE_URL}   in .env, then: make deploy-backend"
