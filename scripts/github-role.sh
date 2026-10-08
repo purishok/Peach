@@ -28,11 +28,20 @@ done
 PROJECT_NAME="${PROJECT_NAME:-peach}"
 STACK_NAME="${GITHUB_ROLE_STACK_NAME:-${PROJECT_NAME}-github-oidc}"
 AWS_REGION="${AWS_REGION:-${AWS_DEFAULT_REGION:-us-east-1}}"
+ECS_TASK_DEFINITION="${ECS_TASK_DEFINITION:-${PROJECT_NAME}-backend-task}"
 export AWS_DEFAULT_REGION="${AWS_REGION}"
 
-command -v aws >/dev/null 2>&1 || die "aws cli is required"
+for tool in aws curl jq; do
+  command -v "${tool}" >/dev/null 2>&1 || die "${tool} is required"
+done
 aws sts get-caller-identity >/dev/null 2>&1 \
   || die "no usable AWS credentials - set AWS_PROFILE or the AWS_* keys in .env"
+
+TASK_EXECUTION_ROLE_ARN="$(aws ecs describe-task-definition \
+  --task-definition "${ECS_TASK_DEFINITION}" \
+  --query 'taskDefinition.executionRoleArn' --output text)"
+[[ "${TASK_EXECUTION_ROLE_ARN}" == arn:aws:iam::*:role/* ]] \
+  || die "${ECS_TASK_DEFINITION} has no usable execution role ARN"
 
 # --- which repository ---------------------------------------------------------
 
@@ -46,20 +55,60 @@ fi
 
 SUBJECT_CLAIM="${GITHUB_SUBJECT_CLAIM:-ref:refs/heads/main}"
 
+# GitHub repositories created after 2026-07-15 use immutable OIDC subjects that
+# include the owner and repository IDs. Prefer GitHub's exact configured prefix
+# when gh is available; otherwise derive the documented default from public
+# repository metadata. GITHUB_SUBJECT_PREFIX remains an explicit override for
+# older repositories that opted into immutable or customized subjects.
+SUBJECT_PREFIX="${GITHUB_SUBJECT_PREFIX:-}"
+if [[ -z "${SUBJECT_PREFIX}" ]] && command -v gh >/dev/null 2>&1 \
+  && gh auth status >/dev/null 2>&1; then
+  SUBJECT_PREFIX="$(gh api "repos/${REPO}/actions/oidc/customization/sub" \
+    --jq '.sub_claim_prefix // empty')"
+fi
+if [[ -z "${SUBJECT_PREFIX}" ]]; then
+  REPO_METADATA="$(curl --fail --silent --show-error --location \
+    -H 'Accept: application/vnd.github+json' \
+    "https://api.github.com/repos/${REPO}")"
+  CREATED_AT="$(jq -r '.created_at // empty' <<<"${REPO_METADATA}")"
+  if [[ "${CREATED_AT}" > "2026-07-15T00:00:00Z" ]]; then
+    OWNER_LOGIN="$(jq -r '.owner.login' <<<"${REPO_METADATA}")"
+    OWNER_ID="$(jq -r '.owner.id' <<<"${REPO_METADATA}")"
+    REPO_NAME="$(jq -r '.name' <<<"${REPO_METADATA}")"
+    REPO_ID="$(jq -r '.id' <<<"${REPO_METADATA}")"
+    SUBJECT_PREFIX="repo:${OWNER_LOGIN}@${OWNER_ID}/${REPO_NAME}@${REPO_ID}"
+  else
+    SUBJECT_PREFIX="repo:${REPO}"
+  fi
+fi
+OIDC_SUBJECT="${SUBJECT_PREFIX}:${SUBJECT_CLAIM}"
+
 log "repository ${REPO}"
-log "trusting only runs matching repo:${REPO}:${SUBJECT_CLAIM}"
+log "trusting only ${OIDC_SUBJECT}"
 
 # --- the account may already have a GitHub provider ---------------------------
 
 # IAM allows exactly one provider per issuer URL, so creating a second fails.
-EXISTING_PROVIDER="$(aws iam list-open-id-connect-providers \
-  --query "OpenIDConnectProviderList[?contains(Arn, 'token.actions.githubusercontent.com')]|[0].Arn" \
+# Do not pass this stack's own provider as "existing": changing the condition
+# would make CloudFormation delete the resource it owns during every update.
+STACK_PROVIDER="$(aws cloudformation describe-stack-resource \
+  --stack-name "${STACK_NAME}" \
+  --logical-resource-id OidcProvider \
+  --query 'StackResourceDetail.PhysicalResourceId' \
   --output text 2>/dev/null || true)"
-[[ "${EXISTING_PROVIDER}" == "None" ]] && EXISTING_PROVIDER=""
+if [[ -n "${STACK_PROVIDER}" && "${STACK_PROVIDER}" != "None" ]]; then
+  EXISTING_PROVIDER=""
+  log "retaining the GitHub OIDC provider managed by this stack"
+else
+  EXISTING_PROVIDER="$(aws iam list-open-id-connect-providers \
+    --query "OpenIDConnectProviderList[?contains(Arn, 'token.actions.githubusercontent.com')]|[0].Arn" \
+    --output text 2>/dev/null || true)"
+  [[ "${EXISTING_PROVIDER}" == "None" ]] && EXISTING_PROVIDER=""
+fi
 
 if [[ -n "${EXISTING_PROVIDER}" ]]; then
   log "reusing the GitHub OIDC provider already in this account"
-else
+elif [[ -z "${STACK_PROVIDER}" || "${STACK_PROVIDER}" == "None" ]]; then
   log "this account has no GitHub OIDC provider yet - the stack creates one"
 fi
 
@@ -71,7 +120,8 @@ if ! aws cloudformation deploy \
   --parameter-overrides \
     "ProjectName=${PROJECT_NAME}" \
     "GitHubRepo=${REPO}" \
-    "SubjectClaim=${SUBJECT_CLAIM}" \
+    "GitHubSubject=${OIDC_SUBJECT}" \
+    "TaskExecutionRoleArn=${TASK_EXECUTION_ROLE_ARN}" \
     "ExistingProviderArn=${EXISTING_PROVIDER}" \
   --capabilities CAPABILITY_NAMED_IAM \
   --no-fail-on-empty-changeset \

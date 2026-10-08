@@ -22,13 +22,17 @@ Parameters:
     Description: owner/repo, e.g. dobosevych/Peach
     AllowedPattern: "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
 
-  SubjectClaim:
+  GitHubSubject:
     Type: String
-    Default: "ref:refs/heads/main"
     Description: >-
-      Which workflow runs may assume the role. The default allows only runs on
-      main. "*" would allow any branch and any pull request of the repo, which
-      means anyone who can open a PR can deploy.
+      Exact GitHub OIDC subject allowed to assume the role. This supports both
+      legacy repo:owner/name subjects and immutable owner/repository ID subjects.
+    AllowedPattern: "^repo:[A-Za-z0-9_.@/-]+:ref:refs/heads/[A-Za-z0-9._/-]+$"
+
+  TaskExecutionRoleArn:
+    Type: String
+    Description: Exact execution role used by the ECS task definition being deployed.
+    AllowedPattern: "^arn:aws:iam::[0-9]{12}:role/.+$"
 
   ExistingProviderArn:
     Type: String
@@ -66,6 +70,7 @@ Resources:
         must:
           - Trust only the configured GitHub repository and branch subject.
           - Keep ECR access scoped to this project's backend repository.
+          - Pass only the active task execution role or project-prefixed task roles to ECS.
         mutable: change-with-constraints
         trust: GitHub OIDC, restricted by repository and branch subject.
         deps:
@@ -93,9 +98,8 @@ Resources:
               StringEquals:
                 # Without the audience check any OIDC token would do.
                 token.actions.githubusercontent.com:aud: sts.amazonaws.com
-              StringLike:
-                # And without this, any repository on GitHub would do.
-                token.actions.githubusercontent.com:sub: !Sub "repo:${GitHubRepo}:${SubjectClaim}"
+                # Exact match: no other repository or branch may deploy.
+                token.actions.githubusercontent.com:sub: !Ref GitHubSubject
       Policies:
         - PolicyName: deploy-backend-ecs
           PolicyDocument:
@@ -136,12 +140,15 @@ Resources:
               - Sid: ReadProjectTaskDefinitions
                 Effect: Allow
                 Action: ecs:DescribeTaskDefinition
-                Resource: !Sub "arn:aws:ecs:*:${AWS::AccountId}:task-definition/${ProjectName}-*:*"
+                # ECS authorizes this read action against Resource "*".
+                Resource: "*"
 
               - Sid: PassProjectTaskRolesToEcs
                 Effect: Allow
                 Action: iam:PassRole
-                Resource: !Sub "arn:aws:iam::${AWS::AccountId}:role/${ProjectName}-*"
+                Resource:
+                  - !Ref TaskExecutionRoleArn
+                  - !Sub "arn:aws:iam::${AWS::AccountId}:role/${ProjectName}-*"
                 Condition:
                   StringEquals:
                     iam:PassedToService: ecs-tasks.amazonaws.com
@@ -153,7 +160,7 @@ Outputs:
 
   Subject:
     Description: The only OIDC subject allowed to assume the role.
-    Value: !Sub "repo:${GitHubRepo}:${SubjectClaim}"
+    Value: !Ref GitHubSubject
 
   ProviderArn:
     Value: !If
