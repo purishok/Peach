@@ -6,7 +6,7 @@ on:
   pull_request:
     paths:
       - "backend/**"
-      - ".github/workflows/backend-cicd.yml"
+      - ".github/workflows/deploy.yml"
 
 permissions:
   contents: read
@@ -14,6 +14,26 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: peach
+          POSTGRES_PASSWORD: peach
+          POSTGRES_DB: peach
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U peach -d peach"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      DATABASE_URL: postgresql+asyncpg://peach:peach@localhost:5432/peach
+      APP_ENV: test
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
