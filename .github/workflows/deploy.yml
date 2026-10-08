@@ -65,7 +65,7 @@ jobs:
       contents: read
       id-token: write
     env:
-      AWS_REGION: ${{ vars.AWS_REGION || 'eu-central-1' }}
+      AWS_REGION: ${{ vars.AWS_REGION || 'eu-north-1' }}
       ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY || 'peach-backend' }}
       ECS_CLUSTER: ${{ vars.ECS_CLUSTER }}
       ECS_SERVICE: ${{ vars.ECS_SERVICE }}
@@ -79,8 +79,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
-          aws-region: ${{ vars.AWS_REGION || 'eu-central-1' }}
-          allowed-account-ids: "505464394565"
+          aws-region: ${{ vars.AWS_REGION || 'eu-north-1' }}
 
       - name: Check AWS identity
         run: |
