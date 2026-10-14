@@ -244,17 +244,22 @@ rejects. SES API acceptance is confirmed; mailbox delivery must be confirmed in
 Gmail, and the required screenshot must show the received email and CSV
 attachment.
 
-The controlled retry/DLQ failure test was not run against production because it
-would deliberately inject failures and wait through three 360-second visibility
-cycles. The deployed retry policy and empty DLQ were verified. Duplicate manual
-requests were exercised: each used the same deterministic W40 S3 key, producing
-new S3 versions and additional email notifications as documented below.
+The controlled retry/DLQ/redrive test was completed against a dedicated unused
+week, `2026-W42`, without changing production report weeks. The stack parameter
+`FailureTestWeek` was set to `2026-W42`, and manual message ID
+`7d10fc62-40dd-4904-a641-b60ab006533c` was sent to the source queue. The builder
+raised the controlled exception three times, at approximately 18:49:23Z,
+18:55:22Z, and 19:01:23Z on 2026-10-14. After the third receive, the message was
+visible in `peach-report-requests-dlq` (source and DLQ were otherwise empty).
 
-For the controlled DLQ test, update stack parameter `FailureTestWeek` to a
-dedicated unused week, send only that week, observe three receives and the DLQ,
-then immediately restore `FailureTestWeek` to empty before redrive. The normal
-schedule is unaffected. The final queue visibility timeout means this test takes
-at least roughly 18 minutes.
+The failure switch was then restored to an empty value and the message was
+redriven with SQS `StartMessageMoveTask` (task handle
+`eyJ0YXNrSWQiOiI5NzRiNzRkYy00OTA2LTQ0NTctOGFhZC0xMGNlZGY0ZWRiYzMiLCJzb3VyY2VBcm4iOiJhcm46YXdzOnNxczpldS1ub3J0aC0xOjUwNTQ2NDM5NDU2NTpwZWFjaC1yZXBvcnQtcmVxdWVzdHMtZGxxIn0=`).
+The redriven message completed successfully: the builder uploaded
+`reports/2026-W42.csv` and the mailer sent SES message
+`011001a13bd093a0-322e23a7-76ef-419e-9f87-1ecfd8bb07b8-000000`. The final stack
+status is `UPDATE_COMPLETE`, `FailureTestWeek` is empty, the source queue
+visibility timeout is restored to 360 seconds, and both queues are empty.
 
 Production smoke checks on 2026-10-14 returned HTTP 200 for `/`, `/privacy`,
 `/login/`, `/auth/callback/`, and `/api/health`. The protected
