@@ -4,7 +4,7 @@ FRONTEND_BUCKET ?= peach-frontend-misha1
 CLOUDFRONT_DISTRIBUTION_ID ?= E10CBQMS98RSZQ
 FRONTEND_URL ?= https://dqvalqr0apze.cloudfront.net
 
-.PHONY: auth-deploy auth-outputs configure-ecs-auth deploy-lab4 deploy-frontend deploy-backend github-role
+.PHONY: auth-deploy auth-outputs configure-ecs-auth deploy-lab4 deploy-frontend deploy-backend github-role reports-deploy report-now reports-list reports-logs reports-test
 
 auth-deploy:
 	AUTH_AWS_REGION="$(AUTH_AWS_REGION)" \
@@ -40,3 +40,28 @@ deploy-backend:
 
 github-role:
 	AWS_REGION="$(AWS_REGION)" ./scripts/github-role.sh
+
+reports-deploy:
+	AWS_REGION="$(AWS_REGION)" ./scripts/deploy-reports.sh
+
+report-now:
+	AWS_REGION="$(AWS_REGION)" WEEK="$(WEEK)" ./scripts/report-now.sh
+
+reports-list:
+	@set -a; test ! -f .env || . ./.env; set +a; \
+	bucket="$$(aws cloudformation describe-stacks --region "$(AWS_REGION)" \
+		--stack-name "$${REPORTS_STACK_NAME:-$${PROJECT_NAME:-peach}-reports}" \
+		--query "Stacks[0].Outputs[?OutputKey=='ReportsBucketName'].OutputValue | [0]" \
+		--output text)"; \
+	aws s3 ls "s3://$$bucket/reports/" --recursive --region "$(AWS_REGION)"
+
+reports-logs:
+	@set -a; test ! -f .env || . ./.env; set +a; \
+	aws logs tail "/aws/lambda/$${PROJECT_NAME:-peach}-report-builder" \
+		--region "$(AWS_REGION)" --since 1h --follow
+
+reports-test:
+	docker compose up -d db
+	cd backend && DATABASE_URL="postgresql+asyncpg://$${POSTGRES_USER:-peach}:$${POSTGRES_PASSWORD:-peach}@127.0.0.1:$${POSTGRES_PORT:-5433}/$${POSTGRES_DB:-peach}" \
+		APP_ENV=test UV_CACHE_DIR=/tmp/peach-reports-uv-cache \
+		uv run pytest tests/test_weekly_report.py tests/test_report_handlers.py
