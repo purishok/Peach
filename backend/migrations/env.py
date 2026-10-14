@@ -12,7 +12,10 @@ from app.db import Base
 
 config = context.config
 if config.config_file_name is not None:
-    fileConfig(config.config_file_name)
+    # The report deployment invokes migrations in the same warm Lambda
+    # execution environment that later consumes SQS messages. Preserve its
+    # structured application loggers when Alembic configures its own output.
+    fileConfig(config.config_file_name, disable_existing_loggers=False)
 
 config.set_main_option("sqlalchemy.url", get_settings().database_url)
 target_metadata = Base.metadata
