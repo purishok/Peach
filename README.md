@@ -639,7 +639,8 @@ original suggestion. See [ADR 0006](docs/adr/0006-llm-agenda-parsing.md) and
 the [container diagram](docs/architecture-containers.md).
 
 Use `make llm-hello` for a first Claude call and `make parse TEXT="..."` for a
-local parser run. `make ai-deploy` builds the Lambda image, deploys `infra/ai.yml`
+local parser run. `make ai-eval` replays the five lab inputs with a fixed date.
+`make ai-deploy` builds the Lambda image, deploys `infra/ai.yml`
 and the budget from `infra/ai-budget.yml`, and writes its function URL to `.env`
 as `PARSER_URL`. Then run
 `make deploy-frontend` to compile that URL into the static site. `PARSER_MODEL`

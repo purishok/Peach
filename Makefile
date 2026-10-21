@@ -5,7 +5,7 @@ CLOUDFRONT_DISTRIBUTION_ID ?= E10CBQMS98RSZQ
 FRONTEND_URL ?= https://dqvalqr0apze.cloudfront.net
 
 .PHONY: auth-deploy auth-outputs configure-ecs-auth deploy-lab4 deploy-frontend deploy-backend github-role reports-deploy report-now reports-list reports-logs reports-test
-.PHONY: llm-hello parse ai-deploy
+.PHONY: llm-hello parse ai-deploy ai-eval
 
 export TEXT
 
@@ -14,6 +14,9 @@ llm-hello:
 
 parse:
 	cd backend && UV_CACHE_DIR=/tmp/peach-ai-uv-cache uv run python -m app.ai.cli parse
+
+ai-eval:
+	cd backend && UV_CACHE_DIR=/tmp/peach-ai-uv-cache uv run python -m app.ai.eval_lab6
 
 ai-deploy:
 	./scripts/deploy-ai.sh
