@@ -13,6 +13,8 @@ class Settings(BaseSettings):
     app_name: str = "Peach API"
     app_env: Literal["development", "test", "production"] = "development"
     log_level: str = "info"
+    parser_model: str = "anthropic.claude-opus-5-5"
+    parser_region: str = "us-east-1"
 
     database_url: str = "postgresql+asyncpg://peach:peach@db:5432/peach"
     # Off on Lambda: a warm but idle execution environment would otherwise hold

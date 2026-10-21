@@ -5,6 +5,18 @@ CLOUDFRONT_DISTRIBUTION_ID ?= E10CBQMS98RSZQ
 FRONTEND_URL ?= https://dqvalqr0apze.cloudfront.net
 
 .PHONY: auth-deploy auth-outputs configure-ecs-auth deploy-lab4 deploy-frontend deploy-backend github-role reports-deploy report-now reports-list reports-logs reports-test
+.PHONY: llm-hello parse ai-deploy
+
+export TEXT
+
+llm-hello:
+	cd backend && UV_CACHE_DIR=/tmp/peach-ai-uv-cache uv run python -m app.ai.cli hello
+
+parse:
+	cd backend && UV_CACHE_DIR=/tmp/peach-ai-uv-cache uv run python -m app.ai.cli parse
+
+ai-deploy:
+	./scripts/deploy-ai.sh
 
 auth-deploy:
 	AUTH_AWS_REGION="$(AUTH_AWS_REGION)" \

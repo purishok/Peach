@@ -629,3 +629,20 @@ Compose, Dockerfiles, tooling, tests scaffolding — stays as is.
 
 The deliberate gaps, left for later: authentication and authorization, multi-tenancy, background
 workers, and a CI path for the frontend deploy.
+
+# Lab 6: Paste an agenda
+
+Create or select a meeting at `/meetings`, paste text, review the marked
+suggestions, and save. The parser Lambda runs outside the database VPC and only
+returns JSON; the authenticated meeting API stores the checked agenda and the
+original suggestion. See [ADR 0006](docs/adr/0006-llm-agenda-parsing.md) and
+the [container diagram](docs/architecture-containers.md).
+
+Use `make llm-hello` for a first Claude call and `make parse TEXT="..."` for a
+local parser run. `make ai-deploy` builds the Lambda image, deploys `infra/ai.yml`
+and the budget from `infra/ai-budget.yml`, and writes its function URL to `.env`
+as `PARSER_URL`. Then run
+`make deploy-frontend` to compile that URL into the static site. `PARSER_MODEL`
+and `AI_BUDGET_EMAIL` can be set in `.env`. The Cognito pool and client IDs must
+already be configured. The current account's AWS Organizations policy must
+allow Anthropic model agreements before live parsing can succeed.

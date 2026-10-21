@@ -1,0 +1,44 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >-
+  Monthly $5 AWS cost budget for the Peach AI lab, deployed in us-east-1 where
+  CloudFormation supports AWS::Budgets::Budget.
+Metadata:
+  AWSToolsMetrics:
+    AWSAgentToolkit: aws-cloudformation@3
+  com.aws.cloudformation.Context:
+    arch: AWS Budgets -> owner email
+    must: [deploy in a region that supports AWS::Budgets::Budget]
+    ref: docs/adr/0006-llm-agenda-parsing.md
+Parameters:
+  ProjectName:
+    Type: String
+    Default: peach
+  BudgetEmail:
+    Type: String
+    Description: Address receiving the $5 monthly notification.
+Resources:
+  MonthlyAiBudget:
+    Type: AWS::Budgets::Budget
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: warns the owner when monthly account spend passes $5
+        must: [actual spend threshold is 100 percent]
+    Properties:
+      Budget:
+        BudgetName: !Sub "${ProjectName}-ai-monthly"
+        BudgetType: COST
+        TimeUnit: MONTHLY
+        BudgetLimit:
+          Amount: 5
+          Unit: USD
+      NotificationsWithSubscribers:
+        - Notification:
+            NotificationType: ACTUAL
+            ComparisonOperator: GREATER_THAN
+            Threshold: 100
+          Subscribers:
+            - SubscriptionType: EMAIL
+              Address: !Ref BudgetEmail
+Outputs:
+  BudgetName:
+    Value: !Ref MonthlyAiBudget

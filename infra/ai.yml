@@ -1,0 +1,151 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >-
+  Peach agenda parser outside the database VPC; its authenticated Lambda URL
+  calls Claude on Bedrock without a NAT gateway.
+Metadata:
+  AWSToolsMetrics:
+    AWSAgentToolkit: aws-cloudformation@3
+  com.aws.cloudformation.Context:
+    arch: Browser -> parser URL -> Bedrock; browser -> existing API -> PostgreSQL to save
+    must:
+      - parser has no VPC or database permissions
+      - Cognito verification in handler is mandatory on the public URL
+      - all writes use the existing API
+    ref: docs/adr/0006-llm-agenda-parsing.md
+Parameters:
+  ProjectName:
+    Type: String
+    Default: peach
+  ImageUri:
+    Type: String
+    Description: Lambda container image in this stack's region.
+  Architecture:
+    Type: String
+    Default: arm64
+    AllowedValues: [arm64, x86_64]
+  ParserModel:
+    Type: String
+    Default: anthropic.claude-opus-5-5
+    AllowedValues:
+      - anthropic.claude-opus-5-5
+      - anthropic.claude-sonnet-5-5
+      - anthropic.claude-haiku-5-5
+  BedrockRegion:
+    Type: String
+    Default: us-east-1
+  CognitoRegion:
+    Type: String
+    Default: us-east-1
+  CognitoUserPoolId:
+    Type: String
+  CognitoClientId:
+    Type: String
+  SiteOrigin:
+    Type: String
+    Description: Exact HTTPS origin of the deployed frontend.
+  LogRetentionDays:
+    Type: Number
+    Default: 14
+Resources:
+  ParserLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${ProjectName}-agenda-parser"
+      RetentionInDays: !Ref LogRetentionDays
+      Tags:
+        - Key: PROJECT_NAME
+          Value: !Ref ProjectName
+  ParserRole:
+    Type: AWS::IAM::Role
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: parser needs only inference and its own logs
+        must: [no database, S3, or write permissions]
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: AgendaParserRuntime
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: OwnLogs
+                Effect: Allow
+                Action: [logs:CreateLogStream, logs:PutLogEvents]
+                Resource: !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${ProjectName}-agenda-parser:*"
+              - Sid: BedrockInference
+                Effect: Allow
+                Action: bedrock-mantle:CreateInference
+                Resource: "*"
+      Tags:
+        - Key: PROJECT_NAME
+          Value: !Ref ProjectName
+  ParserFunction:
+    Type: AWS::Lambda::Function
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: stateless parser reaches Bedrock publicly without NAT or VPC endpoint
+        must: [no VpcConfig, validate Cognito ID token before inference]
+    Properties:
+      FunctionName: !Sub "${ProjectName}-agenda-parser"
+      PackageType: Image
+      Code:
+        ImageUri: !Ref ImageUri
+      ImageConfig:
+        Command: [app.ai.agenda_lambda.handler]
+      Architectures: [!Ref Architecture]
+      Timeout: 30
+      MemorySize: 512
+      ReservedConcurrentExecutions: 2
+      Role: !GetAtt ParserRole.Arn
+      LoggingConfig:
+        LogGroup: !Ref ParserLogGroup
+      Environment:
+        Variables:
+          APP_ENV: production
+          PARSER_MODEL: !Ref ParserModel
+          PARSER_REGION: !Ref BedrockRegion
+          COGNITO_REGION: !Ref CognitoRegion
+          COGNITO_USER_POOL_ID: !Ref CognitoUserPoolId
+          COGNITO_CLIENT_ID: !Ref CognitoClientId
+      Tags:
+        - Key: PROJECT_NAME
+          Value: !Ref ProjectName
+  ParserUrl:
+    Type: AWS::Lambda::Url
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: browser calls the parser directly; handler checks Cognito before any paid operation
+        must: [POST only, exact site origin]
+    Properties:
+      TargetFunctionArn: !Ref ParserFunction
+      AuthType: NONE
+      Cors:
+        AllowOrigins: [!Ref SiteOrigin]
+        AllowMethods: [POST]
+        AllowHeaders: [authorization, content-type]
+        MaxAge: 300
+  ParserUrlPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref ParserFunction
+      Action: lambda:InvokeFunctionUrl
+      Principal: "*"
+      FunctionUrlAuthType: NONE
+  ParserInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref ParserFunction
+      Action: lambda:InvokeFunction
+      Principal: "*"
+      InvokedViaFunctionUrl: true
+Outputs:
+  ParserUrl:
+    Value: !GetAtt ParserUrl.FunctionUrl
+  ParserFunctionName:
+    Value: !Ref ParserFunction
