@@ -7,7 +7,7 @@ The parser stack `peach-ai` is `CREATE_COMPLETE` in `eu-north-1`, with URL
 `https://sf2p4ebj52ezvkgw6oxgddug7m0zzrph.lambda-url.eu-north-1.on.aws/`.
 Its CORS preflight accepts only the deployed site origin and POST; an
 unauthenticated POST returned 401. The $5 budget stack `peach-ai-budget` is
-`CREATE_COMPLETE` in `us-east-1`.
+deployed in `us-east-1` with one notification.
 The deployed `/meetings` page returned HTTP 200. The ECS startup log confirms
 Alembic upgrade `0005 -> 0006`; the protected `/api/v1/meetings` endpoint
 returned 401 without a Cognito token after the new task registered.

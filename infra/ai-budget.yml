@@ -24,6 +24,9 @@ Resources:
         why: warns the owner when monthly account spend passes $5
         must: [actual spend threshold is 100 percent]
     Properties:
+      ResourceTags:
+        - Key: PROJECT_NAME
+          Value: !Ref ProjectName
       Budget:
         BudgetName: !Sub "${ProjectName}-ai-monthly"
         BudgetType: COST
