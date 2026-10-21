@@ -4,7 +4,7 @@ import json
 import time
 from datetime import date
 
-from app.ai.agenda import cost_usd, parse_agenda
+from app.ai.agenda import AgendaParseError, cost_usd, parse_agenda
 from app.config import get_settings
 
 CASES = [
@@ -35,6 +35,10 @@ def main() -> None:
                     "cost_usd": cost_usd(model, usage),
                 }
             )
+        except AgendaParseError as exc:
+            row.update({"json": None, "error": str(exc), "usage": exc.usage})
+            if exc.usage:
+                row["cost_usd"] = cost_usd(model, exc.usage)
         except Exception as exc:
             row.update({"json": None, "error": f"{type(exc).__name__}: {exc}"})
         row["latency_s"] = round(time.monotonic() - started, 2)

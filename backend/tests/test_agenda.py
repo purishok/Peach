@@ -2,6 +2,7 @@
 
 import json
 from datetime import date
+from types import SimpleNamespace
 
 import pytest
 from httpx import AsyncClient
@@ -49,6 +50,49 @@ def test_parser_retries_invalid_tool_input(monkeypatch):
     assert agenda.items[0].minutes == 15
     assert usage == {"input_tokens": 20, "output_tokens": 10}
     assert cost_usd("anthropic.claude-opus-5-5", usage) == 0.00028
+
+
+def test_parser_uses_converse_tool_schema(monkeypatch):
+    agenda_json = {"items": [{"topic": "Pricing"}], "action_items": [], "language": "en"}
+
+    class Runtime:
+        def converse(self, **kwargs):
+            assert kwargs["modelId"] == "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
+            assert kwargs["toolConfig"]["tools"][0]["toolSpec"]["name"] == "record_agenda"
+            return {
+                "stopReason": "tool_use",
+                "output": {
+                    "message": {
+                        "role": "assistant",
+                        "content": [
+                            {
+                                "toolUse": {
+                                    "toolUseId": "call-1",
+                                    "name": "record_agenda",
+                                    "input": agenda_json,
+                                }
+                            }
+                        ],
+                    }
+                },
+                "usage": {"inputTokens": 100, "outputTokens": 50},
+            }
+
+    monkeypatch.setattr(
+        "app.ai.agenda.get_settings",
+        lambda: SimpleNamespace(
+            parser_api="converse",
+            parser_model="us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+            parser_region="us-east-1",
+        ),
+    )
+    monkeypatch.setattr("app.ai.agenda.boto3.client", lambda *_args, **_kwargs: Runtime())
+
+    agenda, usage = parse_agenda("Pricing meeting", date(2026, 10, 21), "Europe/Kyiv")
+
+    assert agenda.items[0].topic == "Pricing"
+    assert usage == {"input_tokens": 100, "output_tokens": 50}
+    assert cost_usd("us.anthropic.claude-sonnet-4-5-20250929-v1:0", usage) == 0.00105
 
 
 def test_invalid_start_time_is_rejected():

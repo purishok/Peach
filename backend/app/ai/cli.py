@@ -6,6 +6,7 @@ import os
 import sys
 from datetime import date
 
+import boto3
 from anthropic import AnthropicBedrockMantle
 
 from app.ai.agenda import parse_agenda
@@ -18,22 +19,49 @@ def main() -> int:
     args = parser.parse_args()
     settings = get_settings()
     if args.command == "hello":
-        msg = AnthropicBedrockMantle(aws_region=settings.parser_region).messages.create(
-            model=settings.parser_model,
-            max_tokens=1024,
-            output_config={"effort": "low"},
-            messages=[{"role": "user", "content": "In one sentence: what is an ISO week?"}],
-        )
-        print(next(block.text for block in msg.content if block.type == "text"))
-        print(
-            json.dumps(
-                {
-                    "stop_reason": msg.stop_reason,
-                    "input_tokens": msg.usage.input_tokens,
-                    "output_tokens": msg.usage.output_tokens,
-                }
+        if settings.parser_api == "converse":
+            msg = boto3.client("bedrock-runtime", region_name=settings.parser_region).converse(
+                modelId=settings.parser_model,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": [{"text": "In one sentence: what is an ISO week?"}],
+                    }
+                ],
+                inferenceConfig={"maxTokens": 1024},
             )
-        )
+            text = next(
+                block["text"]
+                for block in msg["output"]["message"]["content"]
+                if "text" in block
+            )
+            print(text)
+            print(
+                json.dumps(
+                    {
+                        "stop_reason": msg["stopReason"],
+                        "input_tokens": msg["usage"]["inputTokens"],
+                        "output_tokens": msg["usage"]["outputTokens"],
+                    }
+                )
+            )
+        else:
+            msg = AnthropicBedrockMantle(aws_region=settings.parser_region).messages.create(
+                model=settings.parser_model,
+                max_tokens=1024,
+                output_config={"effort": "low"},
+                messages=[{"role": "user", "content": "In one sentence: what is an ISO week?"}],
+            )
+            print(next(block.text for block in msg.content if block.type == "text"))
+            print(
+                json.dumps(
+                    {
+                        "stop_reason": msg.stop_reason,
+                        "input_tokens": msg.usage.input_tokens,
+                        "output_tokens": msg.usage.output_tokens,
+                    }
+                )
+            )
         return 0
     agenda, usage = parse_agenda(
         os.environ.get("TEXT", ""),

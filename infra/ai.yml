@@ -26,10 +26,11 @@ Parameters:
   ParserModel:
     Type: String
     Default: anthropic.claude-opus-5-5
-    AllowedValues:
-      - anthropic.claude-opus-5-5
-      - anthropic.claude-sonnet-5-5
-      - anthropic.claude-haiku-5-5
+    AllowedValues: [anthropic.claude-opus-5-5, anthropic.claude-sonnet-5-5, anthropic.claude-haiku-5-5, us.anthropic.claude-sonnet-4-5-20250929-v1:0]
+  ParserApi:
+    Type: String
+    Default: messages
+    AllowedValues: [messages, converse]
   BedrockRegion:
     Type: String
     Default: us-east-1
@@ -46,6 +47,13 @@ Parameters:
   LogRetentionDays:
     Type: Number
     Default: 14
+  ReservedConcurrency:
+    Type: Number
+    Default: 2
+    MinValue: 0
+    MaxValue: 1000
+Conditions:
+  ReserveParserConcurrency: !Not [!Equals [!Ref ReservedConcurrency, 0]]
 Resources:
   ParserLogGroup:
     Type: AWS::Logs::LogGroup
@@ -59,7 +67,7 @@ Resources:
     Type: AWS::IAM::Role
     Metadata:
       com.aws.cloudformation.Context:
-        why: parser needs only inference and its own logs
+        why: parser needs its configured inference endpoint and its own logs
         must: [no database, S3, or write permissions]
     Properties:
       AssumeRolePolicyDocument:
@@ -80,7 +88,7 @@ Resources:
                 Resource: !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${ProjectName}-agenda-parser:*"
               - Sid: BedrockInference
                 Effect: Allow
-                Action: bedrock-mantle:CreateInference
+                Action: [bedrock-mantle:CreateInference, bedrock:InvokeModel]
                 Resource: "*"
       Tags:
         - Key: PROJECT_NAME
@@ -89,8 +97,8 @@ Resources:
     Type: AWS::Lambda::Function
     Metadata:
       com.aws.cloudformation.Context:
-        why: stateless parser reaches Bedrock publicly without NAT or VPC endpoint
-        must: [no VpcConfig, validate Cognito ID token before inference]
+        why: stateless parser reaches configured Bedrock API publicly without NAT or VPC endpoint
+        must: [no VpcConfig, validate Cognito ID token before inference, model may only suggest]
     Properties:
       FunctionName: !Sub "${ProjectName}-agenda-parser"
       PackageType: Image
@@ -101,7 +109,10 @@ Resources:
       Architectures: [!Ref Architecture]
       Timeout: 30
       MemorySize: 512
-      ReservedConcurrentExecutions: 2
+      ReservedConcurrentExecutions: !If
+        - ReserveParserConcurrency
+        - !Ref ReservedConcurrency
+        - !Ref AWS::NoValue
       Role: !GetAtt ParserRole.Arn
       LoggingConfig:
         LogGroup: !Ref ParserLogGroup
@@ -110,6 +121,7 @@ Resources:
           APP_ENV: production
           PARSER_MODEL: !Ref ParserModel
           PARSER_REGION: !Ref BedrockRegion
+          PARSER_API: !Ref ParserApi
           COGNITO_REGION: !Ref CognitoRegion
           COGNITO_USER_POOL_ID: !Ref CognitoUserPoolId
           COGNITO_CLIENT_ID: !Ref CognitoClientId

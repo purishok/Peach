@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     log_level: str = "info"
     parser_model: str = "anthropic.claude-opus-5-5"
     parser_region: str = "us-east-1"
+    parser_api: Literal["messages", "converse"] = "messages"
 
     database_url: str = "postgresql+asyncpg://peach:peach@db:5432/peach"
     # Off on Lambda: a warm but idle execution environment would otherwise hold

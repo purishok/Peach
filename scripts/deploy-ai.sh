@@ -19,8 +19,13 @@ BEDROCK_REGION="${BEDROCK_REGION:-us-east-1}"
 AI_STACK_NAME="${AI_STACK_NAME:-${PROJECT_NAME}-ai}"
 AI_BUDGET_STACK_NAME="${AI_BUDGET_STACK_NAME:-${PROJECT_NAME}-ai-budget}"
 PARSER_MODEL="${PARSER_MODEL:-anthropic.claude-opus-5-5}"
+PARSER_API="${PARSER_API:-messages}"
+PARSER_RESERVED_CONCURRENCY="${PARSER_RESERVED_CONCURRENCY:-2}"
 AI_BUDGET_EMAIL="${AI_BUDGET_EMAIL:-${REPORT_RECIPIENT_EMAILS:-}}"
-[[ -n "${AI_BUDGET_EMAIL}" ]] || { echo 'Set AI_BUDGET_EMAIL' >&2; exit 1; }
+DEPLOY_AI_BUDGET="${DEPLOY_AI_BUDGET:-true}"
+if [[ "${DEPLOY_AI_BUDGET}" == "true" ]]; then
+  [[ -n "${AI_BUDGET_EMAIL}" ]] || { echo 'Set AI_BUDGET_EMAIL' >&2; exit 1; }
+fi
 [[ -n "${COGNITO_USER_POOL_ID:-}" && -n "${COGNITO_CLIENT_ID:-}" ]] \
   || { echo 'Set Cognito pool and client IDs' >&2; exit 1; }
 
@@ -44,7 +49,8 @@ aws cloudformation deploy --region "${AI_REGION}" --stack-name "${AI_STACK_NAME}
   --template-file "${ROOT}/infra/ai.yml" \
   --parameter-overrides \
     "ProjectName=${PROJECT_NAME}" "ImageUri=${image_uri}" \
-    "ParserModel=${PARSER_MODEL}" "BedrockRegion=${BEDROCK_REGION}" \
+    "ParserModel=${PARSER_MODEL}" "ParserApi=${PARSER_API}" \
+    "ReservedConcurrency=${PARSER_RESERVED_CONCURRENCY}" "BedrockRegion=${BEDROCK_REGION}" \
     "CognitoRegion=${COGNITO_REGION:-us-east-1}" \
     "CognitoUserPoolId=${COGNITO_USER_POOL_ID}" "CognitoClientId=${COGNITO_CLIENT_ID}" \
     "SiteOrigin=${FRONTEND_URL:-https://dqvalqr0apze.cloudfront.net}" \
@@ -64,8 +70,12 @@ new.append(line)
 path.write_text("\n".join(new) + "\n")
 PY
 echo "Parser URL: ${url}"
-aws cloudformation deploy --region us-east-1 --stack-name "${AI_BUDGET_STACK_NAME}" \
-  --template-file "${ROOT}/infra/ai-budget.yml" \
-  --parameter-overrides "ProjectName=${PROJECT_NAME}" "BudgetEmail=${AI_BUDGET_EMAIL}" \
-  --no-fail-on-empty-changeset --tags "PROJECT_NAME=${PROJECT_NAME}"
+if [[ "${DEPLOY_AI_BUDGET}" == "true" ]]; then
+  aws cloudformation deploy --region us-east-1 --stack-name "${AI_BUDGET_STACK_NAME}" \
+    --template-file "${ROOT}/infra/ai-budget.yml" \
+    --parameter-overrides "ProjectName=${PROJECT_NAME}" "BudgetEmail=${AI_BUDGET_EMAIL}" \
+    --no-fail-on-empty-changeset --tags "PROJECT_NAME=${PROJECT_NAME}"
+else
+  echo "Skipping budget deployment; verify that a budget exists in the parser account."
+fi
 echo "Deploy the frontend to compile NEXT_PUBLIC_PARSER_URL into the site."
