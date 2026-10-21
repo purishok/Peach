@@ -638,7 +638,8 @@ returns JSON; the authenticated meeting API stores the checked agenda and the
 original suggestion. See [ADR 0006](docs/adr/0006-llm-agenda-parsing.md) and
 the [container diagram](docs/architecture-containers.md).
 One brief meeting topic, such as `Pricing make bigger`, is enough for a
-one-item suggestion; unrelated text such as a shopping list is rejected.
+one-item suggestion. The parser can drop unintelligible trailing words from a
+rough note; unrelated text such as a shopping list is rejected.
 
 Use `make llm-hello` for a first Claude call and `make parse TEXT="..."` for a
 local parser run. `make ai-eval` replays the five lab inputs with a fixed date.

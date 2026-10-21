@@ -225,7 +225,7 @@ export async function parseAgenda(text: string, signal: AbortSignal) {
     const body = await response.json().catch(() => ({}));
     const fallback: Record<number, string> = {
       413: "Text is too long (10,000 characters maximum).",
-      422: "The model could not find an agenda. You can enter it manually.",
+      422: "No meeting topic found. Try a note like ‘Discuss pricing increase’, or enter the agenda manually.",
       429: "Parser is busy. Try again shortly.",
     };
     throw new ApiError(

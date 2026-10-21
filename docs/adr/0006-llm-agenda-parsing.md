@@ -36,8 +36,8 @@ database credentials and cannot write. The parser runs in AWS account
 
 At the [published Bedrock rates](https://aws.amazon.com/blogs/aws-cloud-financial-management/optimize-llm-costs-on-amazon-bedrock-from-billing-attribution-to-operational-telemetry/),
 Sonnet 4.5 costs $3 per million input tokens and $15 per million output tokens.
-The current short-note parse used 1,324 input and 90 output tokens, or
-$0.005322 in model charges. The parser logs tokens, estimated model cost,
+The current noisy-note parse used 1,367 input and 142 output tokens, or
+$0.006231 in model charges. The parser logs tokens, estimated model cost,
 model, prompt version, latency and Cognito subject; it does not log the pasted
 text. A $5 monthly AWS Budget emails the owner in the parser account. When
 Bedrock is unavailable, the user can type the agenda in the same form; meetings,
