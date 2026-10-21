@@ -640,10 +640,14 @@ the [container diagram](docs/architecture-containers.md).
 
 Use `make llm-hello` for a first Claude call and `make parse TEXT="..."` for a
 local parser run. `make ai-eval` replays the five lab inputs with a fixed date.
-`make ai-deploy` builds the Lambda image, deploys `infra/ai.yml`
-and the budget from `infra/ai-budget.yml`, and writes its function URL to `.env`
-as `PARSER_URL`. Then run
-`make deploy-frontend` to compile that URL into the static site. `PARSER_MODEL`
-and `AI_BUDGET_EMAIL` can be set in `.env`. The Cognito pool and client IDs must
-already be configured. The current account's AWS Organizations policy must
-allow Anthropic model agreements before live parsing can succeed.
+In the deployed setup, set `AWS_PROFILE=bedrock-test`, `PARSER_API=converse`,
+and `PARSER_MODEL=us.anthropic.claude-sonnet-4-5-20250929-v1:0` for these
+commands. The account could invoke Sonnet 4.5 through Converse; Opus 5.5
+through the Messages API returned 403. `make ai-deploy` builds the Lambda image,
+deploys `infra/ai.yml` and optionally the budget from `infra/ai-budget.yml`,
+and writes its function URL to `.env` as `PARSER_URL`. The current parser stack
+is `peach-ai-sonnet`, with `PARSER_RESERVED_CONCURRENCY=0` for this account's
+Lambda quota. Deploy the frontend separately with the main application's AWS
+profile to compile that URL into the static site. The Cognito pool and client
+IDs must already be configured. The [submission evidence](docs/lab6-submission.md)
+has the deployed URL, five-input results, CloudWatch line and recording.
