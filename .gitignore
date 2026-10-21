@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+# Lab 6 submission media stays in the private ZIP, never in Git.
+docs/lab6-submission.pdf
+docs/media/lab6-paste-agenda.mp4

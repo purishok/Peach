@@ -1,6 +1,6 @@
-"""Build the self-contained Lab 6 submission PDF from recorded deployment evidence.
+"""Build the private Lab 6 submission PDF from recorded deployment evidence.
 
-Run: uv run --with reportlab --with pypdf python scripts/generate-lab6-pdf.py
+Run: uv run --with reportlab python scripts/generate-lab6-pdf.py
 """
 
 from __future__ import annotations
@@ -8,9 +8,10 @@ from __future__ import annotations
 import html
 import io
 import json
+import os
 from pathlib import Path
+import subprocess
 
-from pypdf import PdfReader, PdfWriter
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4, landscape
@@ -31,15 +32,12 @@ from reportlab.platypus import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / "docs" / "lab6-submission.pdf"
-VIDEO = ROOT / "docs" / "media" / "lab6-paste-agenda.mp4"
+PRIVATE_DIR = Path(os.environ.get("LAB6_PRIVATE_DIR", ROOT.parents[1] / "Lab6-submission"))
+OUTPUT = PRIVATE_DIR / "lab6-submission.pdf"
+VIDEO = PRIVATE_DIR / "lab6-paste-agenda.mp4"
 EVIDENCE = ROOT / "docs" / "lab6-evaluation.jsonl"
-COMMIT = "469317f93e5ad29602786ed0a6fb8e58473614f2"
+COMMIT = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
 COMMIT_URL = f"https://github.com/purishok/Peach/commit/{COMMIT}"
-VIDEO_URL = (
-    "https://github.com/purishok/Peach/blob/"
-    f"{COMMIT}/docs/media/lab6-paste-agenda.mp4"
-)
 
 
 def font_path(filename: str) -> str:
@@ -91,6 +89,9 @@ def add_header_footer(canvas, doc):
 
 
 def build() -> None:
+    if not VIDEO.is_file():
+        raise FileNotFoundError(f"Put the private recording at {VIDEO} before building")
+    PRIVATE_DIR.mkdir(parents=True, exist_ok=True)
     cases = [json.loads(line) for line in EVIDENCE.read_text().splitlines() if line.strip()]
     assert len(cases) == 5
     story = []
@@ -102,7 +103,7 @@ def build() -> None:
     overview = [
         ("Commit", f'<link href="{COMMIT_URL}" color="#0877bb">{COMMIT_URL}</link>'),
         ("Deployed app", '<link href="https://dqvalqr0apze.cloudfront.net/meetings" color="#0877bb">https://dqvalqr0apze.cloudfront.net/meetings</link>'),
-        ("Recording", f'10.44-second MP4 attached inside this PDF; <link href="{VIDEO_URL}" color="#0877bb">open the recording on GitHub</link>.'),
+        ("Recording", "The 10.44-second MP4 is a separate file beside this PDF in the private submission ZIP."),
         ("Included below", "Five deployed input/JSON results, field review, token usage, cost, latency, CloudWatch log, and written answers."),
     ]
     for name, value in overview:
@@ -113,8 +114,8 @@ def build() -> None:
         p(
             "The recording shows pasted text, Parse, the pre-filled agenda form, a manual title correction, "
             "and Save in the deployed app. The save endpoint returned HTTP 200; a subsequent authenticated "
-            "GET showed the corrected title and the original AI suggestion. Download this PDF to access its "
-            "embedded MP4 attachment if your PDF preview hides attachments. The GitHub link above is a fallback."
+            "GET showed the corrected title and the original AI suggestion. The accompanying file "
+            "lab6-paste-agenda.mp4 is included in the same private ZIP archive as this PDF."
         ),
         p("Deployment and model note", "HeadingLab"),
         p(
@@ -221,12 +222,8 @@ def build() -> None:
     )
     doc.build(story, onFirstPage=add_header_footer, onLaterPages=add_header_footer)
 
-    writer = PdfWriter()
-    writer.append(PdfReader(io.BytesIO(buffer.getvalue())))
-    writer.add_attachment(filename=VIDEO.name, data=VIDEO.read_bytes())
-    with OUTPUT.open("wb") as file:
-        writer.write(file)
-    print(f"Wrote {OUTPUT} ({len(writer.pages)} pages, MP4 attached)")
+    OUTPUT.write_bytes(buffer.getvalue())
+    print(f"Wrote {OUTPUT}; package it with {VIDEO.name} in a private ZIP")
 
 
 if __name__ == "__main__":
