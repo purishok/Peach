@@ -21,9 +21,18 @@ entitlement and Region. Nevertheless, both local Messages API calls returned
 returned the same error. The Anthropic first-use form was also submitted in
 the organisation management account `889580843480`, which [AWS says is
 inherited by member accounts](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html).
+Service Quotas in `us-east-1` also reports `0` for the adjustable
+`[bedrock-mantle endpoint] Input tokens per minute for Claude Opus 5.5`
+(`L-1BD3E8A2`). This is another account-access signal, though the observed
+403 is an access error rather than the 429 expected from ordinary throttling.
 An Amazon Nova Micro Converse smoke test succeeded (10 input, 44 output
 tokens), so the failure is specific to Anthropic model access, not all Bedrock
 inference. AWS directs this 403 to [AWS Sales](https://aws.amazon.com/contact-us/sales-support/).
+For the Mantle quota, [AWS requires an AWS Support limit-increase
+case](https://docs.aws.amazon.com/bedrock/latest/userguide/quotas-mantle.html)
+specifying endpoint, Region, model, input/output TPM and requested values;
+the Service Quotas console does not process Mantle increases. The case should
+include the 403 message and ask AWS to confirm Anthropic account eligibility.
 
 A temporary Cognito user signed in to the deployed app and created a meeting.
 An authenticated Parse request from that page reached the Lambda URL and
