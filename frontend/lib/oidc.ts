@@ -47,7 +47,9 @@ export function getUserManager(): UserManager {
       : {
           ...oidcSettings,
           userStore: new WebStorageStateStore({ store: window.localStorage }),
-          stateStore: new WebStorageStateStore({ store: window.sessionStorage }),
+          stateStore: new WebStorageStateStore({
+            store: window.sessionStorage,
+          }),
         },
   );
   return userManager;

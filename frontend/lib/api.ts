@@ -106,18 +106,30 @@ export const agendaSchema = z.object({
   title: z.string().nullable(),
   starts_at: z.string().nullable(),
   duration_minutes: z.number().int().nullable(),
-  items: z.array(z.object({
-    topic: z.string(), owner: z.string().nullable(), minutes: z.number().int().nullable(),
-  })),
-  action_items: z.array(z.object({
-    task: z.string(), owner: z.string().nullable(), due: z.string().nullable(),
-  })),
+  items: z.array(
+    z.object({
+      topic: z.string(),
+      owner: z.string().nullable(),
+      minutes: z.number().int().nullable(),
+    }),
+  ),
+  action_items: z.array(
+    z.object({
+      task: z.string(),
+      owner: z.string().nullable(),
+      due: z.string().nullable(),
+    }),
+  ),
   language: z.string(),
 });
 export type Agenda = z.infer<typeof agendaSchema>;
 export const meetingSchema = z.object({
-  id: z.string(), title: z.string(), starts_at: z.string(), ends_at: z.string(),
-  agenda: agendaSchema.nullable(), ai_suggestion: z.unknown().nullable(),
+  id: z.string(),
+  title: z.string(),
+  starts_at: z.string(),
+  ends_at: z.string(),
+  agenda: agendaSchema.nullable(),
+  ai_suggestion: z.unknown().nullable(),
 });
 export type Meeting = z.infer<typeof meetingSchema>;
 
@@ -149,36 +161,59 @@ export const api = {
   deleteItem: (id: string) =>
     request(`/api/v1/items/${id}`, z.undefined(), { method: "DELETE" }),
 
-  listMeetings: () => request("/api/v1/meetings", z.object({meetings: z.array(meetingSchema)})),
-  createMeeting: (payload: {title: string; starts_at: string; ends_at: string}) =>
-    request("/api/v1/meetings", meetingSchema, {method: "POST", body: JSON.stringify(payload)}),
+  listMeetings: () =>
+    request("/api/v1/meetings", z.object({ meetings: z.array(meetingSchema) })),
+  createMeeting: (payload: {
+    title: string;
+    starts_at: string;
+    ends_at: string;
+  }) =>
+    request("/api/v1/meetings", meetingSchema, {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
   saveAgenda: (id: string, agenda: Agenda, ai_suggestion: unknown) =>
     request(`/api/v1/meetings/${id}/agenda`, meetingSchema, {
-      method: "PUT", body: JSON.stringify({agenda, ai_suggestion}),
+      method: "PUT",
+      body: JSON.stringify({ agenda, ai_suggestion }),
     }),
 };
 
 const parseSchema = z.object({
-  agenda: agendaSchema, model: z.string(), prompt_version: z.string(),
-  usage: z.object({input_tokens: z.number(), output_tokens: z.number()}),
+  agenda: agendaSchema,
+  model: z.string(),
+  prompt_version: z.string(),
+  usage: z.object({ input_tokens: z.number(), output_tokens: z.number() }),
 });
 
 export async function parseAgenda(text: string, signal: AbortSignal) {
   const token = await getIdToken();
   if (!token) throw new ApiError(401, "Sign in required");
   const url = process.env.NEXT_PUBLIC_PARSER_URL;
-  if (!url) throw new ApiError(503, "Parser is not configured. Enter the agenda manually.");
+  if (!url)
+    throw new ApiError(
+      503,
+      "Parser is not configured. Enter the agenda manually.",
+    );
   let response: Response;
   try {
     const todayParts = new Intl.DateTimeFormat("en-US", {
-      year: "numeric", month: "2-digit", day: "2-digit",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
     }).formatToParts(new Date());
-    const part = (type: string) => todayParts.find((item) => item.type === type)?.value ?? "";
+    const part = (type: string) =>
+      todayParts.find((item) => item.type === type)?.value ?? "";
     response = await fetch(url, {
-      method: "POST", signal,
-      headers: {"content-type": "application/json", authorization: `Bearer ${token}`},
+      method: "POST",
+      signal,
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
-        text, today: `${part("year")}-${part("month")}-${part("day")}`,
+        text,
+        today: `${part("year")}-${part("month")}-${part("day")}`,
         tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
       }),
     });
@@ -193,7 +228,10 @@ export async function parseAgenda(text: string, signal: AbortSignal) {
       422: "The model could not find an agenda. You can enter it manually.",
       429: "Parser is busy. Try again shortly.",
     };
-    throw new ApiError(response.status, fallback[response.status] ?? body.error ?? "Parser unavailable.");
+    throw new ApiError(
+      response.status,
+      fallback[response.status] ?? body.error ?? "Parser unavailable.",
+    );
   }
   return parseSchema.parse(await response.json());
 }
