@@ -91,8 +91,8 @@ variable "local_logout_url" {
 
 variable "log_retention_days" {
   type        = number
-  description = "LogRetentionDays"
-  default     = 14
+  description = "Retention for the existing parser and report Lambda logs."
+  default     = 30
 }
 
 variable "parser_api" {

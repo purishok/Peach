@@ -38,5 +38,6 @@ Never add AWS access keys to the HCP workspace. Keep google_client_secret and
 report_recipient_emails as sensitive Terraform variables. HCP state also contains
 the resolved database URL and must remain private.
 
-At the preparation checkpoint, the main apply role is installed; the AI apply
-role still requires the expired local bedrock-test session to be renewed.
+Both apply roles are installed. The VCS-triggered adoption run successfully used
+the dynamic credentials and imported all 40 resources. The role policies cover
+the reviewed log-retention change and parser timeout drift restoration.

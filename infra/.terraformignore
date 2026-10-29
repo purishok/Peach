@@ -1,0 +1,9 @@
+# Also protect runs whose upload root is infra itself.
+.git/
+.terraform/
+terraform.tfvars
+*.auto.tfvars
+*.tfvars.json
+*.tfstate
+*.tfstate.*
+*.tfplan

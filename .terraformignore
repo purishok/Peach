@@ -1,0 +1,12 @@
+# HCP CLI uploads use the repository root when workspace working-directory=infra.
+# Upload only infrastructure, with all local variables/state/provider caches excluded.
+*
+!infra/
+!infra/**
+infra/.terraform/
+infra/terraform.tfvars
+infra/*.auto.tfvars
+infra/*.tfvars.json
+infra/*.tfstate
+infra/*.tfstate.*
+infra/*.tfplan

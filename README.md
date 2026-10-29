@@ -661,34 +661,45 @@ has the deployed URL, five-input results, CloudWatch line and recording.
 
 # Lab 7: Infrastructure as Code
 
-Cognito, reports and the agenda parser now have Terraform definitions in `infra/`.
-The live handover is **pending**, not completed: all three components have 40 prepared import blocks
-verified by Remote plans in `Pitch_organisation/peach-dev`. Apply access and
-retention for the second account must be completed before ownership transfer. The CloudFormation templates temporarily retain every
-resource and must be removed only after successful handover. No stack has been
-deleted and no Terraform apply has been run by this migration work.
+Cognito, reports and the agenda parser are managed by Terraform in `infra/`.
+The existing 29 CloudFormation resources were retained and adopted as 40 Terraform
+resources through HCP, with no resource recreation. The three old templates and
+migration imports are removed after the successful adoption and No changes plan.
+Existing users, report objects, client IDs and function URLs are preserved.
 
-See the [migration runbook and submission checklist](docs/lab7-migration.md) and
-[ADR 0007](docs/adr/0007-terraform.md). Initialize an existing HCP workspace:
+HCP organization **Pitch_organisation**, workspace **peach-dev**, runs remotely
+from `purishok/Peach`, branch `main`, working directory `infra`. PRs get speculative
+plans; merges get normal runs with manual apply approval. Separate plan/apply OIDC
+roles in both AWS accounts provide temporary credentials; AWS keys are not stored
+in the workspace. See [bootstrap policies](infra/bootstrap/README.md).
+
+Use Terraform 1.13.5, matching the workspace and validation pipeline:
 
 ```bash
-export TF_CLOUD_ORGANIZATION=Pitch_organisation
-export TF_WORKSPACE=peach-dev
 terraform login
 make infra-init
 make infra-fmt
 make infra-validate
 make infra-plan
-# After a reviewed HCP apply:
+make infra-outputs
 make infra-env
 ```
 
-`auth-deploy`, `reports-deploy`, `ai-deploy` and their old shell entry points are
-compatibility aliases for a plan. They no longer provision stacks or build images.
-GitHub Actions continues to deploy application code; HCP deploys infrastructure.
-Apply cloud dependencies first, then ship code that requires them, in separate
-merges when needed. Infrastructure applies are intentionally absent from Makefile.
+`make infra-env` refreshes public application settings in `.env` using Terraform
+outputs. `report-now` and `reports-list` also read Terraform outputs. Compatibility
+names `auth-deploy`, `reports-deploy`, `ai-deploy` and their shell entry points now
+preview a plan. Applies run only in HCP; Makefile has no apply target.
 
-Non-secret remote inputs are stored as workspace Terraform variables. The tracked
-`infra/terraform.tfvars.example` records the verified dev values; local
-`infra/terraform.tfvars` remains ignored. Secrets stay in sensitive HCP variables.
+Non-secret inputs are HCP workspace Terraform variables, with
+`infra/terraform.tfvars.example` as a reference. Log retention follows its HCL
+default. The Google client secret and report recipients are sensitive workspace
+variables. Local tfvars and credentials are excluded from CLI uploads as well as
+Git. Sensitive values can still exist in state/history; restrict workspace access.
+
+GitHub Actions continues to deploy the application separately. Apply compatible
+infrastructure before shipping code that depends on it, and remove old dependencies
+after callers move. Infrastructure-only changes do not trigger an application deploy.
+
+See [ADR 0007](docs/adr/0007-terraform.md), the
+[migration record](docs/lab7-migration.md), and the
+[post-migration No changes plan](docs/lab7-plan-after-migration.txt).
