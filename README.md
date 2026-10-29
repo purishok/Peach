@@ -703,3 +703,6 @@ after callers move. Infrastructure-only changes do not trigger an application de
 See [ADR 0007](docs/adr/0007-terraform.md), the
 [migration record](docs/lab7-migration.md), and the
 [post-migration No changes plan](docs/lab7-plan-after-migration.txt).
+
+The three submission items and verification links are in
+[Lab 7 submission](docs/lab7-submission.md).
