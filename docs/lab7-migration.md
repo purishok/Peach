@@ -90,12 +90,27 @@ removal follows application migration. Makefile has no terraform apply target.
 
 ## Follow-up verification
 
-The follow-up PR removes migration files and changes the HCL log-retention default
-from 14 to 30 days for the existing three Lambda log groups. The workspace override
-is removed so this value is controlled by reviewed code. Its expected plan is
-0 to add, 3 to change, 0 to destroy. This provides the small VCS change requested
-by the lab; its apply and the timeout drift exercise are recorded in the final
-submission evidence after they complete.
+[PR #2](https://github.com/purishok/Peach/pull/2) removed migration files and
+changed the HCL log-retention default from 14 to 30 days for the existing three
+Lambda log groups. The workspace override was removed. Its merge triggered
+[run-8CARhnbgkM7Rn4B3](https://app.terraform.io/app/Pitch_organisation/workspaces/peach-dev/runs/run-8CARhnbgkM7Rn4B3)
+from GitHub on main. The reviewed apply finished with 0 added, 3 changed and
+0 destroyed; all three actual log groups were checked at 30 days.
+The raw apply log is [lab7-vcs-apply.txt](lab7-vcs-apply.txt).
+
+For the drift exercise, the existing parser timeout was changed manually from
+30 to 31 seconds. HCP plan-only run
+[run-94sJg5TRVWd5dXPN](https://app.terraform.io/app/Pitch_organisation/workspaces/peach-dev/runs/run-94sJg5TRVWd5dXPN)
+detected the difference ([raw plan](lab7-drift-plan.txt)). Reviewed HCP run
+[run-h3bFCNMMsgPXVyLh](https://app.terraform.io/app/Pitch_organisation/workspaces/peach-dev/runs/run-h3bFCNMMsgPXVyLh)
+restored the timeout to 30 seconds. AWS reported Active / Successful afterwards.
+
+The final remote CLI plan,
+[run-KcPkERVYvY8YpKbJ](https://app.terraform.io/app/Pitch_organisation/workspaces/peach-dev/runs/run-KcPkERVYvY8YpKbJ),
+again reports `No changes. Your infrastructure matches the configuration.`
+Its unmodified output is [lab7-plan.txt](lab7-plan.txt).
+The site login, API health endpoint and Cognito JWKS returned HTTP 200; the parser
+correctly rejected an unauthenticated request with HTTP 401.
 
 For a real emergency console repair, commit the intended HCL promptly: otherwise
 the next apply restores the old code-defined configuration. HCP locking serializes
