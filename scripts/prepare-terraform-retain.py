@@ -4,6 +4,7 @@ import argparse
 import json
 import os
 from pathlib import Path
+import re
 import subprocess
 
 
@@ -23,10 +24,12 @@ def main():
 
     template = read("cloudformation", "get-template", "--stack-name", args.stack,
                     "--template-stage", "Original")["TemplateBody"]
+    yaml_body = None
     if isinstance(template, str):
         try:
             template = json.loads(template)
         except json.JSONDecodeError:
+            yaml_body = template
             try:
                 import yaml
             except ImportError as error:
@@ -55,15 +58,39 @@ def main():
     parameters = [{"ParameterKey": p["ParameterKey"], "UsePreviousValue": True}
                   for p in stack.get("Parameters", [])]
     args.output.mkdir(parents=True, exist_ok=True, mode=0o700)
+    # Preserve YAML intrinsic syntax: reserializing !GetAtt from scalar to list
+    # can produce a spurious DirectModification in a CloudFormation change set.
+    if yaml_body is not None:
+        lines = []
+        inside = False
+        count = 0
+        for line in yaml_body.splitlines():
+            if line == "Resources:":
+                inside = True
+            elif inside and re.match(r"^\S", line):
+                inside = False
+            if inside and re.match(r"^    (DeletionPolicy|UpdateReplacePolicy):", line):
+                continue
+            lines.append(line)
+            if inside and re.match(r"^  [A-Za-z0-9]+:$", line):
+                lines.extend(["    DeletionPolicy: Retain", "    UpdateReplacePolicy: Retain"])
+                count += 1
+        if count != len(template["Resources"]):
+            raise SystemExit("Unsupported YAML indentation; no retention template written.")
+        template_name, template_text = "retain.yaml", "\n".join(lines) + "\n"
+    else:
+        template_name, template_text = "retain.json", json.dumps(template, indent=2) + "\n"
+    fd = os.open(args.output / template_name, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+    with os.fdopen(fd, "w") as stream:
+        stream.write(template_text)
     # Parameters contain only keys, never values or NoEcho secrets.
-    for name, value in [("retain.json", template), ("parameters.json", parameters),
-                        ("resources.json", inventory)]:
+    for name, value in [("parameters.json", parameters), ("resources.json", inventory)]:
         path = args.output / name
         fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
         with os.fdopen(fd, "w") as stream:
             json.dump(value, stream, indent=2)
             stream.write("\n")
-    print(f"Prepared retention-only update for {args.stack}; AWS was not changed.")
+    print(f"Prepared {args.output / template_name} for {args.stack}; AWS was not changed.")
 
 
 if __name__ == "__main__":

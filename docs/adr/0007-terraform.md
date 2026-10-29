@@ -1,79 +1,74 @@
 # ADR 0007 — Terraform and HCP Terraform for Labs 4–6
 
 Date: 2026-10-29
-Status: Proposed; migration in progress; HCP speculative plans and reviewed adoption deltas verified.
+Status: Accepted
 
 ## Context
 
 Peach has Cognito in us-east-1 and weekly reports in eu-north-1 in account
-505464394565. The agenda parser is a separate CloudFormation stack,
-peach-ai-sonnet, in account 985040259102. Existing users, reports, queue messages,
-public client IDs and the parser URL must survive adoption. Earlier network,
-ECS/database, frontend, GitHub OIDC and AI budget infrastructure remains outside
-this migration. AWS service control policies still constrain both accounts.
+505464394565. Its parser runs in eu-north-1 in account 985040259102. Existing
+users, reports, client IDs, generated IAM role names and Lambda URLs must survive
+an ownership transfer. Earlier network, ECS/database, frontend, GitHub OIDC and
+AI budget infrastructure remains outside this migration.
 
 ## Decision
 
-Use one Terraform root in infra/ and one HCP Terraform Remote workspace per
-environment. Adopt existing resources through import blocks after CloudFormation
-has released every resource with both retention policies. Preserve physical names
-and imported values, including generated IAM role names. Reject creations and replacements in the adoption plan. Four reviewed in-place
-entries preserve behavior: three only add sensitive annotations, and the fourth
-makes the existing implicit one-hour access/ID token lifetime explicit. Split S3 settings and notifications,
-IAM inline policies and the shared SQS policy into the provider's resource model.
-Protect the user pool and reports bucket with prevent_destroy and keep bucket
-force_destroy false. This protects against replacement while the blocks remain
-in configuration; it is not a backup or protection against console deletion.
+Manage auth, reports and AI in one Terraform root, infra/, with HCP Terraform
+Remote execution and locked state in Pitch_organisation/peach-dev. The migration
+imported 40 provider resources representing 29 existing CloudFormation resources;
+S3 settings, inline IAM policies and the shared SQS policy account for the splits.
+No resources were recreated. CloudFormation released every resource with both
+retention policies set to Retain before the HCP VCS-triggered adoption apply.
 
-Use separate AWS provider credentials for the main and parser accounts, with the
-same main-account credentials for the us-east-1 auth alias. HCP exchanges OIDC
-claims for short-lived roles in each account. Trust is restricted to the chosen
-organization, project and workspace, with the audience aws.workload.identity;
-only run_phase may vary. Account IDs are checked by providers. No permanent AWS
-keys are stored in HCP or Git.
+The four reviewed adoption updates preserve behavior: three add sensitive-value
+annotations without changing values, and one makes Cognito's existing implicit
+one-hour access/ID token lifetime explicit. The user pool and reports bucket have
+prevent_destroy; the bucket also has force_destroy=false. These protections do
+not replace backups or protect resources after their blocks are removed.
 
-A contributor or assistant proposes HCL in a branch. A person reviews the refreshed
-plan and merges it. HCP plans PRs and applies merged changes; the Makefile has no
-apply target. GitHub Actions continues to deploy the ECS application through its
-existing OIDC role. A change requiring a new cloud dependency is delivered in two
-steps: apply compatible infrastructure first, then deploy dependent application
-code. Removing an old dependency happens after all callers have moved away.
-Emergency console fixes must promptly become reviewed HCL, before the next apply
-would undo them. Assistants may draft and plan; they do not approve replacements
-or perform a laptop apply.
+Use separate OIDC credentials for the two accounts, with main-account credentials
+also used by the auth region alias. Plan and apply roles have separate exact
+subjects restricted to the organization, project, workspace and respective run
+phase. Apply roles add only scoped reviewed writes to ReadOnlyAccess; PassRole is
+limited to existing Lambda runtime roles. The bootstrap trust/policy documents
+are recorded in infra/bootstrap/. No permanent AWS keys are stored in HCP or Git.
+
+Contributors and assistants propose branches. An authorized reviewer inspects the
+refreshed plan, merges, and approves the HCP apply. Auto-apply stays disabled.
+There is no apply target in Makefile. GitHub Actions continues deploying the
+application through its existing OIDC role. Apply compatible infrastructure first,
+then deploy dependent application code; remove old dependencies after callers move.
+Console emergency fixes must promptly become reviewed HCL before the next apply.
 
 ## Alternatives
 
-CloudFormation avoids operating our own state backend and offers rollback, but is
-AWS-specific and retains its intrinsic-function and nested-stack overhead. CDK
-would improve authoring in a general-purpose language but still produces
-CloudFormation and retains the same provider boundary. OpenTofu offers an open
-license and compatible HCL; it is a credible future option. Terraform is selected
-here for the course's HCP workflow, provider tooling and multi-account/environment
-workflow. External Google OAuth and GitHub resources can later join the same
-review process; this migration does not claim to manage them already.
+CloudFormation owns state and provides rollback, but is AWS-specific. CDK improves
+authoring while retaining CloudFormation's deployment model. OpenTofu is a credible
+open-license alternative. Terraform is selected for this course's HCP workflow,
+provider ecosystem, and a consistent multi-account/environment review process.
+Google OAuth and GitHub can be managed later; this migration does not claim them.
+A future environment needs its own state and isolated names, with shared modules
+and parameterized role names; dev imports must never be reused for staging.
 
 ## Consequences
 
-Non-secret dev values are configured in HCP workspace Terraform variables, with
-a tracked terraform.tfvars.example for reproduction. Local terraform.tfvars is ignored. The Google OAuth secret
-and report recipients are sensitive workspace Terraform variables. The database
-URL stays in AWS Secrets Manager but is read into Lambda configuration by Terraform.
-Sensitive values, including the Google secret and resolved database URL, also exist
-in HCP state and possibly saved plans, historical state versions, local .env and
-AWS service configuration. sensitive hides ordinary plan rendering, not state or
-JSON exports. Only trusted operators receive workspace/state access. Local state,
-plans, credential files and private migration snapshots must not enter Git or CI
-logs. Rotate secrets if such artifacts leak. HCP API tokens remain in Terraform's
-local credential store, never repository files.
+Non-secret inputs are workspace Terraform variables, with a tracked
+terraform.tfvars.example; log retention follows the HCL default. Local tfvars is
+ignored by Git and excluded from CLI uploads. The Google OAuth secret and report
+recipients are sensitive workspace variables. The database URL remains in Secrets
+Manager but is resolved into Lambda configuration and Terraform state.
 
-If HCP is unavailable, running application resources continue to work, while
-infrastructure changes wait. Do not start an independent local state. In an urgent
-incident an authorized operator may make a documented AWS repair, followed by HCL
-reconciliation before HCP resumes. For a prolonged outage, restore a securely
-exported state version to a reviewed remote backend with locking, after disabling
-all previous writers. Terraform does not automatically roll back failed applies;
-inspect the partial state and real resources, fix the cause, then plan again.
+Sensitive values also exist in HCP state/history and potentially saved plans,
+local .env and AWS configuration. sensitive hides ordinary rendering, not state or
+JSON exports. Restrict workspace/state access to trusted operators. Keep state,
+plans, credentials and private snapshots out of Git and CI logs; rotate leaked
+secrets. HCP API tokens stay in the local Terraform credential store.
 
-Migration counts and evidence are tracked in [the runbook](../lab7-migration.md); they must be
-updated after the actual adoption, rather than treating preparation as completion.
+If HCP is unavailable, running AWS resources continue serving traffic while
+infrastructure changes wait. Never start an independent local state. An authorized
+operator may make a documented emergency AWS repair and reconcile HCL before HCP
+resumes. For a prolonged outage, disable old writers and restore a securely
+exported state version to a reviewed backend with locking. Terraform does not
+roll back automatically: inspect partial state/resources, fix the cause, then plan.
+
+Evidence and resource-preservation checks: [migration record](../lab7-migration.md).
