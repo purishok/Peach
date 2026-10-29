@@ -20,6 +20,11 @@ The two-account OIDC **plan** succeeds in HCP. The first two speculative runs ar
 - HCP non-secret inputs have been reconciled with the existing deployment. The
   actual secrets remain sensitive workspace variables. The non-secret reference
   is `infra/terraform.tfvars.example`; local terraform.tfvars stays ignored.
+- [PR #1](https://github.com/purishok/Peach/pull/1) tracks the migration. Linux and
+  macOS provider checksums are both locked for GitHub/HCP and local validation.
+- After the Retain updates, main-account resource IDs remain unchanged, the Cognito
+  pool contains 4 users and the reports prefix contains 4 objects. These counts
+  are the preservation baseline for the eventual ownership handover.
 - Main-account apply role is created with exact apply-phase/workspace trust,
   ReadOnlyAccess and narrowly scoped writes. See `infra/bootstrap/`.
 - Retention-only CloudFormation changesets for peach-auth and peach-reports passed
