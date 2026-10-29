@@ -28,8 +28,8 @@ ECS_CONTAINER_NAME="${ECS_CONTAINER_NAME:-peach-backend}"
 for tool in aws curl jq; do
   command -v "${tool}" >/dev/null 2>&1 || die "${tool} is required but not installed"
 done
-[[ -n "${COGNITO_USER_POOL_ID:-}" ]] || die "COGNITO_USER_POOL_ID is missing; run make auth-deploy"
-[[ -n "${COGNITO_CLIENT_ID:-}" ]] || die "COGNITO_CLIENT_ID is missing; run make auth-deploy"
+[[ -n "${COGNITO_USER_POOL_ID:-}" ]] || die "COGNITO_USER_POOL_ID is missing; run make infra-env"
+[[ -n "${COGNITO_CLIENT_ID:-}" ]] || die "COGNITO_CLIENT_ID is missing; run make infra-env"
 
 jwks_url="https://cognito-idp.${COGNITO_REGION}.amazonaws.com/${COGNITO_USER_POOL_ID}/.well-known/jwks.json"
 log "fetching Cognito signing keys"

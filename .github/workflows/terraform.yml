@@ -1,0 +1,21 @@
+name: Terraform validation
+on:
+  pull_request:
+    paths: ['infra/**', '.github/workflows/terraform.yml']
+  push:
+    branches: [main]
+    paths: ['infra/**', '.github/workflows/terraform.yml']
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.13.5
+      - run: terraform -chdir=infra fmt -check
+      - run: terraform -chdir=infra init -backend=false -input=false -lockfile=readonly
+      - run: terraform -chdir=infra validate
+# Resource-aware PR plans and merge applies run in the HCP VCS workspace.

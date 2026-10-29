@@ -18,28 +18,38 @@ parse:
 ai-eval:
 	cd backend && UV_CACHE_DIR=/tmp/peach-ai-uv-cache uv run python -m app.ai.eval_lab6
 
-ai-deploy:
-	./scripts/deploy-ai.sh
+TERRAFORM ?= terraform
+export TERRAFORM
 
-auth-deploy:
-	AUTH_AWS_REGION="$(AUTH_AWS_REGION)" \
-	FRONTEND_URL="$(FRONTEND_URL)" \
-	CLOUDFRONT_DISTRIBUTION_ID="$(CLOUDFRONT_DISTRIBUTION_ID)" \
-	./scripts/deploy-cognito.sh
+.PHONY: infra-init infra-fmt infra-validate infra-plan infra-outputs infra-env
+infra-init:
+	$(TERRAFORM) -chdir=infra init
 
-auth-outputs:
-	@set -a; test ! -f .env || . ./.env; set +a; \
-	aws cloudformation describe-stacks \
-		--region "$(AUTH_AWS_REGION)" \
-		--stack-name "$${AUTH_STACK_NAME:-$${PROJECT_NAME:-peach}-auth}" \
-		--query 'Stacks[0].Outputs[].{Name:OutputKey,Value:OutputValue}' \
-		--output table
+infra-fmt:
+	$(TERRAFORM) -chdir=infra fmt -check
+
+infra-validate:
+	$(TERRAFORM) -chdir=infra validate
+
+infra-plan:
+	$(TERRAFORM) -chdir=infra plan
+
+infra-outputs:
+	$(TERRAFORM) -chdir=infra output
+
+infra-env:
+	python3 scripts/terraform-public-env.py
+
+# Compatibility names now preview infrastructure. Apply in HCP after review.
+ai-deploy auth-deploy reports-deploy: infra-plan
+
+auth-outputs: infra-outputs
 
 configure-ecs-auth:
 	AWS_REGION="$(AWS_REGION)" ./scripts/configure-ecs-cognito.sh
 
 deploy-lab4:
-	$(MAKE) auth-deploy
+	$(MAKE) infra-env
 	$(MAKE) configure-ecs-auth
 	$(MAKE) deploy-frontend
 
@@ -56,18 +66,11 @@ deploy-backend:
 github-role:
 	AWS_REGION="$(AWS_REGION)" ./scripts/github-role.sh
 
-reports-deploy:
-	AWS_REGION="$(AWS_REGION)" ./scripts/deploy-reports.sh
-
 report-now:
 	AWS_REGION="$(AWS_REGION)" WEEK="$(WEEK)" ./scripts/report-now.sh
 
 reports-list:
-	@set -a; test ! -f .env || . ./.env; set +a; \
-	bucket="$$(aws cloudformation describe-stacks --region "$(AWS_REGION)" \
-		--stack-name "$${REPORTS_STACK_NAME:-$${PROJECT_NAME:-peach}-reports}" \
-		--query "Stacks[0].Outputs[?OutputKey=='ReportsBucketName'].OutputValue | [0]" \
-		--output text)"; \
+	@bucket="$$($(TERRAFORM) -chdir=infra output -raw reports_bucket_name)"; \
 	aws s3 ls "s3://$$bucket/reports/" --recursive --region "$(AWS_REGION)"
 
 reports-logs:
