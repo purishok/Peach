@@ -1,0 +1,29 @@
+# Existing dev deployment. Secrets and recipients belong in HCP workspace variables.
+application_callback_url   = "https://dqvalqr0apze.cloudfront.net/auth/callback"
+application_logout_url     = "https://dqvalqr0apze.cloudfront.net/"
+architecture               = "arm64"
+builder_memory_size        = 512
+cognito_domain_prefix      = "peach738-auth"
+create_ses_email_identity  = false
+database_secret_arn        = "arn:aws:secretsmanager:eu-north-1:505464394565:secret:peach/rds/credentials-kZnSH2"
+database_security_group_id = "sg-0ed5ca6ee095140ef"
+failure_test_week          = ""
+google_client_id           = "960076429079-64p0v9p70c8u13sla57vac9m7vt48sno.apps.googleusercontent.com"
+local_callback_url         = "http://localhost:3000/auth/callback"
+local_logout_url           = "http://localhost:3000/"
+log_retention_days         = 14
+project_name               = "peach"
+report_sender_email        = "westagroinvest3@gmail.com"
+reports_image_uri          = "505464394565.dkr.ecr.eu-north-1.amazonaws.com/peach-backend:df6c5512921d-reports-dirty-20261014175833"
+route_table_ids            = ["rtb-08ca7b275d94c28f9"]
+ses_identity_name          = "westagroinvest3@gmail.com"
+subnet_ids                 = ["subnet-0b8ec060c4d4e4f0a", "subnet-0a7dcf0a2d288261c", "subnet-0b9a1b5b9dac52549"]
+vpc_id                     = "vpc-0ab26f4af42181d93"
+
+# Existing parser in account 985040259102 (peach-ai-sonnet).
+enable_ai            = true
+parser_image_uri     = "985040259102.dkr.ecr.eu-north-1.amazonaws.com/peach-backend:11c30253a5f3-20261021173833"
+parser_model         = "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
+parser_api           = "converse"
+reserved_concurrency = 0
+site_origin          = "https://dqvalqr0apze.cloudfront.net"

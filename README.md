@@ -381,7 +381,7 @@ The generated project was checked end to end:
 
 The live Lab 2 site remains on CloudFront/S3 with `/api/*` proxied to the existing ECS/Fargate
 service and ALB in `eu-north-1`. Lab 4 adds only an auth stack in `us-east-1`; it does not replace
-or redeploy the backend. `infra/cognito.yaml` creates the user pool, Google provider, public app
+or redeploy the backend. `infra/auth.tf` describes the user pool, Google provider, public app
 client, v2 Cognito domain, and managed-login branding. `react-oidc-context` and `oidc-client-ts`
 perform Authorization Code + PKCE in the static frontend.
 
@@ -395,8 +395,8 @@ cp .env.example .env
 ```
 
 Prefer `AWS_PROFILE` in `.env` or an authenticated AWS CLI session. Do not put AWS access keys in
-frontend variables. `.env` is gitignored and the Google secret is passed only to CloudFormation as
-a `NoEcho` parameter; it is never compiled into the browser bundle.
+frontend variables. `.env` is gitignored. Set the Google secret as a sensitive HCP Terraform
+variable; it also exists in state and must never be compiled into the browser bundle.
 
 In Google Cloud:
 
@@ -408,7 +408,8 @@ In Google Cloud:
    `https://<COGNITO_DOMAIN_PREFIX>.auth.us-east-1.amazoncognito.com`.
 5. Set the authorized redirect URI to
    `https://<COGNITO_DOMAIN_PREFIX>.auth.us-east-1.amazoncognito.com/oauth2/idpresponse`.
-6. Put the resulting ID and secret in the local `.env` file.
+6. Put the ID in HCP Terraform variable `google_client_id` and the secret in the HCP workspace as
+   sensitive Terraform variable `google_client_secret`. Local CLI tools may use `.env`.
 
 Deploy auth, attach its outputs to the already Cognito-aware ECS task, and deploy the static
 frontend together:
@@ -417,10 +418,11 @@ frontend together:
 make deploy-lab4
 ```
 
-`make auth-deploy` can deploy Cognito alone, and `make auth-outputs` displays its non-secret
-CloudFormation outputs. The auth deploy reads the exact frontend origin and writes the public
-pool ID, client ID, authority, domain, callback, and logout URI into `.env`; no manual copying is
-required. `make configure-ecs-auth` registers a new revision of the active task definition with
+After the HCP migration described in [Lab 7](docs/lab7-migration.md),
+`make infra-plan` previews infrastructure and `make auth-outputs` displays public
+Terraform outputs. `make infra-env` writes the public pool ID, client ID, authority,
+domain, callback, logout URI and parser URL into `.env`.
+`make configure-ecs-auth` registers a new revision of the active task definition with
 those Cognito IDs and public signing keys; it preserves the image, service, ALB, RDS, secrets, and
 all other task settings. This wires the authentication support already present in the backend and
 does not add or change protected API routes. The frontend deployment also narrows the legacy
@@ -646,11 +648,47 @@ local parser run. `make ai-eval` replays the five lab inputs with a fixed date.
 In the deployed setup, set `AWS_PROFILE=bedrock-test`, `PARSER_API=converse`,
 and `PARSER_MODEL=us.anthropic.claude-sonnet-4-5-20250929-v1:0` for these
 commands. The account could invoke Sonnet 4.5 through Converse; Opus 5.5
-through the Messages API returned 403. `make ai-deploy` builds the Lambda image,
-deploys `infra/ai.yml` and optionally the budget from `infra/ai-budget.yml`,
-and writes its function URL to `.env` as `PARSER_URL`. The current parser stack
-is `peach-ai-sonnet`, with `PARSER_RESERVED_CONCURRENCY=0` for this account's
-Lambda quota. Deploy the frontend separately with the main application's AWS
-profile to compile that URL into the static site. The Cognito pool and client
-IDs must already be configured. The [submission evidence](docs/lab6-submission.md)
+through the Messages API returned 403. Parser infrastructure is described by
+`infra/ai.tf` with provider alias `aws.ai` for account `985040259102`; its existing
+CloudFormation name is `peach-ai-sonnet`. The $5 budget remains in
+`infra/ai-budget.yml`. The AI provider checks account `985040259102` and its seven import blocks preserve
+the existing resources. Dev tfvars set `enable_ai=true` and preserve the deployed
+model, API, image and concurrency rather than the original template defaults. Use `make infra-plan` to
+preview changes; HCP applies after merge. Then `make infra-env` refreshes public
+outputs and frontend deployment compiles `NEXT_PUBLIC_PARSER_URL`. The [submission evidence](docs/lab6-submission.md)
 has the deployed URL, five-input results, CloudWatch line and recording.
+
+
+# Lab 7: Infrastructure as Code
+
+Cognito, reports and the agenda parser now have Terraform definitions in `infra/`.
+The live handover is **pending**, not completed: all three components have 40 prepared import blocks
+verified by Remote plans in `Pitch_organisation/peach-dev`. Apply access and
+retention for the second account must be completed before ownership transfer. The CloudFormation templates temporarily retain every
+resource and must be removed only after successful handover. No stack has been
+deleted and no Terraform apply has been run by this migration work.
+
+See the [migration runbook and submission checklist](docs/lab7-migration.md) and
+[ADR 0007](docs/adr/0007-terraform.md). Initialize an existing HCP workspace:
+
+```bash
+export TF_CLOUD_ORGANIZATION=Pitch_organisation
+export TF_WORKSPACE=peach-dev
+terraform login
+make infra-init
+make infra-fmt
+make infra-validate
+make infra-plan
+# After a reviewed HCP apply:
+make infra-env
+```
+
+`auth-deploy`, `reports-deploy`, `ai-deploy` and their old shell entry points are
+compatibility aliases for a plan. They no longer provision stacks or build images.
+GitHub Actions continues to deploy application code; HCP deploys infrastructure.
+Apply cloud dependencies first, then ship code that requires them, in separate
+merges when needed. Infrastructure applies are intentionally absent from Makefile.
+
+Non-secret remote inputs are stored as workspace Terraform variables. The tracked
+`infra/terraform.tfvars.example` records the verified dev values; local
+`infra/terraform.tfvars` remains ignored. Secrets stay in sensitive HCP variables.

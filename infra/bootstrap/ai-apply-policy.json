@@ -1,0 +1,34 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "RestoreReviewedParserConfiguration",
+      "Effect": "Allow",
+      "Action": [
+        "lambda:UpdateFunctionConfiguration"
+      ],
+      "Resource": "arn:aws:lambda:eu-north-1:985040259102:function:peach-agenda-parser"
+    },
+    {
+      "Sid": "ReviewedParserRetentionChange",
+      "Effect": "Allow",
+      "Action": [
+        "logs:PutRetentionPolicy"
+      ],
+      "Resource": "arn:aws:logs:eu-north-1:985040259102:log-group:/aws/lambda/peach-agenda-parser:*"
+    },
+    {
+      "Sid": "PassExistingParserRuntimeRoleOnly",
+      "Effect": "Allow",
+      "Action": [
+        "iam:PassRole"
+      ],
+      "Resource": "arn:aws:iam::985040259102:role/peach-ai-sonnet-ParserRole-bKIYeXFKNxBU",
+      "Condition": {
+        "StringEquals": {
+          "iam:PassedToService": "lambda.amazonaws.com"
+        }
+      }
+    }
+  ]
+}

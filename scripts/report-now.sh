@@ -41,11 +41,7 @@ except ValueError as error:
     raise SystemExit(f"invalid ISO week: {value}") from error
 PY
 
-QUEUE_URL="$(aws cloudformation describe-stacks \
-  --region "${AWS_REGION}" \
-  --stack-name "${REPORTS_STACK_NAME}" \
-  --query "Stacks[0].Outputs[?OutputKey=='ReportRequestsQueueUrl'].OutputValue | [0]" \
-  --output text)"
+QUEUE_URL="$("${TERRAFORM:-terraform}" -chdir="${ROOT}/infra" output -raw report_requests_queue_url)"
 MESSAGE_BODY="$(python3 - "${WEEK}" <<'PY'
 import json
 import sys

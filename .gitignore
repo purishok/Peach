@@ -219,3 +219,24 @@ __marimo__/
 # Lab 6 submission media stays in the private ZIP, never in Git.
 docs/lab6-submission.pdf
 docs/media/lab6-paste-agenda.mp4
+
+# Terraform state and plans may contain credentials. Commit the provider lockfile.
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+tfplan
+crash.log
+crash.*.log
+*.secret.tfvars
+*.secret.tfvars.json
+.env.terraform-tmp
+
+# Local Terraform variables (may contain secrets)
+/infra/terraform.tfvars
+/infra/*.auto.tfvars
+/infra/*.tfvars.json
+/infra/.terraform/
+/infra/*.tfstate
+/infra/*.tfstate.*
+/infra/*.tfplan

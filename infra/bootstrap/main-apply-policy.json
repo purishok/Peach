@@ -1,0 +1,60 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AuthReviewedAdoptionWrites",
+      "Effect": "Allow",
+      "Action": [
+        "cognito-idp:UpdateIdentityProvider",
+        "cognito-idp:UpdateUserPoolClient"
+      ],
+      "Resource": [
+        "arn:aws:cognito-idp:us-east-1:505464394565:userpool/us-east-1_Mqco1qka2"
+      ]
+    },
+    {
+      "Sid": "ReportsReviewedAdoptionWrites",
+      "Effect": "Allow",
+      "Action": [
+        "lambda:UpdateFunctionConfiguration"
+      ],
+      "Resource": [
+        "arn:aws:lambda:eu-north-1:505464394565:function:peach-report-builder",
+        "arn:aws:lambda:eu-north-1:505464394565:function:peach-report-mailer"
+      ]
+    },
+    {
+      "Sid": "ReviewedRetentionChange",
+      "Effect": "Allow",
+      "Action": [
+        "logs:PutRetentionPolicy"
+      ],
+      "Resource": [
+        "arn:aws:logs:eu-north-1:505464394565:log-group:/aws/lambda/peach-report-builder:*",
+        "arn:aws:logs:eu-north-1:505464394565:log-group:/aws/lambda/peach-report-mailer:*"
+      ]
+    },
+    {
+      "Sid": "PassExistingReportRuntimeRolesOnly",
+      "Effect": "Allow",
+      "Action": [
+        "iam:PassRole"
+      ],
+      "Resource": [
+        "arn:aws:iam::505464394565:role/peach-reports-ReportBuilderRole-fgH98bfpuOcI",
+        "arn:aws:iam::505464394565:role/peach-reports-ReportMailerRole-mio3Ev1tiq9c"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "iam:PassedToService": "lambda.amazonaws.com"
+        }
+      }
+    },
+    {
+      "Sid": "ReadExistingReportDatabaseUrl",
+      "Effect": "Allow",
+      "Action": "secretsmanager:GetSecretValue",
+      "Resource": "arn:aws:secretsmanager:eu-north-1:505464394565:secret:peach/rds/credentials-kZnSH2"
+    }
+  ]
+}

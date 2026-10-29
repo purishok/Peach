@@ -56,6 +56,8 @@ Conditions:
   ReserveParserConcurrency: !Not [!Equals [!Ref ReservedConcurrency, 0]]
 Resources:
   ParserLogGroup:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::Logs::LogGroup
     Properties:
       LogGroupName: !Sub "/aws/lambda/${ProjectName}-agenda-parser"
@@ -64,6 +66,8 @@ Resources:
         - Key: PROJECT_NAME
           Value: !Ref ProjectName
   ParserRole:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::IAM::Role
     Metadata:
       com.aws.cloudformation.Context:
@@ -94,6 +98,8 @@ Resources:
         - Key: PROJECT_NAME
           Value: !Ref ProjectName
   ParserFunction:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::Lambda::Function
     Metadata:
       com.aws.cloudformation.Context:
@@ -129,6 +135,8 @@ Resources:
         - Key: PROJECT_NAME
           Value: !Ref ProjectName
   ParserUrl:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::Lambda::Url
     Metadata:
       com.aws.cloudformation.Context:
@@ -143,6 +151,8 @@ Resources:
         AllowHeaders: [authorization, content-type]
         MaxAge: 300
   ParserUrlPermission:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::Lambda::Permission
     Properties:
       FunctionName: !Ref ParserFunction
@@ -150,6 +160,8 @@ Resources:
       Principal: "*"
       FunctionUrlAuthType: NONE
   ParserInvokePermission:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::Lambda::Permission
     Properties:
       FunctionName: !Ref ParserFunction

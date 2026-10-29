@@ -63,9 +63,9 @@ API_URL="${API_URL%/}"
 
 log "building against ${API_URL}"
 
-# These public values are written from CloudFormation outputs by auth-deploy.
+# These public values are written from Terraform outputs by infra-env.
 for var in COGNITO_AUTHORITY COGNITO_CLIENT_ID COGNITO_DOMAIN COGNITO_REDIRECT_URI COGNITO_LOGOUT_URI; do
-  [[ -n "${!var:-}" ]] || die "${var} is not set in .env - run make auth-deploy first"
+  [[ -n "${!var:-}" ]] || die "${var} is not set in .env - run make infra-env first"
 done
 
 # The function URL is always HTTPS; plain HTTP here means a hand-edited .env.
@@ -139,9 +139,9 @@ fi
 
 SITE_URL="${SITE_URL%/}"
 [[ "${COGNITO_REDIRECT_URI}" == "${SITE_URL}/auth/callback" ]] \
-  || die "COGNITO_REDIRECT_URI does not match this deployment; run make auth-deploy"
+  || die "COGNITO_REDIRECT_URI does not match this deployment; run make infra-env"
 [[ "${COGNITO_LOGOUT_URI}" == "${SITE_URL}/" ]] \
-  || die "COGNITO_LOGOUT_URI does not match this deployment; run make auth-deploy"
+  || die "COGNITO_LOGOUT_URI does not match this deployment; run make infra-env"
 
 # --- build ------------------------------------------------------------------
 

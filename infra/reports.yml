@@ -70,10 +70,10 @@ Conditions:
 
 Resources:
   ReportsBucket:
-    Type: AWS::S3::Bucket
-    DependsOn: MailerInvokePermission
     DeletionPolicy: Retain
     UpdateReplacePolicy: Retain
+    Type: AWS::S3::Bucket
+    DependsOn: MailerInvokePermission
     Metadata:
       com.aws.cloudformation.Context:
         why: private result store and event bridge between builder and mailer; same week overwrites same key
@@ -122,6 +122,8 @@ Resources:
           Value: !Ref ProjectName
 
   ReportsBucketPolicy:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::S3::BucketPolicy
     Metadata:
       com.aws.cloudformation.Context:
@@ -144,6 +146,8 @@ Resources:
                 aws:SecureTransport: "false"
 
   S3GatewayEndpoint:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::EC2::VPCEndpoint
     Metadata:
       com.aws.cloudformation.Context:
@@ -160,6 +164,8 @@ Resources:
           Value: !Ref ProjectName
 
   ReportRequestsDlq:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::SQS::Queue
     Metadata:
       com.aws.cloudformation.Context:
@@ -174,6 +180,8 @@ Resources:
           Value: !Ref ProjectName
 
   ReportRequestsQueue:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::SQS::Queue
     Metadata:
       com.aws.cloudformation.Context:
@@ -196,6 +204,8 @@ Resources:
           Value: !Ref ProjectName
 
   ReportQueuePolicy:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::SQS::QueuePolicy
     Metadata:
       com.aws.cloudformation.Context:
@@ -224,6 +234,8 @@ Resources:
                 aws:SecureTransport: "false"
 
   ReportBuilderSecurityGroup:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::EC2::SecurityGroup
     Metadata:
       com.aws.cloudformation.Context:
@@ -242,6 +254,8 @@ Resources:
           Value: !Ref ProjectName
 
   DatabaseIngressFromReportBuilder:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::EC2::SecurityGroupIngress
     Metadata:
       com.aws.cloudformation.Context:
@@ -256,9 +270,9 @@ Resources:
       SourceSecurityGroupId: !Ref ReportBuilderSecurityGroup
 
   ReportBuilderLogGroup:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::Logs::LogGroup
-    DeletionPolicy: Delete
-    UpdateReplacePolicy: Delete
     Properties:
       LogGroupName: !Sub "/aws/lambda/${ProjectName}-report-builder"
       RetentionInDays: !Ref LogRetentionDays
@@ -267,6 +281,8 @@ Resources:
           Value: !Ref ProjectName
 
   ReportBuilderRole:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::IAM::Role
     Metadata:
       com.aws.cloudformation.Context:
@@ -314,6 +330,8 @@ Resources:
           Value: !Ref ProjectName
 
   ReportBuilderFunction:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::Lambda::Function
     DependsOn: DatabaseIngressFromReportBuilder
     Metadata:
@@ -354,6 +372,8 @@ Resources:
           Value: !Ref ProjectName
 
   ReportQueueEventSource:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::Lambda::EventSourceMapping
     Metadata:
       com.aws.cloudformation.Context:
@@ -366,6 +386,8 @@ Resources:
       FunctionName: !Ref ReportBuilderFunction
 
   SchedulerRole:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::IAM::Role
     Metadata:
       com.aws.cloudformation.Context:
@@ -396,6 +418,8 @@ Resources:
           Value: !Ref ProjectName
 
   WeeklyReportSchedule:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::Scheduler::Schedule
     Metadata:
       com.aws.cloudformation.Context:
@@ -420,6 +444,8 @@ Resources:
           MaximumRetryAttempts: 3
 
   SesEmailIdentity:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::SES::EmailIdentity
     Condition: ShouldCreateSesIdentity
     Metadata:
@@ -433,9 +459,9 @@ Resources:
           Value: !Ref ProjectName
 
   ReportMailerLogGroup:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::Logs::LogGroup
-    DeletionPolicy: Delete
-    UpdateReplacePolicy: Delete
     Properties:
       LogGroupName: !Sub "/aws/lambda/${ProjectName}-report-mailer"
       RetentionInDays: !Ref LogRetentionDays
@@ -444,6 +470,8 @@ Resources:
           Value: !Ref ProjectName
 
   ReportMailerRole:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::IAM::Role
     Metadata:
       com.aws.cloudformation.Context:
@@ -481,6 +509,8 @@ Resources:
           Value: !Ref ProjectName
 
   ReportMailerFunction:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::Lambda::Function
     Metadata:
       com.aws.cloudformation.Context:
@@ -514,6 +544,8 @@ Resources:
           Value: !Ref ProjectName
 
   MailerInvokePermission:
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Type: AWS::Lambda::Permission
     Metadata:
       com.aws.cloudformation.Context:

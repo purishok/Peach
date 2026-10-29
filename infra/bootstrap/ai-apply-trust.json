@@ -1,0 +1,18 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::985040259102:oidc-provider/app.terraform.io"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "app.terraform.io:aud": "aws.workload.identity",
+          "app.terraform.io:sub": "organization:Pitch_organisation:project:Default Project:workspace:peach-dev:run_phase:apply"
+        }
+      }
+    }
+  ]
+}
