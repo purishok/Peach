@@ -1,0 +1,12 @@
+Перевірка комплектності Lab 8 — 4 листопада 2026
+
+Part 1: у звіті є відповіді на всі три запитання про архітектуру Uklon.
+Part 2: у code.zip є DDL, DISTINCT + row_number, scale, turnover, failure rate, hours, lateness, CTAS і відповідні Parquet-запити. У evidence.zip є CSV результатів, execution metadata для JSON/Parquet, comparison CSV, crawler schema та перевірки partition/failureReason. Звіт пояснює deduplication, schema і billing minimum.
+Part 3: у evidence.zip є consumer logs, summary JSON, window CSV для baseline, restart, two consumers, failure30 та wait0; group membership і before/after window differences. Кожен повний replay прочитав 101084 події.
+Part 4: є pipeline.svg/mmd, producer cloud.py, справжній athena-console.png, CSV/meta запиту, SNS MessageIds, порівняння clocks/гарантій та оцінка витрат. Cleanup verification підтверджує видалення stream-ресурсів.
+Обидва ZIP перевірені на цілісність. Оригінальний PNG збігається з копією в архіві.
+Для LMS: 4 вкладення плюс текст online-text.txt.
+
+Задокументовані відхилення: eu-north-1 замість обов'язкового us-east-1 (SCP); завантаження через локальні файли замість прямого same-region copy; Console 8088 замість 8080; повні replay прискорені, а 20 payments/s перевірено на 100 платежах. Розподіл consumer group підтверджено CLI та логами. Витрати наведені як оцінка, не фінальний рахунок. Користувач погодив використання eu-north-1; погодження викладача не підтверджене.
+
+Ця перевірка підтверджує наявність матеріалів і збережених доказів. Вона не є підтвердженням оцінювання або фактичної здачі в LMS.

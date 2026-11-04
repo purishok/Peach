@@ -1,0 +1,11 @@
+flowchart LR
+  S[Supplied S3 dataset<br/>October 1 JSON Lines] --> P[Python producer<br/>receivedAt replay<br/>invoiceId key]
+  P --> K[Kinesis Data Streams<br/>1 provisioned shard<br/>eu-north-1]
+  K --> F[Amazon Data Firehose<br/>JSON Lines, 60s buffer hint]
+  F --> L[S3 private lab bucket<br/>stream/ prefix]
+  L --> A[Athena + Glue Data Catalog<br/>dedup SQL and failure rate]
+  K --> W[Lambda<br/>60s insertion-time windows<br/>terminal failure rate > 10%]
+  W --> N[SNS topic<br/>no external subscribers in lab]
+  L --> R[Cloud evidence retained]
+  A --> R
+  N --> C[CloudWatch log<br/>SNS message IDs]

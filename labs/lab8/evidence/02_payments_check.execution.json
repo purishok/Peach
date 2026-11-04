@@ -1,0 +1,39 @@
+{
+  "QueryExecutionId": "1510c50b-ddf3-4b12-8caa-97a35c293bff",
+  "Query": "SELECT count(*) final_payments,count(DISTINCT invoiceid) invoices,count_if(status='failure') failures FROM payments",
+  "StatementType": "DML",
+  "ResultConfiguration": {
+    "OutputLocation": "s3://peach-lab8-985040259102-eu-north-1/athena-results/1510c50b-ddf3-4b12-8caa-97a35c293bff.csv"
+  },
+  "ResultReuseConfiguration": {
+    "ResultReuseByAgeConfiguration": {
+      "Enabled": false
+    }
+  },
+  "QueryExecutionContext": {
+    "Database": "peach_lab8"
+  },
+  "Status": {
+    "State": "SUCCEEDED",
+    "SubmissionDateTime": "2026-11-04 17:34:08.865000+02:00",
+    "CompletionDateTime": "2026-11-04 17:34:13.069000+02:00"
+  },
+  "Statistics": {
+    "EngineExecutionTimeInMillis": 4036,
+    "DataScannedInBytes": 1260692423,
+    "TotalExecutionTimeInMillis": 4204,
+    "QueryQueueTimeInMillis": 99,
+    "ServicePreProcessingTimeInMillis": 42,
+    "QueryPlanningTimeInMillis": 295,
+    "ServiceProcessingTimeInMillis": 27,
+    "ResultReuseInformation": {
+      "ReusedPreviousResult": false
+    }
+  },
+  "WorkGroup": "primary",
+  "EngineVersion": {
+    "SelectedEngineVersion": "AUTO",
+    "EffectiveEngineVersion": "Athena engine version 3"
+  },
+  "SubstatementType": "SELECT"
+}

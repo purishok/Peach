@@ -1,0 +1,39 @@
+{
+  "QueryExecutionId": "5ea8fa47-ddef-4bc2-bd04-9704ad91f28a",
+  "Query": "WITH raw AS (\n SELECT count(*) events, count(DISTINCT invoiceid) invoices FROM payment_events),\n exact AS (SELECT count(*) n FROM (SELECT DISTINCT * FROM payment_events))\n SELECT events,invoices,events-n exact_duplicates,\n events-invoices events_beyond_one_per_invoice FROM raw CROSS JOIN exact",
+  "StatementType": "DML",
+  "ResultConfiguration": {
+    "OutputLocation": "s3://peach-lab8-985040259102-eu-north-1/athena-results/5ea8fa47-ddef-4bc2-bd04-9704ad91f28a.csv"
+  },
+  "ResultReuseConfiguration": {
+    "ResultReuseByAgeConfiguration": {
+      "Enabled": false
+    }
+  },
+  "QueryExecutionContext": {
+    "Database": "peach_lab8"
+  },
+  "Status": {
+    "State": "SUCCEEDED",
+    "SubmissionDateTime": "2026-11-04 17:32:07.543000+02:00",
+    "CompletionDateTime": "2026-11-04 17:32:09.895000+02:00"
+  },
+  "Statistics": {
+    "EngineExecutionTimeInMillis": 2173,
+    "DataScannedInBytes": 2521384846,
+    "TotalExecutionTimeInMillis": 2352,
+    "QueryQueueTimeInMillis": 102,
+    "ServicePreProcessingTimeInMillis": 40,
+    "QueryPlanningTimeInMillis": 324,
+    "ServiceProcessingTimeInMillis": 37,
+    "ResultReuseInformation": {
+      "ReusedPreviousResult": false
+    }
+  },
+  "WorkGroup": "primary",
+  "EngineVersion": {
+    "SelectedEngineVersion": "AUTO",
+    "EffectiveEngineVersion": "Athena engine version 3"
+  },
+  "SubstatementType": "SELECT"
+}

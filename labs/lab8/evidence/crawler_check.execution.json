@@ -1,0 +1,39 @@
+{
+  "QueryExecutionId": "74f8ae1d-c35d-433b-8e68-d3ac98ad07df",
+  "Query": "SELECT count(*) events,count(failurereason) reasons,count_if(status='failure') failed_events,count_if(status<>'failure' AND failurereason IS NOT NULL) unexpected_reasons FROM crawler_payments",
+  "StatementType": "DML",
+  "ResultConfiguration": {
+    "OutputLocation": "s3://peach-lab8-985040259102-eu-north-1/athena-results/74f8ae1d-c35d-433b-8e68-d3ac98ad07df.csv"
+  },
+  "ResultReuseConfiguration": {
+    "ResultReuseByAgeConfiguration": {
+      "Enabled": false
+    }
+  },
+  "QueryExecutionContext": {
+    "Database": "peach_lab8"
+  },
+  "Status": {
+    "State": "SUCCEEDED",
+    "SubmissionDateTime": "2026-11-04 17:34:19.943000+02:00",
+    "CompletionDateTime": "2026-11-04 17:34:21.785000+02:00"
+  },
+  "Statistics": {
+    "EngineExecutionTimeInMillis": 1660,
+    "DataScannedInBytes": 1260692423,
+    "TotalExecutionTimeInMillis": 1842,
+    "QueryQueueTimeInMillis": 111,
+    "ServicePreProcessingTimeInMillis": 42,
+    "QueryPlanningTimeInMillis": 275,
+    "ServiceProcessingTimeInMillis": 29,
+    "ResultReuseInformation": {
+      "ReusedPreviousResult": false
+    }
+  },
+  "WorkGroup": "primary",
+  "EngineVersion": {
+    "SelectedEngineVersion": "AUTO",
+    "EffectiveEngineVersion": "Athena engine version 3"
+  },
+  "SubstatementType": "SELECT"
+}

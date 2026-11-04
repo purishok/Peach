@@ -1,0 +1,34 @@
+{
+  "ResponseMetadata": {
+    "RequestId": "2d08f179-3d2f-4d1e-a2b2-a0592373dd5f",
+    "HTTPStatusCode": 202,
+    "HTTPHeaders": {
+      "date": "Wed, 04 Nov 2026 15:29:36 GMT",
+      "content-type": "application/json",
+      "content-length": "1160",
+      "connection": "keep-alive",
+      "x-amzn-requestid": "2d08f179-3d2f-4d1e-a2b2-a0592373dd5f"
+    },
+    "RetryAttempts": 0
+  },
+  "UUID": "09c380ff-63b7-4029-9285-0ef0b3422cd3",
+  "StartingPosition": "TRIM_HORIZON",
+  "BatchSize": 100,
+  "MaximumBatchingWindowInSeconds": 1,
+  "ParallelizationFactor": 1,
+  "EventSourceArn": "arn:aws:kinesis:eu-north-1:985040259102:stream/peach-lab8",
+  "FunctionArn": "arn:aws:lambda:eu-north-1:985040259102:function:peach-lab8-alert",
+  "LastModified": "2026-11-04 17:29:36.279000+02:00",
+  "LastProcessingResult": "No records processed",
+  "State": "Creating",
+  "StateTransitionReason": "User action",
+  "DestinationConfig": {
+    "OnFailure": {}
+  },
+  "MaximumRecordAgeInSeconds": -1,
+  "BisectBatchOnFunctionError": false,
+  "MaximumRetryAttempts": 2,
+  "TumblingWindowInSeconds": 60,
+  "FunctionResponseTypes": [],
+  "EventSourceMappingArn": "arn:aws:lambda:eu-north-1:985040259102:event-source-mapping:09c380ff-63b7-4029-9285-0ef0b3422cd3"
+}

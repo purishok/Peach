@@ -1,0 +1,7 @@
+{
+  "utc": "2026-11-04 15:29:09.126193+00:00",
+  "account": "985040259102",
+  "stream_arn": "arn:aws:kinesis:eu-north-1:985040259102:stream/peach-lab8",
+  "bucket": "peach-lab8-985040259102-eu-north-1",
+  "topic_arn": "arn:aws:sns:eu-north-1:985040259102:peach-lab8"
+}

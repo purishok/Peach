@@ -1,0 +1,39 @@
+{
+  "QueryExecutionId": "cfae704e-415e-4365-bf7a-b39fe314616d",
+  "Query": "SELECT merchantid,merchantname,ccy,\n sum(CAST(finalamount AS decimal(20,2)))/100 AS turnover\n FROM payments WHERE status='success' GROUP BY 1,2,3 ORDER BY turnover DESC",
+  "StatementType": "DML",
+  "ResultConfiguration": {
+    "OutputLocation": "s3://peach-lab8-985040259102-eu-north-1/athena-results/cfae704e-415e-4365-bf7a-b39fe314616d.csv"
+  },
+  "ResultReuseConfiguration": {
+    "ResultReuseByAgeConfiguration": {
+      "Enabled": false
+    }
+  },
+  "QueryExecutionContext": {
+    "Database": "peach_lab8"
+  },
+  "Status": {
+    "State": "SUCCEEDED",
+    "SubmissionDateTime": "2026-11-04 17:32:25.114000+02:00",
+    "CompletionDateTime": "2026-11-04 17:32:28.396000+02:00"
+  },
+  "Statistics": {
+    "EngineExecutionTimeInMillis": 3108,
+    "DataScannedInBytes": 1260692423,
+    "TotalExecutionTimeInMillis": 3282,
+    "QueryQueueTimeInMillis": 98,
+    "ServicePreProcessingTimeInMillis": 48,
+    "QueryPlanningTimeInMillis": 314,
+    "ServiceProcessingTimeInMillis": 28,
+    "ResultReuseInformation": {
+      "ReusedPreviousResult": false
+    }
+  },
+  "WorkGroup": "primary",
+  "EngineVersion": {
+    "SelectedEngineVersion": "AUTO",
+    "EffectiveEngineVersion": "Athena engine version 3"
+  },
+  "SubstatementType": "SELECT"
+}

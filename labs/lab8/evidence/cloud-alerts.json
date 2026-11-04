@@ -1,0 +1,30 @@
+[
+  {
+    "logStreamName": "2026/11/04/[$LATEST]071855ffd61247eda0bc8c2820020c6e",
+    "timestamp": 1793806388009,
+    "message": "{\"alert\": {\"method\": \"card\", \"total\": 552, \"failures\": 176, \"window\": {\"start\": \"2026-11-04T15:29:00Z\", \"end\": \"2026-11-04T15:30:00Z\"}, \"clock\": \"Kinesis arrival time\"}, \"sns_message_id\": \"05c72453-2c50-5f23-967d-47367e2340b0\"}\n",
+    "ingestionTime": 1793806396640,
+    "eventId": "40003219194485266713862754044207011795813184331584045057"
+  },
+  {
+    "logStreamName": "2026/11/04/[$LATEST]071855ffd61247eda0bc8c2820020c6e",
+    "timestamp": 1793806388045,
+    "message": "{\"alert\": {\"method\": \"apple_pay\", \"total\": 243, \"failures\": 73, \"window\": {\"start\": \"2026-11-04T15:29:00Z\", \"end\": \"2026-11-04T15:30:00Z\"}, \"clock\": \"Kinesis arrival time\"}, \"sns_message_id\": \"ecac02a7-7ec2-5371-9162-61c22cb6ace2\"}\n",
+    "ingestionTime": 1793806396640,
+    "eventId": "40003219195288093541009856477302297653628525345799340034"
+  },
+  {
+    "logStreamName": "2026/11/04/[$LATEST]071855ffd61247eda0bc8c2820020c6e",
+    "timestamp": 1793806388086,
+    "message": "{\"alert\": {\"method\": \"google_pay\", \"total\": 166, \"failures\": 41, \"window\": {\"start\": \"2026-11-04T15:29:00Z\", \"end\": \"2026-11-04T15:30:00Z\"}, \"clock\": \"Kinesis arrival time\"}, \"sns_message_id\": \"3c9a2c0a-cde0-58af-9ecb-4f6f9f94f73c\"}\n",
+    "ingestionTime": 1793806396640,
+    "eventId": "40003219196202424094149612026105262102807108167544537091"
+  },
+  {
+    "logStreamName": "2026/11/04/[$LATEST]071855ffd61247eda0bc8c2820020c6e",
+    "timestamp": 1793806388107,
+    "message": "{\"alert\": {\"method\": \"qr\", \"total\": 27, \"failures\": 5, \"window\": {\"start\": \"2026-11-04T15:29:00Z\", \"end\": \"2026-11-04T15:30:00Z\"}, \"clock\": \"Kinesis arrival time\"}, \"sns_message_id\": \"b843dc94-42bf-584a-baf7-bff110cbf7d9\"}\n",
+    "ingestionTime": 1793806396640,
+    "eventId": "40003219196670739743318755112077512186532723759170125828"
+  }
+]

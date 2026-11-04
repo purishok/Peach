@@ -1,0 +1,39 @@
+{
+  "QueryExecutionId": "9485bc27-e593-44d3-896a-7f869d14b446",
+  "Query": "SELECT hour(from_iso8601_timestamp(createddate)) hour_utc,\n count(*) payments FROM payments_parquet GROUP BY 1 ORDER BY 1",
+  "StatementType": "DML",
+  "ResultConfiguration": {
+    "OutputLocation": "s3://peach-lab8-985040259102-eu-north-1/athena-results/9485bc27-e593-44d3-896a-7f869d14b446.csv"
+  },
+  "ResultReuseConfiguration": {
+    "ResultReuseByAgeConfiguration": {
+      "Enabled": false
+    }
+  },
+  "QueryExecutionContext": {
+    "Database": "peach_lab8"
+  },
+  "Status": {
+    "State": "SUCCEEDED",
+    "SubmissionDateTime": "2026-11-04 17:32:45.457000+02:00",
+    "CompletionDateTime": "2026-11-04 17:32:46.756000+02:00"
+  },
+  "Statistics": {
+    "EngineExecutionTimeInMillis": 1172,
+    "DataScannedInBytes": 6545829,
+    "TotalExecutionTimeInMillis": 1299,
+    "QueryQueueTimeInMillis": 58,
+    "ServicePreProcessingTimeInMillis": 42,
+    "QueryPlanningTimeInMillis": 392,
+    "ServiceProcessingTimeInMillis": 27,
+    "ResultReuseInformation": {
+      "ReusedPreviousResult": false
+    }
+  },
+  "WorkGroup": "primary",
+  "EngineVersion": {
+    "SelectedEngineVersion": "AUTO",
+    "EffectiveEngineVersion": "Athena engine version 3"
+  },
+  "SubstatementType": "SELECT"
+}

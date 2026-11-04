@@ -1,0 +1,12 @@
+{
+  "scope": "2026-10-01 only; NOT month-wide Athena results",
+  "events": 101084,
+  "unique_invoices": 33361,
+  "exact_duplicates": 1001,
+  "late_over_60s": 2019,
+  "late_over_1h": 0,
+  "final_statuses": {
+    "success": 31371,
+    "failure": 1990
+  }
+}

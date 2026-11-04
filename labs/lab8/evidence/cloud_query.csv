@@ -1,0 +1,5 @@
+paymentmethod,terminal_payments,failures,failure_pct
+apple_pay,243,73,30.041152263374485
+card,552,176,31.884057971014492
+google_pay,166,41,24.698795180722893
+qr,27,5,18.51851851851852

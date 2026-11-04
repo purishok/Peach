@@ -1,0 +1,40 @@
+{
+  "QueryExecutionId": "48fbc9c0-ec6b-4c91-b512-ca15fe8a2d7b",
+  "Query": "CREATE TABLE payments_parquet WITH (\n format='PARQUET', parquet_compression='SNAPPY', partitioned_by=ARRAY['dt'],\n external_location='s3://peach-lab8-985040259102-eu-north-1/curated/') AS SELECT * FROM payments",
+  "StatementType": "DDL",
+  "ResultConfiguration": {
+    "OutputLocation": "s3://peach-lab8-985040259102-eu-north-1/athena-results/tables/48fbc9c0-ec6b-4c91-b512-ca15fe8a2d7b"
+  },
+  "ResultReuseConfiguration": {
+    "ResultReuseByAgeConfiguration": {
+      "Enabled": false
+    }
+  },
+  "QueryExecutionContext": {
+    "Database": "peach_lab8"
+  },
+  "Status": {
+    "State": "SUCCEEDED",
+    "SubmissionDateTime": "2026-11-04 17:32:16.545000+02:00",
+    "CompletionDateTime": "2026-11-04 17:32:23.106000+02:00"
+  },
+  "Statistics": {
+    "EngineExecutionTimeInMillis": 6371,
+    "DataScannedInBytes": 1260692423,
+    "DataManifestLocation": "s3://peach-lab8-985040259102-eu-north-1/athena-results/tables/48fbc9c0-ec6b-4c91-b512-ca15fe8a2d7b-manifest.csv",
+    "TotalExecutionTimeInMillis": 6561,
+    "QueryQueueTimeInMillis": 94,
+    "ServicePreProcessingTimeInMillis": 74,
+    "QueryPlanningTimeInMillis": 408,
+    "ServiceProcessingTimeInMillis": 22,
+    "ResultReuseInformation": {
+      "ReusedPreviousResult": false
+    }
+  },
+  "WorkGroup": "primary",
+  "EngineVersion": {
+    "SelectedEngineVersion": "AUTO",
+    "EffectiveEngineVersion": "Athena engine version 3"
+  },
+  "SubstatementType": "CREATE_TABLE_AS_SELECT"
+}

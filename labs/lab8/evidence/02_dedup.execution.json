@@ -1,0 +1,38 @@
+{
+  "QueryExecutionId": "1236a555-c61b-469a-968b-954087b18f5e",
+  "Query": "CREATE OR REPLACE VIEW payments AS\nWITH exact AS (SELECT DISTINCT * FROM payment_events), ranked AS (\n SELECT *, row_number() OVER (PARTITION BY invoiceid\n ORDER BY from_iso8601_timestamp(modifieddate) DESC,\n CASE status WHEN 'failure' THEN 2 WHEN 'success' THEN 2\n WHEN 'processing' THEN 1 ELSE 0 END DESC,\n from_iso8601_timestamp(receivedat) DESC, status DESC) AS rn\n FROM exact)\nSELECT invoiceid,status,failurereason,amount,finalamount,ccy,reference,\ncreateddate,modifieddate,receivedat,merchantid,merchantname,mcc,customerid,\npaymentmethod,device,dt FROM ranked WHERE rn=1",
+  "StatementType": "DDL",
+  "ResultConfiguration": {
+    "OutputLocation": "s3://peach-lab8-985040259102-eu-north-1/athena-results/1236a555-c61b-469a-968b-954087b18f5e.txt"
+  },
+  "ResultReuseConfiguration": {
+    "ResultReuseByAgeConfiguration": {
+      "Enabled": false
+    }
+  },
+  "QueryExecutionContext": {
+    "Database": "peach_lab8"
+  },
+  "Status": {
+    "State": "SUCCEEDED",
+    "SubmissionDateTime": "2026-11-04 17:32:05.158000+02:00",
+    "CompletionDateTime": "2026-11-04 17:32:05.577000+02:00"
+  },
+  "Statistics": {
+    "EngineExecutionTimeInMillis": 297,
+    "DataScannedInBytes": 0,
+    "TotalExecutionTimeInMillis": 419,
+    "QueryQueueTimeInMillis": 83,
+    "ServicePreProcessingTimeInMillis": 17,
+    "ServiceProcessingTimeInMillis": 22,
+    "ResultReuseInformation": {
+      "ReusedPreviousResult": false
+    }
+  },
+  "WorkGroup": "primary",
+  "EngineVersion": {
+    "SelectedEngineVersion": "AUTO",
+    "EffectiveEngineVersion": "Athena engine version 3"
+  },
+  "SubstatementType": "CREATE_VIEW"
+}

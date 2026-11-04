@@ -1,0 +1,133 @@
+{
+  "scale": [
+    {
+      "events": "3030197",
+      "invoices": "1000000",
+      "exact_duplicates": "30197",
+      "events_beyond_one_per_invoice": "2030197"
+    }
+  ],
+  "late": [
+    {
+      "events": "3030197",
+      "late_over_60s": "60824",
+      "late_over_1h": "0",
+      "pct_over_1h": "0.0"
+    }
+  ],
+  "payments": [
+    {
+      "final_payments": "1000000",
+      "invoices": "1000000",
+      "failures": "60180"
+    }
+  ],
+  "crawler": [
+    {
+      "events": "3030197",
+      "reasons": "60779",
+      "failed_events": "60779",
+      "unexpected_reasons": "0"
+    }
+  ],
+  "cloud_results": [
+    {
+      "paymentmethod": "apple_pay",
+      "terminal_payments": "243",
+      "failures": "73",
+      "failure_pct": "30.041152263374485"
+    },
+    {
+      "paymentmethod": "card",
+      "terminal_payments": "552",
+      "failures": "176",
+      "failure_pct": "31.884057971014492"
+    },
+    {
+      "paymentmethod": "google_pay",
+      "terminal_payments": "166",
+      "failures": "41",
+      "failure_pct": "24.698795180722893"
+    },
+    {
+      "paymentmethod": "qr",
+      "terminal_payments": "27",
+      "failures": "5",
+      "failure_pct": "18.51851851851852"
+    }
+  ],
+  "comparison": [
+    {
+      "query": "03_turnover",
+      "json_bytes": 1260692423,
+      "parquet_bytes": 6389672,
+      "json_engine_ms": 3108,
+      "parquet_engine_ms": 1247,
+      "json_total_ms": 3282,
+      "parquet_total_ms": 1410,
+      "scan_reduction": 197.3015865290112,
+      "json_estimated_usd": 0.005736351013183594,
+      "parquet_estimated_usd": 4.76837158203125e-05,
+      "billing_reduction": 120.3,
+      "results_equal": true
+    },
+    {
+      "query": "04_failure",
+      "json_bytes": 1260692423,
+      "parquet_bytes": 675513,
+      "json_engine_ms": 4029,
+      "parquet_engine_ms": 1344,
+      "json_total_ms": 4190,
+      "parquet_total_ms": 1747,
+      "scan_reduction": 1866.2741101947704,
+      "json_estimated_usd": 0.005736351013183594,
+      "parquet_estimated_usd": 4.76837158203125e-05,
+      "billing_reduction": 120.3,
+      "results_equal": true
+    },
+    {
+      "query": "05_hours",
+      "json_bytes": 1260692423,
+      "parquet_bytes": 6545829,
+      "json_engine_ms": 3633,
+      "parquet_engine_ms": 1172,
+      "json_total_ms": 3986,
+      "parquet_total_ms": 1299,
+      "scan_reduction": 192.59476882148923,
+      "json_estimated_usd": 0.005736351013183594,
+      "parquet_estimated_usd": 4.76837158203125e-05,
+      "billing_reduction": 120.3,
+      "results_equal": true
+    }
+  ],
+  "cost": {
+    "region": "eu-north-1",
+    "currency": "USD",
+    "calculated_utc": "2026-11-04T15:43:27.886890+00:00",
+    "status": "on-demand estimate before credits/taxes; not a posted AWS invoice",
+    "kinesis_lifetime_seconds_upper_bound": 271.347824,
+    "kinesis_billed_shard_hours_upper_bound": 1,
+    "kinesis_shard_usd": 0.0162,
+    "kinesis_put_usd": 4.7100000000000006e-05,
+    "firehose_usd": 0.00042128562927246094,
+    "crawler_dpu_hours": 0.120666,
+    "crawler_usd": 0.05309304,
+    "athena_executions": 27,
+    "athena_all_executions_usd": 0.05797863006591797,
+    "lambda_requests": 31,
+    "lambda_billed_ms": 2639,
+    "lambda_gb_seconds": 0.329875,
+    "sns_alerts": 4,
+    "excluded": "Final crawler billing minimum/allocated DPUs, S3 requests, CloudWatch logs, source-owner egress/local network, credits/taxes; S3 storage listed separately",
+    "listed_components_usd": 0.12774005569519042,
+    "lambda_estimated_usd_before_free_tier": 1.16979276625e-05,
+    "sns_estimated_usd_before_free_tier": 2e-06,
+    "crawler_usage_cost_note": "Glue reports used DPUHour. AWS Glue FAQ states a 10-minute minimum per crawl; this is not a final bill.",
+    "crawler_minimum_scenario_dpus": 2,
+    "crawler_minimum_scenario_usd": 0.14666666666666667,
+    "total_usage_components_estimated_usd": 0.12775375362285293,
+    "total_2dpu_10min_scenario_usd": 0.2213273802895196,
+    "retained_s3_bytes": 1344525258,
+    "retained_s3_estimated_usd_per_month": 0.028800294673070312
+  }
+}

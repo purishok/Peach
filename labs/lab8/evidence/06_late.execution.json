@@ -1,0 +1,39 @@
+{
+  "QueryExecutionId": "e526d5f1-f2e2-40ee-b8c7-dc7089e8191b",
+  "Query": "SELECT count(*) events,\n count_if(date_diff('second',from_iso8601_timestamp(modifieddate),\n from_iso8601_timestamp(receivedat))>60) late_over_60s,\n count_if(date_diff('second',from_iso8601_timestamp(modifieddate),\n from_iso8601_timestamp(receivedat))>3600) late_over_1h,\n 100.0*count_if(date_diff('second',from_iso8601_timestamp(modifieddate),\n from_iso8601_timestamp(receivedat))>3600)/count(*) pct_over_1h\n FROM payment_events",
+  "StatementType": "DML",
+  "ResultConfiguration": {
+    "OutputLocation": "s3://peach-lab8-985040259102-eu-north-1/athena-results/e526d5f1-f2e2-40ee-b8c7-dc7089e8191b.csv"
+  },
+  "ResultReuseConfiguration": {
+    "ResultReuseByAgeConfiguration": {
+      "Enabled": false
+    }
+  },
+  "QueryExecutionContext": {
+    "Database": "peach_lab8"
+  },
+  "Status": {
+    "State": "SUCCEEDED",
+    "SubmissionDateTime": "2026-11-04 17:32:12.051000+02:00",
+    "CompletionDateTime": "2026-11-04 17:32:15.525000+02:00"
+  },
+  "Statistics": {
+    "EngineExecutionTimeInMillis": 3282,
+    "DataScannedInBytes": 1260692423,
+    "TotalExecutionTimeInMillis": 3474,
+    "QueryQueueTimeInMillis": 99,
+    "ServicePreProcessingTimeInMillis": 47,
+    "QueryPlanningTimeInMillis": 638,
+    "ServiceProcessingTimeInMillis": 46,
+    "ResultReuseInformation": {
+      "ReusedPreviousResult": false
+    }
+  },
+  "WorkGroup": "primary",
+  "EngineVersion": {
+    "SelectedEngineVersion": "AUTO",
+    "EffectiveEngineVersion": "Athena engine version 3"
+  },
+  "SubstatementType": "SELECT"
+}

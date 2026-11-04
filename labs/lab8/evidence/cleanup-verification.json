@@ -1,0 +1,14 @@
+{
+  "region": "eu-north-1",
+  "checked_utc": "2026-11-04T15:43:27.888674+00:00",
+  "kinesis_absent": true,
+  "firehose_absent": true,
+  "lambda_absent": true,
+  "crawler_deleted": true,
+  "sns_absent": true,
+  "roles_absent": {
+    "firehose": true,
+    "alert": true,
+    "glue": true
+  }
+}

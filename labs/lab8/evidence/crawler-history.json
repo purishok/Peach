@@ -1,0 +1,28 @@
+{
+  "Crawls": [
+    {
+      "CrawlId": "8756cc61-4171-481d-bf5e-4e28ef94e67e",
+      "State": "COMPLETED",
+      "StartTime": "2026-11-04 17:32:12.282000+02:00",
+      "EndTime": "2026-11-04 17:32:50.184000+02:00",
+      "Summary": "{\"TABLE\":{\"ADD\":\"{\\\"Details\\\":{\\\"names\\\":[\\\"crawler_payments\\\"]},\\\"Count\\\":1}\"},\"PARTITION\":{\"ADD\":\"{\\\"Details\\\":{\\\"crawler_payments\\\":[\\\"2026-10-08\\\",\\\"2026-10-07\\\",\\\"2026-10-06\\\",\\\"2026-10-05\\\",\\\"2026-10-09\\\",\\\"2026-10-10\\\",\\\"2026-10-04\\\",\\\"2026-10-03\\\",\\\"2026-10-02\\\",\\\"2026-10-01\\\"]},\\\"Count\\\":31}\"}}",
+      "LogGroup": "/aws-glue/crawlers",
+      "LogStream": "peach-lab8",
+      "MessagePrefix": "8756cc61-4171-481d-bf5e-4e28ef94e67e",
+      "DPUHour": 0.120666
+    }
+  ],
+  "ResponseMetadata": {
+    "RequestId": "4110f1ce-3cb0-48a7-af11-5adbbca034ca",
+    "HTTPStatusCode": 200,
+    "HTTPHeaders": {
+      "date": "Wed, 04 Nov 2026 15:35:11 GMT",
+      "content-type": "application/x-amz-json-1.1",
+      "content-length": "667",
+      "connection": "keep-alive",
+      "x-amzn-requestid": "4110f1ce-3cb0-48a7-af11-5adbbca034ca",
+      "cache-control": "no-cache"
+    },
+    "RetryAttempts": 0
+  }
+}

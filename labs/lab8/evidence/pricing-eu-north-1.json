@@ -1,0 +1,1557 @@
+{
+  "AmazonKinesis": [
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesis",
+        "kinesisAdvantageOperation": "AdvantageEFODataRetrieval",
+        "usagetype": "EUN1-Advantage-BilledOutgoingBytes",
+        "description": "Per GB of data retrieved",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": "AdvantageEFODataRetrieval",
+        "group": "OnDemand Advantage"
+      },
+      "unit": "GB",
+      "USD": "0.0172000000",
+      "description": "$0.0172 per GB for Advantage-BilledOutgoingBytes in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesis",
+        "kinesisAdvantageOperation": "AdvantageDataRetrieval",
+        "usagetype": "EUN1-Advantage-BilledOutgoingBytes",
+        "description": "Per GB of data retrieved",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": "AdvantageDataRetrieval",
+        "group": "OnDemand Advantage"
+      },
+      "unit": "GB",
+      "USD": "0.0172000000",
+      "description": "$0.0172 per GB for Advantage-BilledOutgoingBytes in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "maximumExtendedStorage": "365 Days",
+        "servicecode": "AmazonKinesis",
+        "groupDescription": "Number of GB long-term data retrieval",
+        "usagetype": "EUN1-LongTermRetention-ReadBytes",
+        "standardStorageRetentionIncluded": "1 day",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": "LongTermRetentionDataRetrieval",
+        "group": "Long-term Data Retrieval GB"
+      },
+      "unit": "GB",
+      "USD": "0.0226000000",
+      "description": "$0.0226 per GB for Long-term data retrieval (data older than 7 days) in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "maximumExtendedStorage": "7 days",
+        "servicecode": "AmazonKinesis",
+        "groupDescription": "Number of extended shard hours",
+        "usagetype": "EUN1-Extended-ShardHour",
+        "standardStorageRetentionIncluded": "1 day",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": "shardHourStorage",
+        "group": "Addon shard hour"
+      },
+      "unit": "ShardHour",
+      "USD": "0.0219000000",
+      "description": "$0.0219 per extended shard-hour",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "maximumExtendedStorage": "7 days",
+        "servicecode": "AmazonKinesis",
+        "groupDescription": "Number of standard shard hours",
+        "usagetype": "EUN1-Storage-ShardHour",
+        "standardStorageRetentionIncluded": "1 day",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": "shardHourStorage",
+        "group": "Provisioned shard hour"
+      },
+      "unit": "ShardHour",
+      "USD": "0.0162000000",
+      "description": "$0.0162 per provisioned shard-hour",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesis",
+        "on-demandCapacityMode": "On-demand Advantage",
+        "usagetype": "EUN1-On-demand-Advantage-Channel-ProcessedBytes-S3TablesDestination",
+        "locationType": "AWS Region",
+        "data-channel-destination": "S3TablesDestination",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": ""
+      },
+      "unit": "GB",
+      "USD": "0.0151000000",
+      "description": "$0.0151 per GB for On-demand-Advantage-Channel-ProcessedBytes-S3TablesDestination in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesis",
+        "on-demandCapacityMode": "On-demand Advantage",
+        "usagetype": "EUN1-On-demand-Advantage-Channel-ProcessedBytes-S3Destination",
+        "locationType": "AWS Region",
+        "data-channel-destination": "S3Destination",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": ""
+      },
+      "unit": "GB",
+      "USD": "0.0118000000",
+      "description": "$0.0118 per GB for On-demand-Advantage-Channel-ProcessedBytes-S3Destination in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesis",
+        "usagetype": "EUN1-OnDemand-LongTermRetention-ByteHrs",
+        "description": "per byte hours data is stored beyond 7 days",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": "OnDemandLongTermRetentionByteHrs",
+        "group": "OnDemand"
+      },
+      "unit": "GB-month",
+      "USD": "0.0230000000",
+      "description": "0.023 per GB-month for retention beyond 7 days",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesis",
+        "usagetype": "EUN1-OnDemand-BilledIncomingBytes",
+        "description": "Per GB of data ingested",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": "OnDemandDataIngested",
+        "group": "OnDemand"
+      },
+      "unit": "GB",
+      "USD": "0.0860000000",
+      "description": "0.086 per GB of data written",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesis",
+        "groupDescription": "Number of enhanced fan-out consumer-shard hours generated by consumers",
+        "usagetype": "EUN1-EnhancedFanoutHour",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": "ConsumerHour",
+        "group": "Enhanced fan-out consumer-shard hour"
+      },
+      "unit": "ConsumerShardHour",
+      "USD": "0.0162000000",
+      "description": "$0.0162 per enhanced fan-out consumer-shard hour",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "maximumExtendedStorage": "365 Days",
+        "servicecode": "AmazonKinesis",
+        "groupDescription": "Number of GB-month long-term data storage",
+        "usagetype": "EUN1-LongTermRetention-ByteHrs",
+        "standardStorageRetentionIncluded": "1 day",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": "LongTermRetentionByteHrs",
+        "group": "Long-term Data Retention GB-month"
+      },
+      "unit": "GB-month",
+      "USD": "0.0230000000",
+      "description": "$0.023 per GB-month for Long-term data storage (data older than 7 days) in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesis",
+        "usagetype": "EUN1-OnDemand-BilledOutgoingEFOBytes",
+        "description": "Per GB of data retrieved by consumers using enhanced fan-out",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": "OnDemandEFODataRetrieval",
+        "group": "OnDemand"
+      },
+      "unit": "GB",
+      "USD": "0.0540000000",
+      "description": "0.054 per GB of data read using EFO Consumer",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesis",
+        "kinesisAdvantageOperation": "AdvantageDataIngested",
+        "usagetype": "EUN1-Advantage-BilledIncomingBytes",
+        "description": "Per GB of data ingested",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": "AdvantageDataIngested",
+        "group": "OnDemand Advantage"
+      },
+      "unit": "GB",
+      "USD": "0.0344000000",
+      "description": "$0.0344 per GB for Advantage-BilledIncomingBytes in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesis",
+        "usagetype": "EUN1-OnDemand-BilledOutgoingBytes",
+        "description": "Per GB of data retrieved using GetRecords consumers",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": "OnDemandDataRetrieval",
+        "group": "OnDemand"
+      },
+      "unit": "GB",
+      "USD": "0.0430000000",
+      "description": "0.043 per GB of data read using GetRecords Consumer",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesis",
+        "groupDescription": "Number of GBs of data retrieved by consumers using enhanced fan-out",
+        "usagetype": "EUN1-ReadBytes",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": "EnhancedFanoutDataRetrieval",
+        "group": "Enhanced fan-out GB of data retrieved"
+      },
+      "unit": "GB",
+      "USD": "0.0140000000",
+      "description": "$0.014 per GB of data retrieved by consumers using enhanced fan-out",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesis",
+        "usagetype": "EUN1-OnDemand-ExtendedRetention-ByteHrs",
+        "description": "per byte hour data stored within 1-7 days",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": "OnDemandExtendedRetentionByteHrs",
+        "group": "OnDemand"
+      },
+      "unit": "GB-month",
+      "USD": "0.1050000000",
+      "description": "0.105 per GB-month for retention within 1-7 days",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesis",
+        "usagetype": "EUN1-OnDemand-StreamHour",
+        "description": "per stream hour",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": "OnDemandStreamHr",
+        "group": "OnDemand"
+      },
+      "unit": "StreamHr",
+      "USD": "0.0430000000",
+      "description": "0.043 per Stream Hour Used",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesis",
+        "kinesisAdvantageOperation": "AdvantageLTRetentionByteHrs",
+        "usagetype": "EUN1-Advantage-RetentionByteHrs",
+        "description": "per byte hours data is stored",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": "AdvantageLTRetentionByteHrs",
+        "group": "OnDemand Advantage"
+      },
+      "unit": "GB-month",
+      "USD": "0.0230000000",
+      "description": "$0.023 per GB-month for Advantage-RetentionByteHrs in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesis",
+        "groupDescription": "Number of payload units generated by producers",
+        "usagetype": "EUN1-PutRequestPayloadUnits",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": "PutRequest",
+        "group": "Payload Units"
+      },
+      "unit": "PutRequest",
+      "USD": "0.0000000157",
+      "description": "$0.0157 per 1 million payload units",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesis",
+        "kinesisAdvantageOperation": "AdvantageDataIngestionShortfall",
+        "usagetype": "EUN1-Advantage-BilledIncomingBytes",
+        "description": "Per GB of data ingested",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": "AdvantageDataIngestionShortfall",
+        "group": "OnDemand Advantage"
+      },
+      "unit": "GB",
+      "USD": "0.0344000000",
+      "description": "$0.0344 per GB for Advantage-BilledIncomingBytes in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesis",
+        "kinesisAdvantageOperation": "AdvantageDataRetrievalShortfall",
+        "usagetype": "EUN1-Advantage-BilledOutgoingBytes",
+        "description": "Per GB of data retrieved",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": "AdvantageDataRetrievalShortfall",
+        "group": "OnDemand Advantage"
+      },
+      "unit": "GB",
+      "USD": "0.0172000000",
+      "description": "$0.0172 per GB for Advantage-BilledOutgoingBytes in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesis",
+        "on-demandCapacityMode": "On-demand Standard",
+        "usagetype": "EUN1-On-demand-Standard-Channel-ProcessedBytes-S3Destination",
+        "locationType": "AWS Region",
+        "data-channel-destination": "S3Destination",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": ""
+      },
+      "unit": "GB",
+      "USD": "0.0296000000",
+      "description": "$0.0296 per GB for On-demand-Standard-Channel-ProcessedBytes-S3Destination in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesis",
+        "kinesisAdvantageOperation": "AdvantageExtRetentionByteHrs",
+        "usagetype": "EUN1-Advantage-RetentionByteHrs",
+        "description": "per byte hours data is stored",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": "AdvantageExtRetentionByteHrs",
+        "group": "OnDemand Advantage"
+      },
+      "unit": "GB-month",
+      "USD": "0.0230000000",
+      "description": "$0.023 per GB-month for Advantage-RetentionByteHrs in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesis",
+        "on-demandCapacityMode": "On-demand Standard",
+        "usagetype": "EUN1-On-demand-Standard-Channel-ProcessedBytes-S3TablesDestination",
+        "locationType": "AWS Region",
+        "data-channel-destination": "S3TablesDestination",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis",
+        "operation": ""
+      },
+      "unit": "GB",
+      "USD": "0.0376000000",
+      "description": "$0.0376 per GB for On-demand-Standard-Channel-ProcessedBytes-S3TablesDestination in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    }
+  ],
+  "AmazonKinesisFirehose": [
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-StreamsSourceBilledBytes",
+        "description": "Per GB of data read from Kinesis Streams",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "tickettype": "1",
+        "operation": "GetKinesisRecords",
+        "group": "Batch Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0294500000",
+      "description": "Tier 1 $0.02945 per GB of data read from Kinesis Data Streams",
+      "beginRange": "0",
+      "endRange": "512000"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-StreamsSourceBilledBytes",
+        "description": "Per GB of data read from Kinesis Streams",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "tickettype": "1",
+        "operation": "GetKinesisRecords",
+        "group": "Batch Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0256500000",
+      "description": "Tier 2 $0.02565 per GB of data read from Kinesis Data Streams",
+      "beginRange": "512000",
+      "endRange": "2048000"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-StreamsSourceBilledBytes",
+        "description": "Per GB of data read from Kinesis Streams",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "tickettype": "1",
+        "operation": "GetKinesisRecords",
+        "group": "Batch Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0209000000",
+      "description": "Tier 3 $0.0209 per GB of data read from Kinesis Data Streams",
+      "beginRange": "2048000",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-KDS-no-rounding-BilledBytes",
+        "description": "Per GB of data ingested or delivered from Kinesis Streams",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "operation": "GetKinesisRecords",
+        "group": "Batch Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0751000000",
+      "description": "Per GB of data ingested or delivered",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-IcebergTablesBilledBytes",
+        "description": "Per GB of data ingested or delivered to Apache Iceberg Tables",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "operation": "PutRecord",
+        "group": "Event-by-Event Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0650000000",
+      "description": "Tier 2 $0.065 per GB of data ingested",
+      "beginRange": "256000",
+      "endRange": "1024000"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-IcebergTablesBilledBytes",
+        "description": "Per GB of data ingested or delivered to Apache Iceberg Tables",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "operation": "PutRecord",
+        "group": "Event-by-Event Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0770000000",
+      "description": "Tier 1 $0.077 per GB of data ingested",
+      "beginRange": "0",
+      "endRange": "256000"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-IcebergTablesBilledBytes",
+        "description": "Per GB of data ingested or delivered to Apache Iceberg Tables",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "operation": "PutRecord",
+        "group": "Event-by-Event Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0540000000",
+      "description": "Tier 3 $0.054 per GB of data ingested",
+      "beginRange": "1024000",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-IcebergTablesBilledBytes",
+        "description": "Per GB of data ingested or delivered in MSKAsSource",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "operation": "MSKAsSource",
+        "group": "MSK Record Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0460000000",
+      "description": "Tier 1 $0.046 per GB of data ingested",
+      "beginRange": "0",
+      "endRange": "256000"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-IcebergTablesBilledBytes",
+        "description": "Per GB of data ingested or delivered in MSKAsSource",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "operation": "MSKAsSource",
+        "group": "MSK Record Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0390000000",
+      "description": "Tier 2 $0.039 per GB of data ingested",
+      "beginRange": "256000",
+      "endRange": "1024000"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-IcebergTablesBilledBytes",
+        "description": "Per GB of data ingested or delivered in MSKAsSource",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "operation": "MSKAsSource",
+        "group": "MSK Record Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0330000000",
+      "description": "Tire 3 $0.033 per GB of data ingested",
+      "beginRange": "1024000",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-Firehose-VpcDelivery-Hours",
+        "description": "Per Hour per AZ for VPC delivery",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "tickettype": "1",
+        "operation": "RunVpcInstance",
+        "group": "VPC"
+      },
+      "unit": "Hrs",
+      "USD": "0.0105000000",
+      "description": "$0.0105 per Hour per AZ for VPC delivery in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-DFCBilledBytes",
+        "description": "Per GB of data format conversion",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "tickettype": "1",
+        "operation": "DataFormatConversion",
+        "group": "Batch format conversion"
+      },
+      "unit": "GB",
+      "USD": "0.0180500000",
+      "description": "$0.01805 per GB of data format conversion",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-DecompressionDecompressedBytes",
+        "description": "Per GB of data decompressed",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "operation": "Decompression",
+        "group": "CWL Decompression"
+      },
+      "unit": "GB",
+      "USD": "0.0033000000",
+      "description": "Per GB of data decompressed",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-BilledBytes",
+        "description": "Per GB of data ingested in Batch",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "tickettype": "1",
+        "operation": "PutRecordBatch",
+        "group": "Batch Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0294500000",
+      "description": "Tier 1 $0.02945 per GB of data ingested",
+      "beginRange": "0",
+      "endRange": "512000"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-BilledBytes",
+        "description": "Per GB of data ingested in Batch",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "tickettype": "1",
+        "operation": "PutRecordBatch",
+        "group": "Batch Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0209000000",
+      "description": "Tier 3 $0.0209 per GB of data ingested",
+      "beginRange": "2048000",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-BilledBytes",
+        "description": "Per GB of data ingested in Batch",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "tickettype": "1",
+        "operation": "PutRecordBatch",
+        "group": "Batch Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0256500000",
+      "description": "Tier 2 $0.02565 per GB of data ingested",
+      "beginRange": "512000",
+      "endRange": "2048000"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-IcebergTablesBilledBytes",
+        "description": "Per GB of data ingested or delivered to Apache Iceberg Tables from Kinesis Streams",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "operation": "GetKinesisRecords",
+        "group": "Batch Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0330000000",
+      "description": "Tire 3 $0.033 per GB of data ingested",
+      "beginRange": "1024000",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-IcebergTablesBilledBytes",
+        "description": "Per GB of data ingested or delivered to Apache Iceberg Tables from Kinesis Streams",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "operation": "GetKinesisRecords",
+        "group": "Batch Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0460000000",
+      "description": "Tier 1 $0.046 per GB of data ingested",
+      "beginRange": "0",
+      "endRange": "256000"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-IcebergTablesBilledBytes",
+        "description": "Per GB of data ingested or delivered to Apache Iceberg Tables from Kinesis Streams",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "operation": "GetKinesisRecords",
+        "group": "Batch Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0390000000",
+      "description": "Tier 2 $0.039 per GB of data ingested",
+      "beginRange": "256000",
+      "endRange": "1024000"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-MetadataProcessingDuration",
+        "description": "Per JQ processing hour",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "tickettype": "1",
+        "operation": "DynamicPartitioning",
+        "group": "Dynamic Partitioning"
+      },
+      "unit": "hours",
+      "USD": "0.0740000000",
+      "description": "$0.074 per JQ processing hour",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-DPBytesDelivered",
+        "description": "Per GB of dynamically partitioned data delivered",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "tickettype": "1",
+        "operation": "DynamicPartitioning",
+        "group": "Dynamic Partitioning"
+      },
+      "unit": "GB",
+      "USD": "0.0220000000",
+      "description": "$0.022 per GB of data processed through dynamic partitioning",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-Firehose-VpcDelivery-Bytes",
+        "description": "Per GB of data delivered to VPC",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "tickettype": "1",
+        "operation": "VpcBandwidth",
+        "group": "VPC"
+      },
+      "unit": "GB",
+      "USD": "0.0100000000",
+      "description": "$0.01 per GB of data delivered to destination in VPC in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-IncrementalProcessedBytes",
+        "description": "Per GB of incremental data processed",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "operation": "Process",
+        "group": "Batch Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0390000000",
+      "description": "Tier 2 $0.039 per GB of incremental data processed ",
+      "beginRange": "256000",
+      "endRange": "1024000"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-IncrementalProcessedBytes",
+        "description": "Per GB of incremental data processed",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "operation": "Process",
+        "group": "Batch Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0330000000",
+      "description": "Tire 3 $0.033 per GB of incremental data processed ",
+      "beginRange": "1024000",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-IncrementalProcessedBytes",
+        "description": "Per GB of incremental data processed",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "operation": "Process",
+        "group": "Batch Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0460000000",
+      "description": "Tier 1 $0.046 per GB of incremental data processed ",
+      "beginRange": "0",
+      "endRange": "256000"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-DirectPUT-no-rounding-BilledBytes",
+        "description": "Per GB of data in Batch",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "operation": "PutRecordBatch",
+        "group": "Batch Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0812000000",
+      "description": "Per GB of data",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-VendedLogsBilledBytes",
+        "description": "Per GB of data ingested",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "sourcetype": "Vended Logs",
+        "operation": "PutRecord",
+        "group": "Event-by-Event Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0900000000",
+      "description": "Tier 3 $0.09 per GB of data ingested",
+      "beginRange": "2048000",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-VendedLogsBilledBytes",
+        "description": "Per GB of data ingested",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "sourcetype": "Vended Logs",
+        "operation": "PutRecord",
+        "group": "Event-by-Event Processing"
+      },
+      "unit": "GB",
+      "USD": "0.1300000000",
+      "description": "Tier 1 $0.13 per GB of data ingested",
+      "beginRange": "0",
+      "endRange": "512000"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-VendedLogsBilledBytes",
+        "description": "Per GB of data ingested",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "sourcetype": "Vended Logs",
+        "operation": "PutRecord",
+        "group": "Event-by-Event Processing"
+      },
+      "unit": "GB",
+      "USD": "0.1100000000",
+      "description": "Tier 2 $0.11 per GB of data ingested",
+      "beginRange": "512000",
+      "endRange": "2048000"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-MSKAsSourceBilledBytes",
+        "description": "Per GB of data ingested in MSKAsSource",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "operation": "MSKAsSource",
+        "group": "MSK Record Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0560000000",
+      "description": "Tier 1 $0.056 per GB of data ingested or delivered from MSK source in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "512000"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-MSKAsSourceBilledBytes",
+        "description": "Per GB of data ingested in MSKAsSource",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "operation": "MSKAsSource",
+        "group": "MSK Record Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0480000000",
+      "description": "Tier 2 $0.048 per GB of data ingested or delivered from MSK source in EU (Stockholm)",
+      "beginRange": "512000",
+      "endRange": "2048000"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-MSKAsSourceBilledBytes",
+        "description": "Per GB of data ingested in MSKAsSource",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "operation": "MSKAsSource",
+        "group": "MSK Record Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0410000000",
+      "description": "Tier 3 $0.041 per GB of data ingested or delivered from MSK source in EU (Stockholm)",
+      "beginRange": "2048000",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-DirectPUT-no-rounding-BilledBytes",
+        "description": "Per GB of data ingested or delivered",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "operation": "PutRecord",
+        "group": "Event-by-Event Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0812000000",
+      "description": "Per GB of data ingested or delivered",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-S3DeliveryObjectCount",
+        "description": "Per object dynamically partitioned",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "tickettype": "1",
+        "operation": "DynamicPartitioning",
+        "group": "Dynamic Partitioning"
+      },
+      "unit": "Objects",
+      "USD": "0.0000053000",
+      "description": "$0.0053 per thousand dynamically partitioned objects",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-VendedLogsBilledBytes",
+        "description": "Per GB of data ingested",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "sourcetype": "Vended Logs",
+        "operation": "PutRecordBatch",
+        "group": "Batch Processing"
+      },
+      "unit": "GB",
+      "USD": "0.1300000000",
+      "description": "Tier 1 $0.13 per GB of data ingested",
+      "beginRange": "0",
+      "endRange": "512000"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-VendedLogsBilledBytes",
+        "description": "Per GB of data ingested",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "sourcetype": "Vended Logs",
+        "operation": "PutRecordBatch",
+        "group": "Batch Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0900000000",
+      "description": "Tier 3 $0.09 per GB of data ingested",
+      "beginRange": "2048000",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-VendedLogsBilledBytes",
+        "description": "Per GB of data ingested",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "sourcetype": "Vended Logs",
+        "operation": "PutRecordBatch",
+        "group": "Batch Processing"
+      },
+      "unit": "GB",
+      "USD": "0.1100000000",
+      "description": "Tier 2 $0.11 per GB of data ingested",
+      "beginRange": "512000",
+      "endRange": "2048000"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-BilledBytes",
+        "description": "Per GB of data ingested",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "tickettype": "1",
+        "operation": "PutRecord",
+        "group": "Event-by-Event Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0294500000",
+      "description": "Tier 1 $0.02945 per GB of data ingested",
+      "beginRange": "0",
+      "endRange": "512000"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-BilledBytes",
+        "description": "Per GB of data ingested",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "tickettype": "1",
+        "operation": "PutRecord",
+        "group": "Event-by-Event Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0256500000",
+      "description": "Tier 2 $0.02565 per GB of data ingested",
+      "beginRange": "512000",
+      "endRange": "2048000"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonKinesisFirehose",
+        "usagetype": "EUN1-BilledBytes",
+        "description": "Per GB of data ingested",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Kinesis Firehose",
+        "tickettype": "1",
+        "operation": "PutRecord",
+        "group": "Event-by-Event Processing"
+      },
+      "unit": "GB",
+      "USD": "0.0209000000",
+      "description": "Tier 3 $0.0209 per GB of data ingested",
+      "beginRange": "2048000",
+      "endRange": "Inf"
+    }
+  ],
+  "AWSGlue": [
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSGlue",
+        "usagetype": "EUN1-ETL-Flex-DPU-Hour",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Glue",
+        "operation": "FlexJobrun",
+        "group": "ETL Flex Job Run"
+      },
+      "unit": "DPU-Hour",
+      "USD": "0.2900000000",
+      "description": "$0.29 per Data Processing Unit-Hour for AWS Glue Flex ETL job",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSGlue",
+        "usagetype": "EUN1-GlueInteractiveSession-DPU-Hour",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Glue",
+        "operation": "GlueInteractiveSession",
+        "group": "ETL Interactive Session"
+      },
+      "unit": "DPU-Hour",
+      "USD": "0.4400000000",
+      "description": "$0.44 per Data Processing Unit-Hour for AWS Glue interactive sessions and job notebooks",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSGlue",
+        "usagetype": "EUN1-Catalog-Request",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Glue",
+        "operation": "Request",
+        "group": "Data catalog requests"
+      },
+      "unit": "Request",
+      "USD": "0.0000010000",
+      "description": "$1 per 1,000,000 requests for AWS Glue Data Catalog request",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSGlue",
+        "usagetype": "EUN1-Crawler-DPU-Hour",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Glue",
+        "operation": "CrawlerRun",
+        "group": "Data catalog crawler run"
+      },
+      "unit": "DPU-Hour",
+      "USD": "0.4400000000",
+      "description": "$0.44 per Data Processing Unit-Hour for AWS Glue crawler",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSGlue",
+        "usagetype": "EUN1-Optimization-DPU-Hour",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Glue",
+        "operation": "OptimizationJobRun",
+        "group": "Data lake optimization job run"
+      },
+      "unit": "DPU-Hour",
+      "USD": "0.4400000000",
+      "description": "$0.44 per Data Processing Unit-Hour for optimizing Iceberg tables with compaction.",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSGlue",
+        "usagetype": "EUN1-DBrew-Sessions",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Glue",
+        "operation": "Session",
+        "group": "Data Brew interactive sessions"
+      },
+      "unit": "Sessions",
+      "USD": "1.0000000000",
+      "description": "$1 per session for AWS Glue DataBrew interactive sessions in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSGlue",
+        "usagetype": "EUN1-Column-Statistics-DPU-Hour",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Glue",
+        "operation": "ColumnStatistics",
+        "group": "Data Catalog Statistics"
+      },
+      "unit": "DPU-Hour",
+      "USD": "0.4400000000",
+      "description": "$0.44 per Data Processing Unit-Hour for AWS Glue Catalog Statistics",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSGlue",
+        "usagetype": "EUN1-GlueInteractiveSession-DPU-Hour-Gen2",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Glue",
+        "operation": "GlueInteractiveSession",
+        "group": "ETL Interactive Session Glue 6.0+"
+      },
+      "unit": "DPU-Hour",
+      "USD": "0.3080000000",
+      "description": "$0.308 per Data Processing Unit-Hour for AWS Glue ETL Interactive Session Glue 6.0+",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSGlue",
+        "usagetype": "EUN1-ETL-DPU-Hour-Gen2",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Glue",
+        "operation": "Jobrun",
+        "group": "ETL Job Run Glue 6.0+"
+      },
+      "unit": "DPU-Hour",
+      "USD": "0.3080000000",
+      "description": "$0.308 per Data Processing Unit-Hour for AWS Glue ETL Job Run Glue 6.0+",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSGlue",
+        "usagetype": "EUN1-DEVED-DPU-Hour",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Glue",
+        "operation": "StartDevEndpoint",
+        "group": "ETL Development endpoint"
+      },
+      "unit": "DPU-Hour",
+      "USD": "0.4400000000",
+      "description": "$0.44 per Data Processing Unit-Hour for AWS Glue development endpoints",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSGlue",
+        "usagetype": "EUN1-ETL-Flex-DPU-Hour-Gen2",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Glue",
+        "operation": "FlexJobrun",
+        "group": "ETL Flex Job Run Glue 6.0+"
+      },
+      "unit": "DPU-Hour",
+      "USD": "0.2030000000",
+      "description": "$0.203 per Data Processing Unit-Hour for AWS Glue ETL Flex Job Run Glue 6.0+",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSGlue",
+        "usagetype": "EUN1-ETL-DPU-Hour",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Glue",
+        "operation": "Jobrun",
+        "group": "ETL Job run"
+      },
+      "unit": "DPU-Hour",
+      "USD": "0.4400000000",
+      "description": "$0.44 per Data Processing Unit-Hour for AWS Glue ETL job",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSGlue",
+        "usagetype": "EUN1-Materialized-View-Refresh-DPU-Hour",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Glue",
+        "operation": "MaterializedViewRefresh",
+        "group": "Materialized view refresh job run"
+      },
+      "unit": "DPU-Hour",
+      "USD": "0.4400000000",
+      "description": "$0.44 per DPU-Hour for Materialized-View-Refresh-DPU-Hour in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSGlue",
+        "usagetype": "EUN1-zeroETL-App-IngestionVolume-GB",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Glue",
+        "operation": "zeroETL-App-IngestionVolume",
+        "group": "ZETL Ingestion"
+      },
+      "unit": "GB",
+      "USD": "1.5000000000",
+      "description": "$1.50 per GB of AWS Glue data ingestion from any application, billed per MB",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSGlue",
+        "usagetype": "EUN1-zeroETL-Lakehouse-Compute-DPU-Hour",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Glue",
+        "operation": "zeroETL-Lakehouse-Compute",
+        "group": "ZETL Compute"
+      },
+      "unit": "DPU-Hour",
+      "USD": "0.4400000000",
+      "description": "$0.44 per AWS Glue DPU Hour for compute to process zero-ETL data written to Amazon S3",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSGlue",
+        "usagetype": "EUN1-DBrew-Node-Hour",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Glue",
+        "operation": "Job",
+        "group": "Data Brew Job run"
+      },
+      "unit": "Node-hour",
+      "USD": "0.4800000000",
+      "description": "$0.48 per node hour for AWS Glue DataBrew jobs in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSGlue",
+        "usagetype": "EUN1-DBrew-FreeSessions",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Glue",
+        "operation": "Session",
+        "group": "Data Brew free interactive sessions"
+      },
+      "unit": "Sessions",
+      "USD": "0.0000000000",
+      "description": "$0 for AWS Glue DataBrew interactive sessions under free trial in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSGlue",
+        "usagetype": "EUN1-Catalog-Storage",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Glue",
+        "operation": "Storage",
+        "group": "Data catalog storage"
+      },
+      "unit": "Obj-Month",
+      "USD": "0.0000100000",
+      "description": "$1 per 100,000 objects per month for AWS Glue Data Catalog storage",
+      "beginRange": "0",
+      "endRange": "Inf"
+    }
+  ],
+  "AmazonAthena": [
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonAthena",
+        "usagetype": "EUN1-ReservedCapacityInDPUHours",
+        "description": "Data Processing Units (DPU) in hours",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Athena",
+        "operation": ""
+      },
+      "unit": "DPU-Hour",
+      "USD": "0.3100000000",
+      "description": "0.31 USD per DPU-Hour for ReservedCapacityInDPUHours in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "nodeSize": "1",
+        "servicecode": "AmazonAthena",
+        "usagetype": "EUN1-CodeExecutionInDPUHours",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Athena",
+        "nodeType": "NA",
+        "operation": "Spark_Execution"
+      },
+      "unit": "DPU-Hour",
+      "USD": "0.3600000000",
+      "description": "$0.36 per DPU-Hour for Spark codeexecution in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonAthena",
+        "freeQueryTypes": "Data definition queries (DDL), Failed Queries and statements used to create or load partitions",
+        "usagetype": "EUN1-DataScannedInTB",
+        "description": "Charged for total data scanned per query with a minimum 10MB for each successful or cancelled queries",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Athena",
+        "operation": ""
+      },
+      "unit": "Terabytes",
+      "USD": "5.0000000000",
+      "description": "5.00 USD per Terabytes for DataScannedInTB in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    }
+  ]
+}

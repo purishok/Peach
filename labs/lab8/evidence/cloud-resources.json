@@ -1,0 +1,145 @@
+{
+  "kinesis": {
+    "StreamDescriptionSummary": {
+      "StreamName": "peach-lab8",
+      "StreamARN": "arn:aws:kinesis:eu-north-1:985040259102:stream/peach-lab8",
+      "StreamStatus": "ACTIVE",
+      "StreamModeDetails": {
+        "StreamMode": "PROVISIONED"
+      },
+      "RetentionPeriodHours": 24,
+      "StreamCreationTimestamp": "2026-11-04 17:29:08+02:00",
+      "EnhancedMonitoring": [
+        {
+          "ShardLevelMetrics": []
+        }
+      ],
+      "EncryptionType": "NONE",
+      "OpenShardCount": 1,
+      "ConsumerCount": 0,
+      "MaxRecordSizeInKiB": 1024,
+      "ChannelCount": 0
+    },
+    "ResponseMetadata": {
+      "RequestId": "f80f2227-4980-3816-9b6a-7026b9a4d231",
+      "HTTPStatusCode": 200,
+      "HTTPHeaders": {
+        "x-amzn-requestid": "f80f2227-4980-3816-9b6a-7026b9a4d231",
+        "x-amz-id-2": "8wvj02NinyxKZzEDIMW2fSefUrw04M4Ag4OhSfxDeeRpRt2sdyaTK71zCu8w3ZSqPW00Uta1omv5IrwalAevCMnNmdeek2js",
+        "date": "Wed, 04 Nov 2026 15:31:13 GMT",
+        "content-type": "application/x-amz-json-1.1",
+        "content-length": "419",
+        "connection": "keep-alive"
+      },
+      "RetryAttempts": 0
+    }
+  },
+  "firehose": {
+    "DeliveryStreamDescription": {
+      "DeliveryStreamName": "peach-lab8",
+      "DeliveryStreamARN": "arn:aws:firehose:eu-north-1:985040259102:deliverystream/peach-lab8",
+      "DeliveryStreamStatus": "ACTIVE",
+      "DeliveryStreamType": "KinesisStreamAsSource",
+      "VersionId": "1",
+      "CreateTimestamp": "2026-11-04 17:29:32.812000+02:00",
+      "Source": {
+        "KinesisStreamSourceDescription": {
+          "KinesisStreamARN": "arn:aws:kinesis:eu-north-1:985040259102:stream/peach-lab8",
+          "RoleARN": "arn:aws:iam::985040259102:role/peach-lab8-firehose",
+          "DeliveryStartTimestamp": "2026-11-04 17:29:32.812000+02:00"
+        }
+      },
+      "Destinations": [
+        {
+          "DestinationId": "destinationId-000000000001",
+          "S3DestinationDescription": {
+            "RoleARN": "arn:aws:iam::985040259102:role/peach-lab8-firehose",
+            "BucketARN": "arn:aws:s3:::peach-lab8-985040259102-eu-north-1",
+            "Prefix": "stream/",
+            "ErrorOutputPrefix": "stream-errors/",
+            "BufferingHints": {
+              "SizeInMBs": 1,
+              "IntervalInSeconds": 60
+            },
+            "CompressionFormat": "UNCOMPRESSED",
+            "EncryptionConfiguration": {
+              "NoEncryptionConfig": "NoEncryption"
+            },
+            "CloudWatchLoggingOptions": {
+              "Enabled": false
+            }
+          },
+          "ExtendedS3DestinationDescription": {
+            "RoleARN": "arn:aws:iam::985040259102:role/peach-lab8-firehose",
+            "BucketARN": "arn:aws:s3:::peach-lab8-985040259102-eu-north-1",
+            "Prefix": "stream/",
+            "ErrorOutputPrefix": "stream-errors/",
+            "BufferingHints": {
+              "SizeInMBs": 1,
+              "IntervalInSeconds": 60
+            },
+            "CompressionFormat": "UNCOMPRESSED",
+            "EncryptionConfiguration": {
+              "NoEncryptionConfig": "NoEncryption"
+            },
+            "CloudWatchLoggingOptions": {
+              "Enabled": false
+            },
+            "S3BackupMode": "Disabled"
+          }
+        }
+      ],
+      "HasMoreDestinations": false
+    },
+    "ResponseMetadata": {
+      "RequestId": "de3a01d4-da89-0bdf-bd5f-53d545b6aa45",
+      "HTTPStatusCode": 200,
+      "HTTPHeaders": {
+        "x-amzn-requestid": "de3a01d4-da89-0bdf-bd5f-53d545b6aa45",
+        "x-amz-id-2": "bx9IBX94iJBTJ7pvk8+g+3lXsAV9xewlz/4aXpslBvBkJri02+ZHuT7U/24WQkIczGS9FU4hzxZ4H6VkhNahWBxs7DFptxeW",
+        "content-type": "application/x-amz-json-1.1",
+        "content-length": "1458",
+        "date": "Wed, 04 Nov 2026 15:31:13 GMT"
+      },
+      "RetryAttempts": 0
+    }
+  },
+  "lambda": {
+    "ResponseMetadata": {
+      "RequestId": "3f6caae6-1246-4412-8bf0-f4a1ec9c73e3",
+      "HTTPStatusCode": 200,
+      "HTTPHeaders": {
+        "date": "Wed, 04 Nov 2026 15:31:13 GMT",
+        "content-type": "application/json",
+        "content-length": "1184",
+        "connection": "keep-alive",
+        "x-amzn-requestid": "3f6caae6-1246-4412-8bf0-f4a1ec9c73e3"
+      },
+      "RetryAttempts": 0
+    },
+    "EventSourceMappings": [
+      {
+        "UUID": "09c380ff-63b7-4029-9285-0ef0b3422cd3",
+        "StartingPosition": "TRIM_HORIZON",
+        "BatchSize": 100,
+        "MaximumBatchingWindowInSeconds": 1,
+        "ParallelizationFactor": 1,
+        "EventSourceArn": "arn:aws:kinesis:eu-north-1:985040259102:stream/peach-lab8",
+        "FunctionArn": "arn:aws:lambda:eu-north-1:985040259102:function:peach-lab8-alert",
+        "LastModified": "2026-11-04 17:31:00+02:00",
+        "LastProcessingResult": "OK",
+        "State": "Enabled",
+        "StateTransitionReason": "User action",
+        "DestinationConfig": {
+          "OnFailure": {}
+        },
+        "MaximumRecordAgeInSeconds": -1,
+        "BisectBatchOnFunctionError": false,
+        "MaximumRetryAttempts": 2,
+        "TumblingWindowInSeconds": 60,
+        "FunctionResponseTypes": [],
+        "EventSourceMappingArn": "arn:aws:lambda:eu-north-1:985040259102:event-source-mapping:09c380ff-63b7-4029-9285-0ef0b3422cd3"
+      }
+    ]
+  }
+}

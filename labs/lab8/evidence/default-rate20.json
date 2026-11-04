@@ -1,0 +1,18 @@
+{
+  "source": "first 100 invoice IDs from the real day, all their events",
+  "events": 303,
+  "invoices": 100,
+  "progress": {
+    "consumed": {
+      "0": 89,
+      "1": 103,
+      "2": 111
+    },
+    "high_water": {
+      "0": 89,
+      "1": 103,
+      "2": 111
+    },
+    "lag": 0
+  }
+}

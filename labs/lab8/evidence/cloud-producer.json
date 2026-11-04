@@ -1,0 +1,8 @@
+{
+  "events": 3000,
+  "accepted": 3000,
+  "invoices": 989,
+  "bytes": 1296129,
+  "first_receivedAt": "2026-10-01T00:00:02Z",
+  "last_receivedAt": "2026-10-01T04:31:30Z"
+}

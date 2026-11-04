@@ -1,0 +1,38 @@
+{
+  "QueryExecutionId": "1653eed0-fc07-4d4f-9c36-7f76a8fd4fe2",
+  "Query": "MSCK REPAIR TABLE payment_events",
+  "StatementType": "DDL",
+  "ResultConfiguration": {
+    "OutputLocation": "s3://peach-lab8-985040259102-eu-north-1/athena-results/1653eed0-fc07-4d4f-9c36-7f76a8fd4fe2.txt"
+  },
+  "ResultReuseConfiguration": {
+    "ResultReuseByAgeConfiguration": {
+      "Enabled": false
+    }
+  },
+  "QueryExecutionContext": {
+    "Database": "peach_lab8"
+  },
+  "Status": {
+    "State": "SUCCEEDED",
+    "SubmissionDateTime": "2026-11-04 17:32:00.603000+02:00",
+    "CompletionDateTime": "2026-11-04 17:32:02.767000+02:00"
+  },
+  "Statistics": {
+    "EngineExecutionTimeInMillis": 1945,
+    "DataScannedInBytes": 0,
+    "TotalExecutionTimeInMillis": 2164,
+    "QueryQueueTimeInMillis": 169,
+    "ServicePreProcessingTimeInMillis": 32,
+    "ServiceProcessingTimeInMillis": 18,
+    "ResultReuseInformation": {
+      "ReusedPreviousResult": false
+    }
+  },
+  "WorkGroup": "primary",
+  "EngineVersion": {
+    "SelectedEngineVersion": "AUTO",
+    "EffectiveEngineVersion": "Athena engine version 3"
+  },
+  "SubstatementType": "MSCK_REPAIR"
+}

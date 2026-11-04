@@ -1,0 +1,39 @@
+{
+  "QueryExecutionId": "53a3302c-bb2a-4a22-ad2d-0a863dc56606",
+  "Query": "SELECT count(*) events FROM streamed_events",
+  "StatementType": "DML",
+  "ResultConfiguration": {
+    "OutputLocation": "s3://peach-lab8-985040259102-eu-north-1/athena-results/53a3302c-bb2a-4a22-ad2d-0a863dc56606.csv"
+  },
+  "ResultReuseConfiguration": {
+    "ResultReuseByAgeConfiguration": {
+      "Enabled": false
+    }
+  },
+  "QueryExecutionContext": {
+    "Database": "peach_lab8"
+  },
+  "Status": {
+    "State": "SUCCEEDED",
+    "SubmissionDateTime": "2026-11-04 17:30:56.192000+02:00",
+    "CompletionDateTime": "2026-11-04 17:30:56.744000+02:00"
+  },
+  "Statistics": {
+    "EngineExecutionTimeInMillis": 392,
+    "DataScannedInBytes": 1296129,
+    "TotalExecutionTimeInMillis": 552,
+    "QueryQueueTimeInMillis": 109,
+    "ServicePreProcessingTimeInMillis": 30,
+    "QueryPlanningTimeInMillis": 64,
+    "ServiceProcessingTimeInMillis": 21,
+    "ResultReuseInformation": {
+      "ReusedPreviousResult": false
+    }
+  },
+  "WorkGroup": "primary",
+  "EngineVersion": {
+    "SelectedEngineVersion": "AUTO",
+    "EffectiveEngineVersion": "Athena engine version 3"
+  },
+  "SubstatementType": "SELECT"
+}

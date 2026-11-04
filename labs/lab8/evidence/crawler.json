@@ -1,0 +1,48 @@
+{
+  "Name": "peach-lab8",
+  "Role": "peach-lab8-glue",
+  "Targets": {
+    "S3Targets": [
+      {
+        "Path": "s3://peach-lab8-985040259102-eu-north-1/payments/",
+        "Exclusions": []
+      }
+    ],
+    "JdbcTargets": [],
+    "MongoDBTargets": [],
+    "DynamoDBTargets": [],
+    "CatalogTargets": [],
+    "DeltaTargets": [],
+    "IcebergTargets": [],
+    "HudiTargets": []
+  },
+  "DatabaseName": "peach_lab8",
+  "Classifiers": [],
+  "RecrawlPolicy": {
+    "RecrawlBehavior": "CRAWL_EVERYTHING"
+  },
+  "SchemaChangePolicy": {
+    "UpdateBehavior": "UPDATE_IN_DATABASE",
+    "DeleteBehavior": "DEPRECATE_IN_DATABASE"
+  },
+  "LineageConfiguration": {
+    "CrawlerLineageSettings": "DISABLE"
+  },
+  "State": "READY",
+  "TablePrefix": "crawler_",
+  "CrawlElapsedTime": 0,
+  "CreationTime": "2026-11-04 17:32:12+02:00",
+  "LastUpdated": "2026-11-04 17:32:12+02:00",
+  "LastCrawl": {
+    "Status": "SUCCEEDED",
+    "LogGroup": "/aws-glue/crawlers",
+    "LogStream": "peach-lab8",
+    "MessagePrefix": "8756cc61-4171-481d-bf5e-4e28ef94e67e",
+    "StartTime": "2026-11-04 17:32:12+02:00"
+  },
+  "Version": 1,
+  "LakeFormationConfiguration": {
+    "UseLakeFormationCredentials": false,
+    "AccountId": ""
+  }
+}

@@ -1,0 +1,17 @@
+data/
+*.sqlite*
+__pycache__/
+.venv/
+tmp/
+output/
+
+# Publish the successful experiment output alongside the CSV evidence.
+!evidence/payments-baseline-*.log
+!evidence/payments-restart-v2-*.log
+!evidence/payments-two-v2-*.log
+!evidence/payments-failure30-*.log
+!evidence/payments-wait0-*.log
+!evidence/tests.log
+!evidence/batch-run.log
+!evidence/cloud-run.log
+!evidence/crawler-run.log

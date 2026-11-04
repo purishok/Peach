@@ -1,0 +1,44 @@
+[
+  {
+    "query": "03_turnover",
+    "json_bytes": 1260692423,
+    "parquet_bytes": 6389672,
+    "json_engine_ms": 3108,
+    "parquet_engine_ms": 1247,
+    "json_total_ms": 3282,
+    "parquet_total_ms": 1410,
+    "scan_reduction": 197.3015865290112,
+    "json_estimated_usd": 0.005736351013183594,
+    "parquet_estimated_usd": 4.76837158203125e-05,
+    "billing_reduction": 120.3,
+    "results_equal": true
+  },
+  {
+    "query": "04_failure",
+    "json_bytes": 1260692423,
+    "parquet_bytes": 675513,
+    "json_engine_ms": 4029,
+    "parquet_engine_ms": 1344,
+    "json_total_ms": 4190,
+    "parquet_total_ms": 1747,
+    "scan_reduction": 1866.2741101947704,
+    "json_estimated_usd": 0.005736351013183594,
+    "parquet_estimated_usd": 4.76837158203125e-05,
+    "billing_reduction": 120.3,
+    "results_equal": true
+  },
+  {
+    "query": "05_hours",
+    "json_bytes": 1260692423,
+    "parquet_bytes": 6545829,
+    "json_engine_ms": 3633,
+    "parquet_engine_ms": 1172,
+    "json_total_ms": 3986,
+    "parquet_total_ms": 1299,
+    "scan_reduction": 192.59476882148923,
+    "json_estimated_usd": 0.005736351013183594,
+    "parquet_estimated_usd": 4.76837158203125e-05,
+    "billing_reduction": 120.3,
+    "results_equal": true
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "CrawlerMetricsList": [
+    {
+      "CrawlerName": "peach-lab8",
+      "TimeLeftSeconds": 0.0,
+      "StillEstimating": false,
+      "LastRuntimeSeconds": 38.088,
+      "MedianRuntimeSeconds": 38.088,
+      "TablesCreated": 1,
+      "TablesUpdated": 0,
+      "TablesDeleted": 0
+    }
+  ],
+  "ResponseMetadata": {
+    "RequestId": "4d892aec-89ea-48eb-a865-f1176fccc491",
+    "HTTPStatusCode": 200,
+    "HTTPHeaders": {
+      "date": "Wed, 04 Nov 2026 15:35:11 GMT",
+      "content-type": "application/x-amz-json-1.1",
+      "content-length": "265",
+      "connection": "keep-alive",
+      "x-amzn-requestid": "4d892aec-89ea-48eb-a865-f1176fccc491",
+      "cache-control": "no-cache"
+    },
+    "RetryAttempts": 0
+  }
+}

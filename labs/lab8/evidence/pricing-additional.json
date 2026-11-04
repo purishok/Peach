@@ -1,0 +1,178 @@
+{
+  "AmazonS3:[('productFamily', 'Storage'), ('volumeType', 'Standard')]": [
+    {
+      "attributes": {
+        "volumeType": "Standard",
+        "storageClass": "General Purpose",
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonS3",
+        "durability": "99.999999999%",
+        "usagetype": "EUN1-TimedStorage-ByteHrs",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Simple Storage Service",
+        "availability": "99.99%",
+        "operation": ""
+      },
+      "unit": "GB-Mo",
+      "USD": "0.0230000000",
+      "description": "$0.023 per GB - first 50 TB / month of storage used",
+      "beginRange": "0",
+      "endRange": "51200"
+    },
+    {
+      "attributes": {
+        "volumeType": "Standard",
+        "storageClass": "General Purpose",
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonS3",
+        "durability": "99.999999999%",
+        "usagetype": "EUN1-TimedStorage-ByteHrs",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Simple Storage Service",
+        "availability": "99.99%",
+        "operation": ""
+      },
+      "unit": "GB-Mo",
+      "USD": "0.0210000000",
+      "description": "$0.021 per GB - storage used / month over 500 TB",
+      "beginRange": "512000",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "volumeType": "Standard",
+        "storageClass": "General Purpose",
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonS3",
+        "durability": "99.999999999%",
+        "usagetype": "EUN1-TimedStorage-ByteHrs",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Simple Storage Service",
+        "availability": "99.99%",
+        "operation": ""
+      },
+      "unit": "GB-Mo",
+      "USD": "0.0220000000",
+      "description": "$0.022 per GB - next 450 TB / month of storage used",
+      "beginRange": "51200",
+      "endRange": "512000"
+    }
+  ],
+  "AWSLambda:[('usagetype', 'EUN1-Lambda-GB-Second')]": [
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSLambda",
+        "groupDescription": "Invocation duration weighted by memory assigned to function, measured in GB-s",
+        "usagetype": "EUN1-Lambda-GB-Second",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Lambda",
+        "operation": "",
+        "group": "AWS-Lambda-Duration"
+      },
+      "unit": "Lambda-GB-Second",
+      "USD": "0.0000133334",
+      "description": "USD 0.0000133334 per Second for Lambda-GB-Second in EU (Stockholm)-Tier-3",
+      "beginRange": "15000000000",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSLambda",
+        "groupDescription": "Invocation duration weighted by memory assigned to function, measured in GB-s",
+        "usagetype": "EUN1-Lambda-GB-Second",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Lambda",
+        "operation": "",
+        "group": "AWS-Lambda-Duration"
+      },
+      "unit": "Lambda-GB-Second",
+      "USD": "0.0000150000",
+      "description": "USD 0.0000150000 per Second for Lambda-GB-Second in EU (Stockholm)-Tier-2",
+      "beginRange": "6000000000",
+      "endRange": "15000000000"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSLambda",
+        "groupDescription": "Invocation duration weighted by memory assigned to function, measured in GB-s",
+        "usagetype": "EUN1-Lambda-GB-Second",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Lambda",
+        "operation": "",
+        "group": "AWS-Lambda-Duration"
+      },
+      "unit": "Lambda-GB-Second",
+      "USD": "0.0000166667",
+      "description": "USD 0.0000166667 per Second for Lambda-GB-Second in EU (Stockholm)-Tier-1",
+      "beginRange": "0",
+      "endRange": "6000000000"
+    }
+  ],
+  "AWSLambda:[('usagetype', 'EUN1-Request')]": [
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AWSLambda",
+        "groupDescription": "Invocation call for a Lambda function",
+        "usagetype": "EUN1-Request",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "AWS Lambda",
+        "operation": "",
+        "group": "AWS-Lambda-Requests"
+      },
+      "unit": "Request",
+      "USD": "0.0000002000",
+      "description": "USD 2.0E-7 per Requests for Request in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "Inf"
+    }
+  ],
+  "AmazonSNS:[('usagetype', 'EUN1-Requests-Tier1')]": [
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonSNS",
+        "groupDescription": "Amazon SNS API Requests",
+        "usagetype": "EUN1-Requests-Tier1",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Simple Notification Service",
+        "operation": "",
+        "group": "SNS-Requests-Tier1"
+      },
+      "unit": "Requests",
+      "USD": "0.0000005000",
+      "description": "USD 5.0E-7 per Requests for Requests-Tier1 in EU (Stockholm)",
+      "beginRange": "1000000",
+      "endRange": "Inf"
+    },
+    {
+      "attributes": {
+        "regionCode": "eu-north-1",
+        "servicecode": "AmazonSNS",
+        "groupDescription": "Amazon SNS API Requests",
+        "usagetype": "EUN1-Requests-Tier1",
+        "locationType": "AWS Region",
+        "location": "EU (Stockholm)",
+        "servicename": "Amazon Simple Notification Service",
+        "operation": "",
+        "group": "SNS-Requests-Tier1"
+      },
+      "unit": "Requests",
+      "USD": "0.0000000000",
+      "description": "USD 0.0 per Requests for Requests-Tier1 in EU (Stockholm)",
+      "beginRange": "0",
+      "endRange": "1000000"
+    }
+  ]
+}

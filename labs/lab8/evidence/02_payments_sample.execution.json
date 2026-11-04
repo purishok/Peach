@@ -1,0 +1,39 @@
+{
+  "QueryExecutionId": "f56986a9-738d-47d3-befb-6af26567ac67",
+  "Query": "SELECT invoiceid,status,modifieddate,receivedat,dt FROM payments ORDER BY invoiceid LIMIT 10",
+  "StatementType": "DML",
+  "ResultConfiguration": {
+    "OutputLocation": "s3://peach-lab8-985040259102-eu-north-1/athena-results/f56986a9-738d-47d3-befb-6af26567ac67.csv"
+  },
+  "ResultReuseConfiguration": {
+    "ResultReuseByAgeConfiguration": {
+      "Enabled": false
+    }
+  },
+  "QueryExecutionContext": {
+    "Database": "peach_lab8"
+  },
+  "Status": {
+    "State": "SUCCEEDED",
+    "SubmissionDateTime": "2026-11-04 17:34:15.446000+02:00",
+    "CompletionDateTime": "2026-11-04 17:34:19.296000+02:00"
+  },
+  "Statistics": {
+    "EngineExecutionTimeInMillis": 3668,
+    "DataScannedInBytes": 1260692423,
+    "TotalExecutionTimeInMillis": 3850,
+    "QueryQueueTimeInMillis": 102,
+    "ServicePreProcessingTimeInMillis": 55,
+    "QueryPlanningTimeInMillis": 386,
+    "ServiceProcessingTimeInMillis": 25,
+    "ResultReuseInformation": {
+      "ReusedPreviousResult": false
+    }
+  },
+  "WorkGroup": "primary",
+  "EngineVersion": {
+    "SelectedEngineVersion": "AUTO",
+    "EffectiveEngineVersion": "Athena engine version 3"
+  },
+  "SubstatementType": "SELECT"
+}

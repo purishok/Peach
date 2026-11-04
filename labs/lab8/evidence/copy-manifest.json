@@ -1,0 +1,8 @@
+{
+  "bucket": "peach-lab8-985040259102-eu-north-1",
+  "region": "eu-north-1",
+  "source_region": "us-east-1",
+  "method": "AWS CLI anonymous download then authenticated upload",
+  "objects": 31,
+  "bytes": 1260672849
+}

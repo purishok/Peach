@@ -1,0 +1,8 @@
+{
+  "utc": "2026-11-04 15:33:40.474017+00:00",
+  "kinesis_deleted": true,
+  "firehose_deleted": true,
+  "lambda_deleted": true,
+  "sns_deleted": true,
+  "roles_deleted": true
+}

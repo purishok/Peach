@@ -1,0 +1,347 @@
+{
+  "Contents": [
+    {
+      "Key": "payments/dt=2026-10-01/events.jsonl",
+      "LastModified": "2026-10-26T06:33:05+00:00",
+      "ETag": "\"6fbbf6c49ebeca776c870387500d0105-6\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 42042253,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-02/events.jsonl",
+      "LastModified": "2026-10-26T06:33:05+00:00",
+      "ETag": "\"2f3c5d6aa8716a56d2257ec6d41022d7-6\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 42087514,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-03/events.jsonl",
+      "LastModified": "2026-10-26T06:33:18+00:00",
+      "ETag": "\"2cf6347f25df424d03514cb56805fc2c-6\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 42362221,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-04/events.jsonl",
+      "LastModified": "2026-10-26T06:33:20+00:00",
+      "ETag": "\"870b7346132c3b8bfe88388b3616db08-5\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 41836345,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-05/events.jsonl",
+      "LastModified": "2026-10-26T06:33:22+00:00",
+      "ETag": "\"c7485d737b3c3053625f02be0c5e9b88-6\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 42222689,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-06/events.jsonl",
+      "LastModified": "2026-10-26T06:33:24+00:00",
+      "ETag": "\"f81779509308bd8356cdc5ded4cd5f30-5\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 41729409,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-07/events.jsonl",
+      "LastModified": "2026-10-26T06:33:28+00:00",
+      "ETag": "\"63562c7714c34d4d49bf5e204e223a68-6\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 42106997,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-08/events.jsonl",
+      "LastModified": "2026-10-26T06:33:39+00:00",
+      "ETag": "\"9e200d40550cc01b880f4942ba0b02d6-6\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 41973065,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-09/events.jsonl",
+      "LastModified": "2026-10-26T06:33:40+00:00",
+      "ETag": "\"c60743c4d0a0423d52ea4f76a5d43c0c-6\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 41981843,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-10/events.jsonl",
+      "LastModified": "2026-10-26T06:33:42+00:00",
+      "ETag": "\"1deade82748314080bd99f4b03261aac-5\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 41899172,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-11/events.jsonl",
+      "LastModified": "2026-10-26T06:33:43+00:00",
+      "ETag": "\"c400633ec4535fac409cb2dc0a7c271a-6\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 42126954,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-12/events.jsonl",
+      "LastModified": "2026-10-26T06:33:45+00:00",
+      "ETag": "\"73610be6822b7d42c0dbfab0a7e87d2d-5\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 41872936,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-13/events.jsonl",
+      "LastModified": "2026-10-26T06:33:45+00:00",
+      "ETag": "\"06bde801e715c2274244bc67846e4fb9-6\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 42078553,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-14/events.jsonl",
+      "LastModified": "2026-10-26T06:33:47+00:00",
+      "ETag": "\"38b84df58dd02da227665e5c58afcd25-6\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 42323138,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-15/events.jsonl",
+      "LastModified": "2026-10-26T06:33:50+00:00",
+      "ETag": "\"a6fabfc9d4e7aec0183ebac881f12d8c-6\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 42352731,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-16/events.jsonl",
+      "LastModified": "2026-10-26T06:33:52+00:00",
+      "ETag": "\"0ac39e0bffc8bbd0de36a3eb7db30911-6\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 42007576,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-17/events.jsonl",
+      "LastModified": "2026-10-26T06:33:53+00:00",
+      "ETag": "\"450bfa66f07f455279f69aa7502c63cc-5\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 41515407,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-18/events.jsonl",
+      "LastModified": "2026-10-26T06:33:55+00:00",
+      "ETag": "\"2230677c4ab517fa7ef1f37f7f6083f4-5\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 41856129,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-19/events.jsonl",
+      "LastModified": "2026-10-26T06:33:56+00:00",
+      "ETag": "\"827acedeb32d4cb61166524ccd489214-6\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 42175054,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-20/events.jsonl",
+      "LastModified": "2026-10-26T06:34:07+00:00",
+      "ETag": "\"eb01efd6e961b0b8ee32d764cd7a8c5f-5\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 41859678,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-21/events.jsonl",
+      "LastModified": "2026-10-26T06:34:08+00:00",
+      "ETag": "\"a5c27fda50f660b13faec8d66e48a34c-6\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 42238302,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-22/events.jsonl",
+      "LastModified": "2026-10-26T06:34:13+00:00",
+      "ETag": "\"1d780a7951b2d336986b6985e53485ba-6\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 42312376,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-23/events.jsonl",
+      "LastModified": "2026-10-26T06:34:14+00:00",
+      "ETag": "\"db69b5059e55cd271a4edbc1327e30f5-6\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 42053164,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-24/events.jsonl",
+      "LastModified": "2026-10-26T06:34:16+00:00",
+      "ETag": "\"1e443f09e4f5993302f072f0434455ae-6\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 42162092,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-25/events.jsonl",
+      "LastModified": "2026-10-26T06:34:18+00:00",
+      "ETag": "\"eb7989f6b251df37c647de4b21345218-5\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 41760232,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-26/events.jsonl",
+      "LastModified": "2026-10-26T06:34:19+00:00",
+      "ETag": "\"6cb9c7c750b55f5d87d39cbc120ce46c-6\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 42085853,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-27/events.jsonl",
+      "LastModified": "2026-10-26T06:34:21+00:00",
+      "ETag": "\"86a790eddf4d96a86e78fe0df354191d-6\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 42224481,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-28/events.jsonl",
+      "LastModified": "2026-10-26T06:34:23+00:00",
+      "ETag": "\"cde4ae6a7170d6fe40a2bb3269d1077d-5\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 41785981,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-29/events.jsonl",
+      "LastModified": "2026-10-26T06:34:26+00:00",
+      "ETag": "\"9adf9beebd9860253b62bf83399b7e7f-6\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 42018860,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-30/events.jsonl",
+      "LastModified": "2026-10-26T06:34:28+00:00",
+      "ETag": "\"77190a622ce2e171f364068fb078c585-5\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 41619750,
+      "StorageClass": "STANDARD"
+    },
+    {
+      "Key": "payments/dt=2026-10-31/events.jsonl",
+      "LastModified": "2026-10-26T06:34:30+00:00",
+      "ETag": "\"735fd390e2f42781f066b124b692efe7\"",
+      "ChecksumAlgorithm": [
+        "CRC64NVME"
+      ],
+      "ChecksumType": "FULL_OBJECT",
+      "Size": 2094,
+      "StorageClass": "STANDARD"
+    }
+  ],
+  "RequestCharged": null,
+  "Prefix": "payments/"
+}

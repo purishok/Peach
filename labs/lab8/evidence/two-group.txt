@@ -1,0 +1,12 @@
+GROUP                  payments-two-v2
+COORDINATOR-NODE       0
+COORDINATOR-PARTITION  __consumer_offsets/2
+STATE                  Stable
+BALANCER               range
+MEMBERS                2
+TOTAL-LAG              243
+
+TOPIC            PARTITION  CURRENT-OFFSET  LOG-START-OFFSET  LOG-END-OFFSET  LAG   MEMBER-ID                                 CLIENT-ID  HOST
+payments-two-v2  0          6390            0                 6394            4     one-32d26205-2d46-4619-bb66-d48b93ae2d09  one        172.21.0.1
+payments-two-v2  1          6110            0                 6120            10    one-32d26205-2d46-4619-bb66-d48b93ae2d09  one        172.21.0.1
+payments-two-v2  2          6500            0                 6729            229   two-1fb30a9e-a333-40ab-8cfb-cf52c31c1cd0  two        172.21.0.1

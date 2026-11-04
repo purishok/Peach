@@ -1,0 +1,38 @@
+{
+  "policy_id": "p-0wjafcyv",
+  "statements": [
+    {
+      "Sid": "UsEast1Partitional",
+      "Effect": "Deny",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-east-1"
+        }
+      }
+    },
+    {
+      "Sid": "UsWest2Partitional",
+      "Effect": "Deny",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-west-2"
+        }
+      }
+    },
+    {
+      "Sid": "RegionFloor",
+      "Effect": "Deny",
+      "Condition": {
+        "StringNotEquals": {
+          "aws:RequestedRegion": [
+            "eu-north-1",
+            "unspecified",
+            "us-east-1",
+            "us-west-2"
+          ]
+        }
+      }
+    }
+  ],
+  "note": "us-east-1 NotAction exceptions omit S3 object operations, Athena, Glue, Kinesis and Firehose; eu-north-1 is excluded from the RegionFloor deny"
+}

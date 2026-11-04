@@ -1,0 +1,38 @@
+{
+  "QueryExecutionId": "055de7cb-01a6-4d4e-8707-e4ca7129c57f",
+  "Query": "CREATE EXTERNAL TABLE IF NOT EXISTS streamed_events\n(invoiceid string, status string, failurereason string,\namount bigint, finalamount bigint, ccy int, reference string,\ncreateddate string, modifieddate string, receivedat string,\nmerchantid string, merchantname string, mcc int, customerid string,\npaymentmethod string, device string) ROW FORMAT SERDE 'org.openx.data.jsonserde.JsonSerDe'\nLOCATION 's3://peach-lab8-985040259102-eu-north-1/stream/'",
+  "StatementType": "DDL",
+  "ResultConfiguration": {
+    "OutputLocation": "s3://peach-lab8-985040259102-eu-north-1/athena-results/055de7cb-01a6-4d4e-8707-e4ca7129c57f.txt"
+  },
+  "ResultReuseConfiguration": {
+    "ResultReuseByAgeConfiguration": {
+      "Enabled": false
+    }
+  },
+  "QueryExecutionContext": {
+    "Database": "peach_lab8"
+  },
+  "Status": {
+    "State": "SUCCEEDED",
+    "SubmissionDateTime": "2026-11-04 17:29:51.417000+02:00",
+    "CompletionDateTime": "2026-11-04 17:29:51.941000+02:00"
+  },
+  "Statistics": {
+    "EngineExecutionTimeInMillis": 418,
+    "DataScannedInBytes": 0,
+    "TotalExecutionTimeInMillis": 524,
+    "QueryQueueTimeInMillis": 76,
+    "ServicePreProcessingTimeInMillis": 14,
+    "ServiceProcessingTimeInMillis": 16,
+    "ResultReuseInformation": {
+      "ReusedPreviousResult": false
+    }
+  },
+  "WorkGroup": "primary",
+  "EngineVersion": {
+    "SelectedEngineVersion": "AUTO",
+    "EffectiveEngineVersion": "Athena engine version 3"
+  },
+  "SubstatementType": "CREATE_TABLE"
+}

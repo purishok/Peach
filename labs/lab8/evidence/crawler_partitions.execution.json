@@ -1,0 +1,38 @@
+{
+  "QueryExecutionId": "8138fafc-6581-4535-9d5d-5bc03ef37421",
+  "Query": "SHOW PARTITIONS crawler_payments",
+  "StatementType": "UTILITY",
+  "ResultConfiguration": {
+    "OutputLocation": "s3://peach-lab8-985040259102-eu-north-1/athena-results/8138fafc-6581-4535-9d5d-5bc03ef37421.txt"
+  },
+  "ResultReuseConfiguration": {
+    "ResultReuseByAgeConfiguration": {
+      "Enabled": false
+    }
+  },
+  "QueryExecutionContext": {
+    "Database": "peach_lab8"
+  },
+  "Status": {
+    "State": "SUCCEEDED",
+    "SubmissionDateTime": "2026-11-04 17:34:22.400000+02:00",
+    "CompletionDateTime": "2026-11-04 17:34:23.265000+02:00"
+  },
+  "Statistics": {
+    "EngineExecutionTimeInMillis": 700,
+    "DataScannedInBytes": 0,
+    "TotalExecutionTimeInMillis": 865,
+    "QueryQueueTimeInMillis": 121,
+    "ServicePreProcessingTimeInMillis": 18,
+    "ServiceProcessingTimeInMillis": 26,
+    "ResultReuseInformation": {
+      "ReusedPreviousResult": false
+    }
+  },
+  "WorkGroup": "primary",
+  "EngineVersion": {
+    "SelectedEngineVersion": "AUTO",
+    "EffectiveEngineVersion": "Athena engine version 3"
+  },
+  "SubstatementType": "SHOW_PARTITIONS"
+}

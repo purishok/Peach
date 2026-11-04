@@ -1,0 +1,12 @@
+test_duplicate_and_atomic_offset (test_stream.WindowTests.test_duplicate_and_atomic_offset) ... ok
+test_reopen_retains_state (test_stream.WindowTests.test_reopen_retains_state) ... ok
+test_terminal_correction_retracts_previous (test_stream.WindowTests.test_terminal_correction_retracts_previous) ... ok
+test_two_minute_grace_accepts_same_event (test_stream.WindowTests.test_two_minute_grace_accepts_same_event) ... ok
+test_zero_wait_rejects_closed_window (test_stream.WindowTests.test_zero_wait_rejects_closed_window) ... ok
+test_duplicates_state_and_strict_threshold (test_cloud_alert.AlertTests.test_duplicates_state_and_strict_threshold) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.091s
+
+OK
+{"alert": {"method": "card", "total": 11, "failures": 2, "window": null, "clock": "Kinesis arrival time"}, "sns_message_id": "test-message"}

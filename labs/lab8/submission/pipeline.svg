@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780">
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#52647a"/></marker></defs>
+<rect width="1400" height="780" fill="#f6f8fc"/>
+<g font-family="Arial,sans-serif" fill="#182c45">
+<text x="65" y="70" font-size="32" font-weight="bold">Payments: streaming on AWS</text>
+<text x="65" y="106" font-size="18" fill="#566780">Lab 8 | eu-north-1 | executed: 3,000 events delivered to S3; streams deleted after verification</text>
+<g fill="white" stroke="#cad5e2" stroke-width="2">
+<rect x="65" y="190" width="225" height="130" rx="12"/>
+<rect x="355" y="190" width="225" height="130" rx="12"/>
+<rect x="645" y="190" width="225" height="130" rx="12"/>
+<rect x="935" y="190" width="385" height="130" rx="12"/>
+<rect x="355" y="425" width="225" height="135" rx="12"/>
+<rect x="645" y="425" width="225" height="135" rx="12"/>
+<rect x="935" y="425" width="385" height="135" rx="12"/>
+</g>
+<g font-size="22" font-weight="bold">
+<text x="85" y="229">Python producer</text><text x="375" y="229">Kinesis</text>
+<text x="665" y="229">Data Firehose</text><text x="955" y="229">Amazon S3</text>
+<text x="375" y="466">Lambda</text><text x="665" y="466">Amazon SNS</text>
+<text x="955" y="466">Athena + Glue Catalog</text>
+</g>
+<g font-size="17" fill="#52647a">
+<text x="85" y="261">Real October webhooks</text><text x="85" y="290">receivedAt order</text>
+<text x="375" y="261">One provisioned shard</text><text x="375" y="290">Key: invoiceId</text>
+<text x="665" y="261">JSON Lines to S3</text><text x="665" y="290">60s buffer hint</text>
+<text x="955" y="261">Private lab bucket / stream/</text><text x="955" y="290">Separate from original payments/</text>
+<text x="375" y="498">60s insertion-time windows</text><text x="375" y="528">Terminal failure share &gt; 10%</text>
+<text x="665" y="498">No external subscribers</text><text x="665" y="528">Message IDs logged</text>
+<text x="955" y="498">Dedup by invoice and modifiedDate</text><text x="955" y="528">SQL results and scan metrics saved</text>
+</g>
+<g fill="none" stroke="#52647a" stroke-width="2.5" marker-end="url(#arrow)">
+<path d="M290 255 H350"/><path d="M580 255 H640"/><path d="M870 255 H930"/>
+<path d="M467 320 V420"/><path d="M580 493 H640"/><path d="M1127 320 V420"/>
+</g>
+<rect x="65" y="630" width="1255" height="90" rx="12" fill="#e7eef9"/>
+<text x="85" y="665" font-size="19" font-weight="bold">After verification: delete Kinesis and Firehose; retain exported evidence.</text>
+<text x="85" y="696" font-size="17" fill="#52647a">Local Part 3 uses modifiedDate event-time windows and a 120s watermark allowance. Cloud Lambda uses stream insertion time.</text>
+</g></svg>
