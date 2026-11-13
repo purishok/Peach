@@ -46,7 +46,7 @@ The official calculators cross-check the database line for 730 hours:
   Insights disabled. The calculator's input of 1 I/O per second accounts for
   the difference from the lower I/O rate in the traffic table. The other
   profiles use the awake-hour calculation above to model automatic pausing.
-  [Screenshot](aws-calculator.jpg)
+  [Calculator export](aws-calculator.csv) · [Screenshot](aws-calculator.jpg)
 
 Sources: [AWS Pricing Calculator](https://calculator.aws/),
 [Google Cloud Pricing Calculator](https://cloud.google.com/products/calculator),
