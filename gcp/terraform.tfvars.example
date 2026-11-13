@@ -1,0 +1,5 @@
+project_id                = "peach-lab9-example"
+terraform_service_account = "peach-terraform@peach-lab9-example.iam.gserviceaccount.com"
+cognito_pool_id           = ""
+cognito_client_id         = ""
+# backend_image = "us-central1-docker.pkg.dev/peach-lab9-example/peach/backend@sha256:..."

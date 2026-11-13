@@ -222,3 +222,15 @@ variable "account_id" {
   type    = string
   default = "505464394565"
 }
+
+variable "additional_callback_urls" {
+  type        = list(string)
+  description = "Optional HTTPS callback URLs for additional Peach frontends."
+  default     = []
+}
+
+variable "additional_logout_urls" {
+  type        = list(string)
+  description = "Optional HTTPS logout URLs for additional Peach frontends."
+  default     = []
+}

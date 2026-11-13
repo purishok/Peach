@@ -1,0 +1,6 @@
+/terraform.tfvars
+/*.auto.tfvars
+/*.tfvars.json
+/.firebase/
+/out/
+/firebase-debug*.log

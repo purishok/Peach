@@ -63,8 +63,8 @@ resource "aws_cognito_user_pool_client" "user_pool_client" {
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_scopes                 = ["openid", "email", "profile"]
   supported_identity_providers         = ["COGNITO", "Google"]
-  callback_urls                        = [var.application_callback_url, var.local_callback_url]
-  logout_urls                          = [var.application_logout_url, var.local_logout_url]
+  callback_urls                        = concat([var.application_callback_url, var.local_callback_url], var.additional_callback_urls)
+  logout_urls                          = concat([var.application_logout_url, var.local_logout_url], var.additional_logout_urls)
   prevent_user_existence_errors        = "ENABLED"
   enable_token_revocation              = true
   refresh_token_validity               = 30

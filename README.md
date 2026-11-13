@@ -706,3 +706,12 @@ See [ADR 0007](docs/adr/0007-terraform.md), the
 
 The three submission items and verification links are in
 [Lab 7 submission](docs/lab7-submission.md).
+
+## Lab 9 — Peach on Google Cloud
+
+[GCP deployment and cleanup](gcp/README.md) covers the separate Terraform
+workspace, Cloud Run API, Cloud SQL PostgreSQL and Firebase Hosting. Sign-in,
+weekly reports and the agenda parser stay on AWS. The
+[architecture decision](docs/adr/0009-google-cloud.md),
+[cost comparison](docs/lab9/costs.md) and
+[demo evidence](docs/lab9/README.md) are part of the Lab 9 submission.

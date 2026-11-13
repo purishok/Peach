@@ -1,0 +1,15 @@
+{
+  "hosting": {
+    "public": "out",
+    "cleanUrls": true,
+    "rewrites": [
+      {
+        "source": "/api/**",
+        "run": {
+          "serviceId": "peach-api",
+          "region": "us-central1"
+        }
+      }
+    ]
+  }
+}
