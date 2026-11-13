@@ -37,8 +37,16 @@ after the demo avoids the ongoing disk and address charges. Cloud Run's zero
 minimum does not stop Cloud SQL. Increasing Cloud Run's minimum or switching to
 instance-based billing can add compute cost independently.
 
-These are list-price estimates. Calculator inputs are listed above. No shared
-calculator estimate has been generated for this submission.
+The official calculators cross-check the database line for 730 hours:
+
+- Google Cloud estimates **$9.37/month** for one PostgreSQL Enterprise
+  `db-f1-micro` in Iowa with 10 GiB SSD. [Shared estimate](https://cloud.google.com/products/calculator/estimate-preview/CiQ0YTFhMjZhYi1hNTdlLTQwOGItYjIwNy1lMDRiOWM3NmMwODkQAQ%3D%3D) · [Screenshot](gcp-calculator.jpg)
+- AWS estimates **$44.43/month** for Aurora PostgreSQL Serverless v2 Standard
+  in N. Virginia, at 0.5 ACU and 1 GB of storage, with RDS Proxy and Database
+  Insights disabled. The calculator's input of 1 I/O per second accounts for
+  the difference from the lower I/O rate in the traffic table. The other
+  profiles use the awake-hour calculation above to model automatic pausing.
+  [Screenshot](aws-calculator.jpg)
 
 Sources: [AWS Pricing Calculator](https://calculator.aws/),
 [Google Cloud Pricing Calculator](https://cloud.google.com/products/calculator),
