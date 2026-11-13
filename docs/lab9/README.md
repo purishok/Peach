@@ -20,8 +20,16 @@ or result table was created. The [CSV](usa-names.csv) contains all 20 results.
 | --- | --- |
 | Firebase Hosting URL and authenticated Cloud SQL read | Pending an active Google Cloud Billing account, GCP deployment and Cognito redirect configuration. |
 | Looker Studio chart | Pending Data Studio first-use terms. The live BigQuery connector also needs billing. The CSV connector can use the exported public query results without the live BigQuery connection. Use year as the ascending dimension and registered_births as the metric. |
-| Vision OCR | [Synthetic receipt](ocr-demo-receipt.png) prepared. Run it in [the Cloud Vision interactive demo](https://docs.cloud.google.com/vision/docs/drag-and-drop), open the text result and capture the screenshot. |
 | Dataflow and Vertex AI Studio | Pending a billing-enabled lab project. |
+
+## Document AI OCR
+
+Processed Google's **Expense** sample in the [public Document AI demo](https://docs.cloud.google.com/document-ai/docs/try-docai).
+The OCR tab showed detected text such as `STOP&SHOP` alongside the bounding
+boxes on the receipt. The Fields tab extracted line items and amounts,
+including `JSPH ORG HUMMUS` at `5.99`.
+
+![Document AI OCR result for the sample expense receipt](document-ai-ocr.jpg)
 
 Document OCR is appropriate when the job is to transcribe a receipt or extract
 its layout and field coordinates. An LLM is useful when a note implies
