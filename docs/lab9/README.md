@@ -43,6 +43,17 @@ date. It left `starts_at` as `null` because the input only said “after lunch.�
 
 ![Gemini agenda extraction in Agent Studio](vertex-ai-studio.jpg)
 
+## Dataflow batch demo
+
+Ran Google's Cloud Storage Text to BigQuery template with one worker. The
+input was the 20 public rows from the BigQuery demo, with the CSV header
+removed. A JavaScript function converted each line to a JSON object with
+integer `year` and `registered_births` fields. The job succeeded, and a
+BigQuery query verified that all 20 output rows matched the original CSV
+exactly, covering 2000–2019 and totaling 395,535 registered births.
+
+![Successful Cloud Storage Text to BigQuery job](dataflow.jpg)
+
 ## Document AI OCR
 
 Processed Google's **Expense** sample in the [public Document AI demo](https://docs.cloud.google.com/document-ai/docs/try-docai).
