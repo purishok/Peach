@@ -4,6 +4,20 @@
 - [Terraform deployment and cleanup](../../gcp/README.md)
 - [Costs for four traffic profiles](costs.md)
 
+## Live deployment
+
+- [Peach on Firebase Hosting](https://probable-maker-514708-r1.web.app/)
+- [Cloud Run health through Firebase Hosting](https://probable-maker-514708-r1.web.app/api/health)
+
+Verified on 14 November 2026 that the frontend returns HTTP 200. An
+authenticated request through Firebase Hosting to `GET /api/v1/health/ready`
+returned HTTP 200 with `{"status":"ok","database":"ok"}` after executing
+`SELECT 1` on Cloud SQL. The same route returns HTTP 401 without a token.
+
+The project has a $5 budget with alerts at 50%, 90%, and 100%. The budget does
+not cap spending. Keep Cloud SQL running while the live URL is needed for
+grading, then follow the [cleanup instructions](../../gcp/README.md#stop-or-clean-up).
+
 ## BigQuery
 
 Ran [the query](usa-names.sql) over BigQuery's public USA Names dataset in the
@@ -18,9 +32,16 @@ or result table was created. The [CSV](usa-names.csv) contains all 20 results.
 
 | Check | Status |
 | --- | --- |
-| Firebase Hosting URL and authenticated Cloud SQL read | Pending an active Google Cloud Billing account, GCP deployment and Cognito redirect configuration. |
-| Looker Studio chart | Pending Data Studio first-use terms. The live BigQuery connector also needs billing. The CSV connector can use the exported public query results without the live BigQuery connection. Use year as the ascending dimension and registered_births as the metric. |
-| Dataflow and Vertex AI Studio | Pending a billing-enabled lab project. |
+| Looker Studio chart | The report opened and displayed the 20 BigQuery results and an automatically generated chart. The default chart uses `registered_births` on both axes. The final chart still needs `year` on the horizontal axis and a screenshot. |
+
+## Gemini in Vertex AI Studio
+
+Ran an adaptation of Peach's Lab 6 agenda prompt in Agent Studio, the console
+that opened from Vertex AI Studio. Gemini 3.5 Flash-Lite parsed a synthetic
+30-minute meeting into two agenda items and an action with an owner and due
+date. It left `starts_at` as `null` because the input only said “after lunch.”
+
+![Gemini agenda extraction in Agent Studio](vertex-ai-studio.jpg)
 
 ## Document AI OCR
 
