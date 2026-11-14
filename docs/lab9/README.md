@@ -14,6 +14,11 @@ authenticated request through Firebase Hosting to `GET /api/v1/health/ready`
 returned HTTP 200 with `{"status":"ok","database":"ok"}` after executing
 `SELECT 1` on Cloud SQL. The same route returns HTTP 401 without a token.
 
+The browser check also passed in a Chrome Incognito window. After Cognito
+sign-in, the Home dashboard displayed the workspace's empty task list rather
+than a loading state. Cloud Run logged HTTP 200 for the authenticated
+`GET /api/v1/items` requests made during the check.
+
 The project has a $5 budget with alerts at 50%, 90%, and 100%. The budget does
 not cap spending. Keep Cloud SQL running while the live URL is needed for
 grading, then follow the [cleanup instructions](../../gcp/README.md#stop-or-clean-up).
