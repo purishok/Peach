@@ -69,6 +69,12 @@ including `JSPH ORG HUMMUS` at `5.99`.
 
 ![Document AI OCR result for the sample expense receipt](document-ai-ocr.jpg)
 
+### Cloud Vision OCR
+
+Ran Cloud Vision API's `TEXT_DETECTION` on the
+[Peach Cafe demo receipt](ocr-demo-receipt.png). The API recognized both line
+items and the $9.00 total. [Full OCR output](vision-ocr.txt).
+
 Document OCR is appropriate when the job is to transcribe a receipt or extract
 its layout and field coordinates. An LLM is useful when a note implies
 actions, owners or deadlines that must be interpreted in context. For a

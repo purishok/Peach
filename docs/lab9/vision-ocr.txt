@@ -1,0 +1,9 @@
+PEACH CAFE
+DEMO RECEIPT
+1 x Coffee
+$3.00
+2 x Bagel
+$6.00
+TOTAL
+$9.00
+Thank you!
