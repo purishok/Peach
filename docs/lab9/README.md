@@ -28,11 +28,17 @@ or result table was created. The [CSV](usa-names.csv) contains all 20 results.
 
 ![BigQuery query and results](bigquery.jpg)
 
-## Remaining live checks
+## Looker Studio
 
-| Check | Status |
-| --- | --- |
-| Looker Studio chart | The report opened and displayed the 20 BigQuery results and an automatically generated chart. The default chart uses `registered_births` on both axes. The final chart still needs `year` on the horizontal axis and a screenshot. |
+Opened the BigQuery results in Looker Studio. Its table chart displayed all
+20 rows. A line chart was configured with `year` on the horizontal axis,
+`registered_births` on the vertical axis, and ascending year order. The
+line did not render in the browser, so the line chart is shown separately
+using BigQuery's Visualization tab.
+
+![Looker Studio table chart](looker-studio.jpg)
+
+![BigQuery line chart by year](bigquery-visualization.jpg)
 
 ## Gemini in Vertex AI Studio
 
